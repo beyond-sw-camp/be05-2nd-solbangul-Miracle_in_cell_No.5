@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.solbangul.user.domain.Role;
 import com.solbangul.user.domain.User;
 
 @Transactional
@@ -30,13 +31,7 @@ class UserRepositoryTest {
 	@Test
 	@DisplayName("user 저장")
 	void saveAndFindById() {
-		User user = User.builder()
-			.name("박상철")
-			.loginId("아이디")
-			.password("1234")
-			.nickname("park")
-			.gitEmail("test@github.com")
-			.build();
+		User user = createUser();
 		userRepository.save(user);
 
 		User findUser = userRepository.findById(user.getId()).get();
@@ -46,24 +41,24 @@ class UserRepositoryTest {
 	@Test
 	@DisplayName("login id 유니크 제약 조건")
 	void loginIdUnique() {
-		User user1 = User.builder()
-			.name("박상철")
-			.loginId("아이디")
-			.password("1234")
-			.nickname("park")
-			.gitEmail("test@github.com")
-			.build();
+		User user1 = createUser();
 		userRepository.save(user1);
 
-		User user2 = User.builder()
-			.name("박상철")
-			.loginId("아이디")
-			.password("1234")
-			.nickname("park")
-			.gitEmail("test@github.com")
-			.build();
+		User user2 = createUser();
 
 		assertThatThrownBy(() -> userRepository.save(user2))
 			.isInstanceOf(DataIntegrityViolationException.class);
+	}
+
+	private static User createUser() {
+		User user = User.builder()
+			.name("박상철")
+			.loginId("아이디")
+			.password("1234")
+			.nickname("park")
+			.gitEmail("test@github.com")
+			.role(Role.USER)
+			.build();
+		return user;
 	}
 }
