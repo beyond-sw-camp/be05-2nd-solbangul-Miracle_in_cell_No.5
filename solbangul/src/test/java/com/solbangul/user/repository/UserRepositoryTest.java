@@ -22,7 +22,7 @@ class UserRepositoryTest {
 	private UserRepository userRepository;
 
 	@Test
-	@DisplayName("없는 id를 find 했을 때 NoSuchException 발생 테스트")
+	@DisplayName("없는 id를 find 했을 때 NoSuchException 발생")
 	void findByIdNoSuchError() {
 		assertThatThrownBy(() -> userRepository.findById(1L).get())
 			.isInstanceOf(NoSuchElementException.class);
@@ -31,7 +31,7 @@ class UserRepositoryTest {
 	@Test
 	@DisplayName("user 저장")
 	void saveAndFindById() {
-		User user = createUser();
+		User user = createUser("박상철", "아이디", "1234", "test@github.com", Role.ROLE_USER);
 		userRepository.save(user);
 
 		User findUser = userRepository.findById(user.getId()).get();
@@ -41,23 +41,29 @@ class UserRepositoryTest {
 	@Test
 	@DisplayName("login id 유니크 제약 조건")
 	void loginIdUnique() {
-		User user1 = createUser();
+		User user1 = createUser("테스트1", "동일한 아이디", "1234", "test1@github.com", Role.ROLE_USER);
 		userRepository.save(user1);
 
-		User user2 = createUser();
+		User user2 = createUser("테스트2", "동일한 아이디", "12345", "test2@github.com", Role.ROLE_USER);
 
 		assertThatThrownBy(() -> userRepository.save(user2))
 			.isInstanceOf(DataIntegrityViolationException.class);
 	}
 
-	private static User createUser() {
+	@Test
+	@DisplayName("BaseTimeEntity 등록")
+	void baseTimeEntity() {
+
+	}
+
+	private static User createUser(String name, String loginId, String password, String mail, Role role) {
 		User user = User.builder()
-			.name("박상철")
-			.loginId("아이디")
-			.password("1234")
+			.name(name)
+			.loginId(loginId)
+			.password(password)
 			.nickname("park")
-			.gitEmail("test@github.com")
-			.role(Role.USER)
+			.gitEmail(mail)
+			.role(role)
 			.build();
 		return user;
 	}

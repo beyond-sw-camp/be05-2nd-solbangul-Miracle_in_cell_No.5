@@ -1,5 +1,5 @@
 package com.solbangul.user.domain;
 
 public enum Role {
-	ADMIN, USER, GUEST
+	ROLE_ADMIN, ROLE_USER
 }
