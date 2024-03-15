@@ -2,8 +2,6 @@ package com.solbangul.post.domain;
 
 import java.time.LocalDateTime;
 
-import com.solbangul.room.domain.Room;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -12,6 +10,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+
+import com.solbangul.BaseTimeEntity;
+import com.solbangul.room.domain.Room;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +21,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 @NoArgsConstructor
-public class Post {
+public class Post extends BaseTimeEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,10 +44,6 @@ public class Post {
 	@Column(name = "post_content", nullable = false)
 	private String content;
 
-	private LocalDateTime writeTime;
-
-	private LocalDateTime updateTime;
-
 	private LocalDateTime deleteTime;
 
 	@Column(nullable = false)
@@ -61,16 +59,13 @@ public class Post {
 	private Boolean readYn;
 
 	@Builder
-	public Post(Room room, String title, Boolean publicYn, Boolean annonyYn, String content, LocalDateTime writeTime,
-		LocalDateTime updateTime, LocalDateTime deleteTime, String writer, Boolean deleteYn, String category,
-		Boolean readYn) {
+	public Post(Room room, String title, Boolean publicYn, Boolean annonyYn, String content, LocalDateTime deleteTime,
+		String writer, Boolean deleteYn, String category, Boolean readYn) {
 		this.room = room;
 		this.title = title;
 		this.publicYn = publicYn;
 		this.annonyYn = annonyYn;
 		this.content = content;
-		this.writeTime = writeTime;
-		this.updateTime = updateTime;
 		this.deleteTime = deleteTime;
 		this.writer = writer;
 		this.deleteYn = deleteYn;

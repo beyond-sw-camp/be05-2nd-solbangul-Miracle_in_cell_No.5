@@ -4,22 +4,31 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+
+import com.solbangul.BaseTimeEntity;
+import com.solbangul.room.domain.Room;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Setter
 @Getter
 @Entity
 @Table(name = "users", uniqueConstraints = {
 	@UniqueConstraint(name = "users_login_id_unique", columnNames = {"login_id"})
 }) // 유니크 제약조건 설정
 @NoArgsConstructor
-public class User {
+public class User extends BaseTimeEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,6 +37,10 @@ public class User {
 
 	@Column(nullable = false)
 	private String loginId;
+
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "room_id")
+	private Room room;
 
 	@Column(nullable = false)
 	private String password;
@@ -60,5 +73,18 @@ public class User {
 		this.role = role;
 		this.profilePictureUrl = profilePictureUrl;
 		this.solbangul = solbangul;
+	}
+
+	// 회원가입 시 기본값 설정
+	@Builder
+	public User(String loginId, String password) {
+		this.loginId = loginId;
+		this.password = password;
+		this.name = "이름";
+		this.nickname = "닉네임";
+		this.gitEmail = "이메일";
+		this.role = Role.ROLE_USER;
+		this.profilePictureUrl = "프로필사진";
+		this.solbangul = 0;
 	}
 }
