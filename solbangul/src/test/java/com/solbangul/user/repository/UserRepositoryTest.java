@@ -41,10 +41,11 @@ class UserRepositoryTest {
 	@Test
 	@DisplayName("login id 유니크 제약 조건")
 	void loginIdUnique() {
-		User user1 = createUser("테스트1", "동일한 아이디", "1234", "test1@github.com", Role.ROLE_USER);
+		String uniqueLoginId = "동일한 아이디";
+		User user1 = createUser("테스트1", uniqueLoginId, "1234", "test1@github.com", Role.ROLE_USER);
 		userRepository.save(user1);
 
-		User user2 = createUser("테스트2", "동일한 아이디", "12345", "test2@github.com", Role.ROLE_USER);
+		User user2 = createUser("테스트2", uniqueLoginId, "12345", "test2@github.com", Role.ROLE_USER);
 
 		assertThatThrownBy(() -> userRepository.save(user2))
 			.isInstanceOf(DataIntegrityViolationException.class);

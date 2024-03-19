@@ -77,13 +77,13 @@ public class User extends BaseTimeEntity {
 
 	// 회원가입 시 기본값 설정
 	@Builder
-	public User(String loginId, String password) {
+	public User(String loginId, String password, Role role) {
 		this.loginId = loginId;
 		this.password = password;
+		this.role = role;
 		this.name = "이름";
 		this.nickname = "닉네임";
 		this.gitEmail = "이메일";
-		this.role = Role.ROLE_USER;
 		this.profilePictureUrl = "프로필사진";
 		this.solbangul = 0;
 	}
