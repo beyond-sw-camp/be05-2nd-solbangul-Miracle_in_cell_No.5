@@ -7,4 +7,9 @@ import com.solbangul.user.domain.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
+	boolean existsByLoginId(String loginId);
+
+	User findByLoginId(String loginId);
+
+	boolean existsByNickname(String nickname);
 }
