@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -53,14 +55,15 @@ public class Post extends BaseTimeEntity {
 	private Boolean deleteYn;
 
 	@Column(nullable = false)
-	private String category;
+	@Enumerated(EnumType.STRING)
+	private Category category;
 
 	@Column(nullable = false)
 	private Boolean readYn;
 
 	@Builder
 	public Post(Room room, String title, Boolean publicYn, Boolean annonyYn, String content, LocalDateTime deleteTime,
-		String writer, Boolean deleteYn, String category, Boolean readYn) {
+		String writer, Boolean deleteYn, Category category, Boolean readYn) {
 		this.room = room;
 		this.title = title;
 		this.publicYn = publicYn;

@@ -4,6 +4,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.solbangul.room.domain.Room;
+import com.solbangul.room.repository.RoomRepository;
 import com.solbangul.user.domain.User;
 import com.solbangul.user.domain.dto.JoinRequestUserDto;
 import com.solbangul.user.repository.UserRepository;
@@ -19,6 +21,7 @@ public class UserServiceImpl {
 
 	private final UserRepository userRepository;
 	private final PasswordEncoder passwordEncoder;
+	private final RoomRepository roomRepository;
 
 	public User findOne(Long id) {
 		return userRepository.findById(id).get();
@@ -37,6 +40,11 @@ public class UserServiceImpl {
 		String encodePassword = passwordEncoder.encode(joinRequestUserDto.getPassword());
 		joinRequestUserDto.setEncodedPassword(encodePassword);
 		User user = joinRequestUserDto.toEntity();
+
+		// 회원가입 시, room 자동으로 생성 ! ( room save -> user에 room 넣고 -> user save
+		Room room = new Room(user, "", "cw");
+		roomRepository.save(room);
+		user.setRoom(room);
 
 		return userRepository.save(user).getId();
 	}
