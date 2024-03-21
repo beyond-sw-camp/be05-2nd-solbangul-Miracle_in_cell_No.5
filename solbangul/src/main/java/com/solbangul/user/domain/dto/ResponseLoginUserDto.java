@@ -2,6 +2,8 @@ package com.solbangul.user.domain.dto;
 
 import java.time.LocalDateTime;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.solbangul.room.domain.Room;
 import com.solbangul.user.domain.Role;
 
@@ -20,7 +22,11 @@ public class ResponseLoginUserDto {
 	private Role role;
 	private String profilePictureUrl;
 	private Integer solbangul;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDateTime createdDate;
+
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDateTime modifiedDate;
 
 	@Builder

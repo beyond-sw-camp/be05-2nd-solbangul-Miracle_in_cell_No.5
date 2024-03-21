@@ -30,12 +30,12 @@ public class JoinRequestUserDto {
 	@NotBlank(message = "이름을 입력해주세요")
 	private String name;
 
+	@NotBlank(message = "닉네임을 입력해주세요")
+	private String nickname;
+
 	@Email
 	@NotBlank(message = "이메일을 입력해주세요")
 	private String email;
-
-	@NotBlank(message = "닉네임을 입력해주세요")
-	private String nickname;
 
 	public void setEncodedPassword(String encodedPassword) {
 		this.password = encodedPassword;

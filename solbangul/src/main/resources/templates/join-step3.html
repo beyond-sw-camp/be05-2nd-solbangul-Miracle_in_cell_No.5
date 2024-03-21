@@ -17,7 +17,7 @@
 
         <div class="form-floating mb-3">
             <input type="text" class="form-control" id="name" th:field="*{name}"
-                   th:errorclass="field-error" placeholder="실명" required>
+                   th:errorclass="field-error" placeholder="실명" readonly>
             <label for="name" class="text-secondary">이름</label>
             <div class="field-error text-sm-start small" th:errors="*{name}">
                 이름 오류
@@ -33,14 +33,7 @@
             </div>
         </div>
 
-        <div class="form-floating mb-3">
-            <input type="email" class="form-control" id="email" th:field="*{email}"
-                   th:errorclass="field-error" placeholder="이메일" required>
-            <label for="email" class="text-secondary">이메일</label>
-            <div class="field-error text-sm-start small" th:errors="*{email}">
-                이메일 오류
-            </div>
-        </div>
+        <hr>
 
         <div class="form-floating mb-3">
             <input type="text" class="form-control" id="loginId" th:field="*{loginId}"
@@ -68,6 +61,19 @@
                 비밀번호 확인 오류
             </div>
         </div>
+
+        <hr>
+
+        <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="email" th:field="*{email}"
+                   th:errorclass="field-error" placeholder="이메일" readonly>
+            <label for="email" class="text-secondary">이메일</label>
+            <div class="field-error text-sm-start small" th:errors="*{email}">
+                이메일 오류
+            </div>
+        </div>
+
+        <hr>
 
         <div class="checkbox mb-3">
             <label>

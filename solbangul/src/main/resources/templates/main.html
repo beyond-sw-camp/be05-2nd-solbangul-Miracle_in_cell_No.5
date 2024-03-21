@@ -4,13 +4,13 @@
     <title>메인 페이지</title>
 </head>
 <body>
-<div class="form-signin text-center">
+<div th:object="${user}" class="form-signin text-center">
     <h3>메인 페이지</h3>
-    <div th:text="${user.role}"></div>
-    <div th:text="${user.nickname}"></div>
-    <div th:text="${user.name}"></div>
-    <div th:text="${user.gitEmail}"></div>
-    <div th:text="${user.createdDate}"></div>
+    <div th:text="*{role}"></div>
+    <div th:text="*{nickname}"></div>
+    <div th:text="*{name}"></div>
+    <div th:text="*{gitEmail}"></div>
+    <div th:text="*{createdDate}"></div>
     <form action="/logout" method="post">
         <!--<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
         <button class="w-100 btn btn-sm btn-primary" type="submit">로그아웃</button>

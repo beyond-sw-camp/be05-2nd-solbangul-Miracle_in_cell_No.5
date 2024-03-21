@@ -27,6 +27,7 @@ public class MainController {
 
 		// 모든 room 출력
 		List<RoomListResponseDto> list = roomService.findAll();
+		System.out.println("Date: " + responseLoginUserDto.getCreatedDate());
 		model.addAttribute("roomList", list);
 		for (RoomListResponseDto response : list) {
 			System.out.println("debug >>> room : " + response);

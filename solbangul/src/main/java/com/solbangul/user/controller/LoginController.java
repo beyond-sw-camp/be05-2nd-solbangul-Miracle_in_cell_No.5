@@ -28,8 +28,6 @@ public class LoginController {
 			return "redirect:/";
 		}
 
-		System.out.println(request.getParameter("loginId"));
-
 		if ("object".equals(error)) {
 			bindingResult.reject("objectError", errorMessage);
 		}

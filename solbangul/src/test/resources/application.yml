@@ -11,8 +11,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: scpark0698@gmail.com
-    password: cipfvewwuvmxxyez
+    username: ${mail.username}
+    password: ${mail.password}
     properties:
       mail:
         smtp:
@@ -30,8 +30,8 @@ spring:
       host: localhost
       port: 6379
 
-
-
+  messages:
+    basename: messages,errors
 
 logging.level:
   org.hibernate.SQL: debug
