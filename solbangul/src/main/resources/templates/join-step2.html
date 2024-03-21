@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="~{fragments/header :: header}">
+    <title>회원가입</title>
+</head>
+<body class="text-center">
+<style>
+    .field-error {
+        border-color: #dc3545;
+        color: #dc3545;
+    }
+</style>
+
+<main class="form-signin">
+    <form th:action="@{/authCheck}" th:object="${mail}" method="post" name="join">
+        <img class="mb-4" src="/img/Hanwha_logo.svg" alt="" width="200" height="100">
+
+        <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="email" th:field="*{email}"
+                   th:errorclass="field-error" placeholder="이메일" required>
+            <label for="email" class="text-secondary">이메일</label>
+            <div class="field-error text-sm-start small" th:errors="*{email}">
+                이메일 오류
+            </div>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="authNum" th:field="*{authNum}"
+                   th:errorclass="field-error" placeholder="이메일 인증 번호" required>
+            <label for="authNum" class="text-secondary">이메일 인증 번호</label>
+            <div class="field-error text-sm-start small" th:errors="*{authNum}">
+                이메일 인증 오류
+            </div>
+        </div>
+
+        <button class="w-100 btn btn-lg btn-primary" type="submit">이메일 인증 번호 확인</button>
+    </form>
+    <hr>
+    <p class="text-center text-muted mt-2 mb-0">이미 계정이 있으신가요?
+        <a href="/login" class="fw-bold text-body"><u>로그인</u></a></p>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</main>
+<script src="/js/bootstrap.bundle.js"></script>
+<script src="/js/bootstrap.esm.js"></script>
+<script src="/js/bootstrap.js"></script>
+</body>
+</html>

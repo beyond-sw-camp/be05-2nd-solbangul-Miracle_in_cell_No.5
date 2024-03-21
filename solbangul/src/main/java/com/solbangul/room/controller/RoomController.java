@@ -21,6 +21,7 @@ import com.solbangul.room.service.RoomService;
 @Controller
 @RequestMapping("/room")
 public class RoomController {
+
 	@Resource(name = "room")
 	private RoomService roomService;
 

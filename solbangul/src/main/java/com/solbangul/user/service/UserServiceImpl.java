@@ -8,6 +8,7 @@ import com.solbangul.room.domain.Room;
 import com.solbangul.room.repository.RoomRepository;
 import com.solbangul.user.domain.User;
 import com.solbangul.user.domain.dto.JoinRequestUserDto;
+import com.solbangul.user.mail.dto.EmailRequestDto;
 import com.solbangul.user.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -55,5 +56,9 @@ public class UserServiceImpl {
 
 	public boolean isExistsByNickname(JoinRequestUserDto joinRequestUserDto) {
 		return userRepository.existsByNickname(joinRequestUserDto.getNickname());
+	}
+
+	public boolean isExistsByEmail(EmailRequestDto email) {
+		return userRepository.existsByGitEmail(email.getEmail());
 	}
 }

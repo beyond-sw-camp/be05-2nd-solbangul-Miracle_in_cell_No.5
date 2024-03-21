@@ -15,8 +15,8 @@
         <img class="mb-4" src="/img/Hanwha_logo.svg" alt="" width="200" height="100">
 
         <div class="mb-1 form-floating">
-            <input type="text" class="form-control mb-1" id="loginId" th:field="*{loginId}"
-                   th:errorclass="field-error" placeholder="아이디" required>
+            <input type="text" class="form-control mb-3" id="loginId" th:field="*{loginId}"
+                   th:errorclass="is-invalid" placeholder="아이디" required>
             <label for="loginId" class="text-secondary">아이디</label>
             <div class="field-error text-sm-start small" th:errors="*{loginId}">
                 아이디 오류
@@ -37,7 +37,7 @@
     </form>
     <hr>
     <p class="text-center text-muted mt-2 mb-0">계정이 없으신가요?
-        <a href="join" class="fw-bold text-body"><u>회원가입</u></a></p>
+        <a href="join-step1" class="fw-bold text-body"><u>회원가입</u></a></p>
     <div th:replace="~{fragments/footer :: footer}"></div>
 </main>
 <script src="/js/bootstrap.bundle.min.js"></script>
