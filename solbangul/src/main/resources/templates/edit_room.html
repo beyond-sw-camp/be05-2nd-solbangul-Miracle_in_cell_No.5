@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        function getAlter() {
+            window.alert("글이 수정되었습니다.");
+        }
+    </script>
+</head>
+<body>
+<form th:action="@{'/room/'+${room_id}+'/edit'}" th:object="${roomInfo}" method="post">
+    <label for="roomName">방 이름:</label><br>
+    <input type="text" id="roomName" name="roomName" th:field="*{roomName}"><br>
+    <label for="introduction">방 소개:</label><br>
+    <input type="text" id="introduction" name="introduction" th:field="*{introduction}"><br>
+
+    <div class="col-xs-4">
+        <button type="submit" class="btn btn-primary btn-block btn-flat" onclick="getAlter()">수정하기</button>
+        <button><a th:href="@{'/room/'+${room_id}+'/view'}">취소</a></button>
+    </div>
+</form>
+</body>
+</html>

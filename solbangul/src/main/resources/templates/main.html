@@ -16,7 +16,7 @@
         <button class="w-100 btn btn-sm btn-primary" type="submit">로그아웃</button>
     </form>
     <ul th:each="r : ${roomList}">
-        <li><a th:href="@{/room/view/{id}(id=${r.id})}" th:text="${r.roomName}"></a></li>
+        <li><a th:href="@{'/room/'+${r.id}+'/view'}" th:text="${r.roomName}"></a></li>
     </ul>
     <div th:replace="~{fragments/footer :: footer}"></div>
 </div>

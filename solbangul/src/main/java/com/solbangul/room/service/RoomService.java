@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.solbangul.room.domain.Room;
+import com.solbangul.room.domain.dto.RoomEditResponseDto;
 import com.solbangul.room.domain.dto.RoomListResponseDto;
 import com.solbangul.room.domain.dto.RoomResponseDto;
 import com.solbangul.room.repository.RoomRepository;
@@ -41,5 +42,20 @@ public class RoomService {
 			-> new IllegalArgumentException("해당 room이 없습니다. id=" + id));
 
 		return new RoomResponseDto(room);
+	}
+
+	public RoomEditResponseDto editFindById(Long id) {
+		Room room = roomRepository.findById(id).orElseThrow(()
+			-> new IllegalArgumentException("해당 room이 없습니다. id=" + id));
+
+		return new RoomEditResponseDto(room);
+	}
+
+	@Transactional
+	public void update(Long id, RoomEditResponseDto requestDto) {
+		Room room = roomRepository.findById(id).orElseThrow(()
+			-> new IllegalArgumentException("해당 room이 없습니다. id=" + id));
+		System.out.println("room id : " + room.getId());
+		room.update(requestDto.getIntroduction(), requestDto.getRoomName());
 	}
 }

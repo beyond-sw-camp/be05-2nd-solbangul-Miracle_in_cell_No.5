@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <div>
+        <img src="" alt="profile image">
+    </div>
+    <div class="post">
+        <h2 th:text="${postInfo.getTitle()}"></h2>
+        <div th:text="${postInfo.getContent()}"></div>
+        <p>공개 : </p><div th:text="${postInfo.getPublicYn()}"></div>
+        <p>카테고리 : </p><div th:text="${postInfo.getCategory()}"></div>
+        <p>작성자 : </p><div th:if="${postInfo.getAnnonyYn()==false}" th:text="${postInfo.getWriter()}"></div>
+        <div >마지막 수정 날짜</div> <br>
+    </div>
+    <div class="btn">
+        <button th:if="${postInfo.getWriter().equals(userInfo.getNickname())}"><a th:href="'/room/'+${room_id}+'/post/'+${post_id}+'/edit'">글 수정하기</a></button>
+        <button th:if="${postInfo.getWriter().equals(userInfo.getNickname())}"><a th:href="'/room/'+${room_id}+'/post/'+${post_id}+'/delete'">글 삭제하기</a></button>
+    </div>
+</div>
+</body>
+</html>

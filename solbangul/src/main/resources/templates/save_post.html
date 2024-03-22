@@ -5,34 +5,31 @@
     <title>Title</title>
 </head>
 <body>
-<form th:action="@{'/room/post/'+${room_id}+'/save'}" th:object="${posts}" method="post">
-    <label for="title">Title:</label><br>
-    <input type="text" id="title" name="title" th:field="*{title}"><br>
-    <!--        공개비공개-->
-    <label for="publicYn">Public:</label><br>
-    <input type="checkbox" id="publicYn" th:field="*{publicYn}"
-           th:checked="${posts.publicYn}"
-           cam-variable-type="Boolean"><br>
-    <!--        익명-->
-    <label for="annonyYn">Anonymous:</label><br>
-    <input type="checkbox" id="annonyYn" th:field="*{annonyYn}"
-           th:checked="${posts.annonyYn}"
-           cam-variable-type="Boolean"><br>
+    <form th:action="@{'/room/'+${room_id}+'/post/save'}" th:object="${posts}" method="post">
+        <label for="title">Title:</label><br>
+        <input type="text" id="title" name="title" th:field="*{title}"><br>
+<!--        공개비공개-->
+        <label for="publicYn">Public:</label><br>
+        <input type="checkbox" id="publicYn" th:field="*{publicYn}" th:checked="${posts.publicYn}" cam-variable-type="Boolean"><br>
+<!--        익명-->
+        <label for="annonyYn">Anonymous:</label><br>
+        <input type="checkbox" id="annonyYn" th:field="*{annonyYn}" th:checked="${posts.annonyYn}" cam-variable-type="Boolean"><br>
 
-    <label for="content">Content:</label><br>
-    <textarea id="content" name="content" th:field="*{content}"></textarea><br>
+        <label for="content">Content:</label><br>
+        <textarea id="content" name="content" th:field="*{content}"></textarea><br>
 
-    <label for="category">Category:</label><br>
-    <select id="category" name="category">
-        <option value="CLAIMS" th:field="*{category}">Claims</option>
-        <option value="COMPLIMENT" th:field="*{category}">Compliment</option>
-        <option value="FREE" th:field="*{category}">Free</option>
-    </select><br>
+        <label for="category">Category:</label><br>
+        <select id="category" name="category">
+            <option value="CLAIMS" th:field="*{category}" >Claims</option>
+            <option value="COMPLIMENT" th:field="*{category}" >Compliment</option>
+            <option value="FREE" th:field="*{category}">Free</option>
+        </select><br>
 
-    <div class="col-xs-4">
-        <button type="submit" class="btn btn-primary btn-block btn-flat">글쓰기</button>
-    </div>
-</form>
+        <div class="col-xs-4">
+            <button type="submit" class="btn btn-primary btn-block btn-flat">글쓰기</button>
+        </div>
+    </form>
+
 
 
 </body>
