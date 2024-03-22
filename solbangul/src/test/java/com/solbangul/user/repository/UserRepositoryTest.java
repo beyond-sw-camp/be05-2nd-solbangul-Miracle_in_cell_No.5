@@ -68,4 +68,10 @@ class UserRepositoryTest {
 			.build();
 		return user;
 	}
+
+	@Test
+	@DisplayName("회원가입")
+	void join() {
+		//
+	}
 }

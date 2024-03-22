@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.solbangul.hanwhauser.repository.HanwhaUserRepository;
@@ -23,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@RequestMapping("/join")
 @RequiredArgsConstructor
 @Controller
 public class JoinController {
@@ -31,7 +33,7 @@ public class JoinController {
 	private final MailSendService mailService;
 	private final HanwhaUserRepository hanwhaUserRepository;
 
-	@GetMapping("/join-step1")
+	@GetMapping("/step1") // TODO: JoinValidator로 검증 로직 분리
 	public String joinStep1Form(Model model, HttpServletRequest request) {
 		if (isAlreadyLoggedIn(request)) {
 			return "redirect:/";
@@ -39,10 +41,10 @@ public class JoinController {
 
 		model.addAttribute("mail", new EmailRequestDto());
 
-		return "join-step1";
+		return "join/step1";
 	}
 
-	@PostMapping("/mailSend")
+	@PostMapping("/step1")
 	public String mailSend(@Valid @ModelAttribute("mail") EmailRequestDto emailRequestDto, BindingResult bindingResult,
 		HttpSession session) {
 
@@ -53,17 +55,17 @@ public class JoinController {
 			bindingResult.rejectValue("email", "hanwha", "한화 SW교육 5기생만 가입 가능합니다.");
 		}
 		if (bindingResult.hasErrors()) {
-			return "join-step1";
+			return "join/step1";
 		}
 
 		mailService.sendEmailForJoin(emailRequestDto.getEmail());
 		log.info("이메일 인증 메일 발송, 이메일={}", emailRequestDto.getEmail());
 
 		session.setAttribute("emailRequestDto", emailRequestDto);
-		return "redirect:/join-step2";
+		return "redirect:/join/step2";
 	}
 
-	@GetMapping("/join-step2")
+	@GetMapping("/step2")
 	public String joinStep2Form(Model model, HttpServletRequest request) {
 		if (isAlreadyLoggedIn(request)) {
 			return "redirect:/";
@@ -71,19 +73,19 @@ public class JoinController {
 
 		HttpSession session = request.getSession(false);
 		if (session == null) {
-			return "redirect:/join-step1";
+			return "redirect:/join/step1";
 		}
 		EmailRequestDto emailRequestDto = (EmailRequestDto)session.getAttribute("emailRequestDto");
 		if (emailRequestDto == null) {
-			return "redirect:/join-step1";
+			return "redirect:/join/step1";
 		}
 
 		model.addAttribute("mail", emailRequestDto);
 
-		return "join-step2";
+		return "join/step2";
 	}
 
-	@PostMapping("/authCheck")
+	@PostMapping("/step2")
 	public String AuthCheck(@Valid @ModelAttribute("mail") EmailRequestDto emailRequestDto,
 		BindingResult bindingResult, HttpSession session) {
 		if (!(mailService.CheckAuthNum(emailRequestDto.getEmail(), emailRequestDto.getAuthNum()))) {
@@ -92,15 +94,15 @@ public class JoinController {
 
 		if (bindingResult.hasErrors()) {
 			log.info("errors={}", bindingResult);
-			return "join-step2";
+			return "join/step2";
 		}
 
 		log.info("이메일 인증 완료, 이메일={}", emailRequestDto.getEmail());
 		session.setAttribute("emailRequestDto", emailRequestDto);
-		return "redirect:/join-step3";
+		return "redirect:/join/step3";
 	}
 
-	@GetMapping("/join-step3")
+	@GetMapping("/step3")
 	public String joinStep3Form(Model model, HttpServletRequest request) {
 		if (isAlreadyLoggedIn(request)) {
 			return "redirect:/";
@@ -108,11 +110,11 @@ public class JoinController {
 
 		HttpSession session = request.getSession(false);
 		if (session == null) {
-			return "redirect:/join-step1";
+			return "redirect:/join/step1";
 		}
 		EmailRequestDto emailRequestDto = (EmailRequestDto)session.getAttribute("emailRequestDto");
 		if (emailRequestDto == null) {
-			return "redirect:/join-step1";
+			return "redirect:/join/step1";
 		}
 		JoinRequestUserDto joinRequestUserDto = new JoinRequestUserDto();
 		joinRequestUserDto.setEmail(emailRequestDto.getEmail());
@@ -120,10 +122,10 @@ public class JoinController {
 
 		model.addAttribute("user", joinRequestUserDto);
 
-		return "join-step3";
+		return "join/step3";
 	}
 
-	@PostMapping("/join-step3")
+	@PostMapping("/step3")
 	public String joinStep3(@Valid @ModelAttribute("user") JoinRequestUserDto joinRequestUserDto,
 		BindingResult bindingResult, HttpSession session,
 		RedirectAttributes redirectAttributes) {
@@ -139,7 +141,7 @@ public class JoinController {
 		}
 
 		if (bindingResult.hasErrors()) {
-			return "join-step3";
+			return "join/step3";
 		}
 
 		joinService.join(joinRequestUserDto);

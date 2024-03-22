@@ -1,7 +1,5 @@
 package com.solbangul.post.controller;
 
-import jakarta.annotation.Resource;
-
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,18 +18,17 @@ import com.solbangul.room.service.RoomService;
 import com.solbangul.user.domain.dto.AuthenticatedUserDto;
 import com.solbangul.user.domain.dto.CustomUserDetails;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("/room/{room_id}/post")
+@RequiredArgsConstructor
 @Slf4j
 public class PostController {
 
-	@Resource(name = "post")
-	private PostService postService;
-
-	@Resource(name = "room")
-	private RoomService roomService;
+	private final PostService postService;
+	private final RoomService roomService;
 
 	@GetMapping("/save")
 	public String getSave(@PathVariable(name = "room_id") Long id, Model model) {

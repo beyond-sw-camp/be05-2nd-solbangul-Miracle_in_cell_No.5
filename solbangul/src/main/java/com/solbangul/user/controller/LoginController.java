@@ -23,8 +23,7 @@ public class LoginController {
 	public String loginForm(HttpServletRequest request, @RequestParam(required = false) String error,
 		@RequestParam(required = false) String errorMessage, @ModelAttribute("user") LoginUserDto loginUserDto,
 		BindingResult bindingResult) {
-
-		if (request.isUserInRole(Role.ROLE_USER.toString()) || request.isUserInRole(Role.ROLE_ADMIN.toString())) {
+		if (isAlreadyLoggedIn(request)) {
 			return "redirect:/";
 		}
 
@@ -32,5 +31,9 @@ public class LoginController {
 			bindingResult.reject("objectError", errorMessage);
 		}
 		return "login";
+	}
+
+	private boolean isAlreadyLoggedIn(HttpServletRequest request) {
+		return request.isUserInRole(Role.ROLE_USER.toString()) || request.isUserInRole(Role.ROLE_ADMIN.toString());
 	}
 }
