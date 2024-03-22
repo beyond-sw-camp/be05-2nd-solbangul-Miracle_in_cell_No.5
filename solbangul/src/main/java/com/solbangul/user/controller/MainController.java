@@ -2,8 +2,6 @@ package com.solbangul.user.controller;
 
 import java.util.List;
 
-import jakarta.annotation.Resource;
-
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,11 +12,13 @@ import com.solbangul.room.service.RoomService;
 import com.solbangul.user.domain.dto.AuthenticatedUserDto;
 import com.solbangul.user.domain.dto.CustomUserDetails;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Controller
 public class MainController {
 
-	@Resource(name = "room")
-	private RoomService roomService;
+	private final RoomService roomService;
 
 	@GetMapping("/")
 	public String mainRoomList(Model model, @AuthenticationPrincipal CustomUserDetails customUserDetails) {

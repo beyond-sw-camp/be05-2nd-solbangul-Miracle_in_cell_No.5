@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-@Service("room")
+@Service
 public class RoomService {
 	private final RoomRepository roomRepository;
 

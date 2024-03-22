@@ -67,17 +67,6 @@ public class CustomUserDetails implements UserDetails {
 	}
 
 	public AuthenticatedUserDto getAuthenticatedUser() {
-		return AuthenticatedUserDto.builder()
-			.loginId(user.getLoginId())
-			.password(user.getPassword())
-			.name(user.getName())
-			.nickname(user.getNickname())
-			.gitEmail(user.getGitEmail())
-			.role(user.getRole())
-			.profilePictureUrl(user.getProfilePictureUrl())
-			.solbangul(user.getSolbangul())
-			.createdDate(user.getCreatedDate())
-			.modifiedDate(user.getModifiedDate())
-			.build();
+		return new AuthenticatedUserDto(user);
 	}
 }

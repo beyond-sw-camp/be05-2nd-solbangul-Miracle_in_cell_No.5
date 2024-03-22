@@ -6,8 +6,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.solbangul.room.domain.Room;
 import com.solbangul.user.domain.Role;
+import com.solbangul.user.domain.User;
 
-import lombok.Builder;
 import lombok.Getter;
 
 @Getter
@@ -29,20 +29,17 @@ public class AuthenticatedUserDto {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDateTime modifiedDate;
 
-	@Builder
-	public AuthenticatedUserDto(String loginId, Room room, String password, String name, String nickname,
-		String gitEmail,
-		Role role, String profilePictureUrl, Integer solbangul, LocalDateTime createdDate, LocalDateTime modifiedDate) {
-		this.loginId = loginId;
-		this.room = room;
-		this.password = password;
-		this.name = name;
-		this.nickname = nickname;
-		this.gitEmail = gitEmail;
-		this.role = role;
-		this.profilePictureUrl = profilePictureUrl;
-		this.solbangul = solbangul;
-		this.createdDate = createdDate;
-		this.modifiedDate = modifiedDate;
+	public AuthenticatedUserDto(User user) {
+		this.loginId = user.getLoginId();
+		this.room = user.getRoom();
+		this.password = user.getPassword();
+		this.name = user.getName();
+		this.nickname = user.getNickname();
+		this.gitEmail = user.getGitEmail();
+		this.role = user.getRole();
+		this.profilePictureUrl = user.getProfilePictureUrl();
+		this.solbangul = user.getSolbangul();
+		this.createdDate = user.getCreatedDate();
+		this.modifiedDate = user.getModifiedDate();
 	}
 }
