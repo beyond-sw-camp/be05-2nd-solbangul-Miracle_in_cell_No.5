@@ -47,16 +47,8 @@ public class Room {
 		this.roomName = roomName;
 	}
 
-	// @Builder
-	// public Room(Long id, String introduction, String roomName) {
-	// 	this.id = id;
-	// 	this.introduction = introduction;
-	// 	this.roomName = roomName;
-	// }
-	//
-	// @Builder
-	// public Room(String introduction, String roomName) {
-	// 	this.introduction = introduction;
-	// 	this.roomName = roomName;
-	// }
+	public void update(String introduction, String roomName) {
+		this.introduction = introduction;
+		this.roomName = roomName;
+	}
 }

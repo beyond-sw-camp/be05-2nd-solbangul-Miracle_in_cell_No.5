@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <button><a th:href="@{/}">←</a></button>
+    <div>
+        <img src="" alt="profile image">
+    </div>
+    <div>
+        <p th:text="${roomInfo.getRoomName()}"></p>
+        <div th:text="${roomInfo.getIntroduction()}"></div>
+        <button th:if="${roomInfo.getUser().getLoginId().equals(userInfo.getLoginId())}"><a
+                th:href="@{'/room/'+${roomInfo.getId()}+'/edit'}">방 수정하기</a></button>
+    </div>
+    <div class="posts">
+        <div></div>
+        <div></div>
+        <button th:if="${!roomInfo.getUser().getLoginId().equals(userInfo.getLoginId())}"><a
+                th:href="@{'/room/'+${roomInfo.id}+'/post/save'}">글 쓰기</a></button>
+        <button><a th:href="@{'/room/'+${roomInfo.id}+'/view'+'/view_posts'}">글 더보기 ...</a></button>
+    </div>
+</div>
+</body>
+</html>

@@ -75,4 +75,12 @@ public class Post extends BaseTimeEntity {
 		this.category = category;
 		this.readYn = readYn;
 	}
+
+	public void update(String title, Boolean publicYn, Boolean annonyYn, String content, Category category) {
+		this.title = title;
+		this.publicYn = publicYn;
+		this.annonyYn = annonyYn;
+		this.content = content;
+		this.category = category;
+	}
 }
