@@ -19,9 +19,7 @@ import com.solbangul.room.domain.Room;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Setter
 @Getter
 @Entity
 @Table(name = "users", uniqueConstraints = {
@@ -86,5 +84,10 @@ public class User extends BaseTimeEntity {
 		this.gitEmail = "이메일";
 		this.profilePictureUrl = "프로필사진";
 		this.solbangul = 0;
+	}
+
+	public void addRoom(Room room) {
+		this.room = room;
+		room.setUser(this);
 	}
 }

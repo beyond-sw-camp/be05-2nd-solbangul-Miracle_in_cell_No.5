@@ -29,12 +29,6 @@ public class UserServiceImpl {
 	}
 
 	@Transactional
-	public void updateUser(Long id, String name) {
-		User findUser = userRepository.findById(id).orElseThrow();
-		findUser.setName(name);
-	}
-
-	@Transactional
 	public Long join(JoinRequestUserDto joinRequestUserDto) {
 		log.info("회원가입");
 
@@ -43,9 +37,10 @@ public class UserServiceImpl {
 		User user = joinRequestUserDto.toEntity();
 
 		// 회원가입 시, room 자동으로 생성 ! ( room save -> user에 room 넣고 -> user save
-		Room room = new Room(user, "", "cw");
+		String name = joinRequestUserDto.getName();
+		Room room = new Room(user, "안녕하세요, " + name + "의 방 입니다!", name + "의 방");
 		roomRepository.save(room);
-		user.setRoom(room);
+		user.addRoom(room);
 
 		return userRepository.save(user).getId();
 	}
@@ -58,7 +53,7 @@ public class UserServiceImpl {
 		return userRepository.existsByNickname(joinRequestUserDto.getNickname());
 	}
 
-	public boolean isExistsByEmail(EmailRequestDto email) {
+	public boolean isEmailAlreadyExists(EmailRequestDto email) {
 		return userRepository.existsByGitEmail(email.getEmail());
 	}
 }

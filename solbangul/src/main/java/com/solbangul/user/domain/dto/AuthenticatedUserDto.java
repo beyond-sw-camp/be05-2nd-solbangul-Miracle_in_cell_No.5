@@ -11,7 +11,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class ResponseLoginUserDto {
+public class AuthenticatedUserDto {
 
 	private String loginId;
 	private Room room;
@@ -22,7 +22,7 @@ public class ResponseLoginUserDto {
 	private Role role;
 	private String profilePictureUrl;
 	private Integer solbangul;
-	
+
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDateTime createdDate;
 
@@ -30,7 +30,7 @@ public class ResponseLoginUserDto {
 	private LocalDateTime modifiedDate;
 
 	@Builder
-	public ResponseLoginUserDto(String loginId, Room room, String password, String name, String nickname,
+	public AuthenticatedUserDto(String loginId, Room room, String password, String name, String nickname,
 		String gitEmail,
 		Role role, String profilePictureUrl, Integer solbangul, LocalDateTime createdDate, LocalDateTime modifiedDate) {
 		this.loginId = loginId;

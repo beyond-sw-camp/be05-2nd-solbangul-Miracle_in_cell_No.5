@@ -46,7 +46,7 @@ public class JoinController {
 	public String mailSend(@Valid @ModelAttribute("mail") EmailRequestDto emailRequestDto, BindingResult bindingResult,
 		HttpSession session) {
 
-		if (joinService.isExistsByEmail(emailRequestDto)) {
+		if (joinService.isEmailAlreadyExists(emailRequestDto)) {
 			bindingResult.rejectValue("email", "unique", "이메일이 이미 존재합니다.");
 		}
 		if (!isHanwhaUser(emailRequestDto)) {
@@ -56,8 +56,8 @@ public class JoinController {
 			return "join-step1";
 		}
 
-		mailService.joinEmail(emailRequestDto.getEmail());
-		log.info("이메일 인증 이메일={}", emailRequestDto.getEmail());
+		mailService.sendEmailForJoin(emailRequestDto.getEmail());
+		log.info("이메일 인증 메일 발송, 이메일={}", emailRequestDto.getEmail());
 
 		session.setAttribute("emailRequestDto", emailRequestDto);
 		return "redirect:/join-step2";
@@ -69,7 +69,10 @@ public class JoinController {
 			return "redirect:/";
 		}
 
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(false);
+		if (session == null) {
+			return "redirect:/join-step1";
+		}
 		EmailRequestDto emailRequestDto = (EmailRequestDto)session.getAttribute("emailRequestDto");
 		if (emailRequestDto == null) {
 			return "redirect:/join-step1";
@@ -92,6 +95,7 @@ public class JoinController {
 			return "join-step2";
 		}
 
+		log.info("이메일 인증 완료, 이메일={}", emailRequestDto.getEmail());
 		session.setAttribute("emailRequestDto", emailRequestDto);
 		return "redirect:/join-step3";
 	}
@@ -101,7 +105,11 @@ public class JoinController {
 		if (isAlreadyLoggedIn(request)) {
 			return "redirect:/";
 		}
-		HttpSession session = request.getSession();
+
+		HttpSession session = request.getSession(false);
+		if (session == null) {
+			return "redirect:/join-step1";
+		}
 		EmailRequestDto emailRequestDto = (EmailRequestDto)session.getAttribute("emailRequestDto");
 		if (emailRequestDto == null) {
 			return "redirect:/join-step1";
@@ -117,7 +125,7 @@ public class JoinController {
 
 	@PostMapping("/join-step3")
 	public String joinStep3(@Valid @ModelAttribute("user") JoinRequestUserDto joinRequestUserDto,
-		BindingResult bindingResult,
+		BindingResult bindingResult, HttpSession session,
 		RedirectAttributes redirectAttributes) {
 
 		if (joinService.isExistsByLoginId(joinRequestUserDto)) {
@@ -135,6 +143,8 @@ public class JoinController {
 		}
 
 		joinService.join(joinRequestUserDto);
+		log.info("{} 회원가입 완료", joinRequestUserDto.getName());
+		session.removeAttribute("emailRequestDto");
 
 		redirectAttributes.addAttribute("status", true);
 		return "redirect:/login";

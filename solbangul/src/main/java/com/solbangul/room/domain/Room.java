@@ -12,6 +12,7 @@ import com.solbangul.user.domain.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Entity
@@ -26,6 +27,7 @@ public class Room {
 	@Column(nullable = false)
 	private String introduction;
 
+	@Setter
 	@OneToOne(mappedBy = "room")
 	private User user;
 
