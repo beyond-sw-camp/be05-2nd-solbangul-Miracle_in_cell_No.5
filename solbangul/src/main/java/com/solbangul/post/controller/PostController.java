@@ -17,8 +17,8 @@ import com.solbangul.post.domain.dto.PostsSaveRequestDto;
 import com.solbangul.post.service.PostService;
 import com.solbangul.room.domain.dto.RoomResponseDto;
 import com.solbangul.room.service.RoomService;
+import com.solbangul.user.domain.dto.AuthenticatedUserDto;
 import com.solbangul.user.domain.dto.CustomUserDetails;
-import com.solbangul.user.domain.dto.ResponseLoginUserDto;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -47,9 +47,9 @@ public class PostController {
 		// id를 갖는 room 찾아서 Post에 room 객체를 넣고, not null 조건 채워준다..
 		// 즉, 지금 들어와 있는 room을  post에 객체로 넣어주는 것,,! (일대다 관계에서 조인 방법)
 		RoomResponseDto roomResponseDto = roomService.findById(id);
-		ResponseLoginUserDto responseLoginUserDto = customUserDetails.getResponseLoginUserDto();
+		AuthenticatedUserDto authenticatedUserDto = customUserDetails.getAuthenticatedUser();
 		requestDto.setRoom(roomResponseDto.toEntity());
-		requestDto.setWriter(responseLoginUserDto.getNickname());
+		requestDto.setWriter(authenticatedUserDto.getNickname());
 		requestDto.setDeleteYn(false);
 		requestDto.setReadYn(false);
 		// 게시물 저장
@@ -63,11 +63,11 @@ public class PostController {
 		Model model, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
 		// 여기서 id는 post_id
 		PostViewResponseDto response = postService.findById(id);
-		ResponseLoginUserDto responseLoginUserDto = customUserDetails.getResponseLoginUserDto();
+		AuthenticatedUserDto authenticatedUserDto = customUserDetails.getAuthenticatedUser();
 		model.addAttribute("room_id", room_id);
 		model.addAttribute("post_id", id);
 		model.addAttribute("postInfo", response); // writer
-		model.addAttribute("userInfo", responseLoginUserDto); // nickname
+		model.addAttribute("userInfo", authenticatedUserDto); // nickname
 
 		return "view_post";
 	}

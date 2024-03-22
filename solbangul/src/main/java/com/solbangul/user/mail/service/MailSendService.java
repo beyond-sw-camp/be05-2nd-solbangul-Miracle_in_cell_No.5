@@ -28,7 +28,7 @@ public class MailSendService {
 
 	//임의의 6자리 양수를 반환합니다.
 	//mail을 어디서 보내는지, 어디로 보내는지 , 인증 번호를 html 형식으로 어떻게 보내는지 작성합니다.
-	public String joinEmail(String toMail) {
+	public String sendEmailForJoin(String toMail) {
 		makeRandomNumber();
 		String title = "회원 가입 인증 이메일 입니다."; // 이메일 제목
 		String content =

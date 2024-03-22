@@ -34,31 +34,31 @@ public class Post extends BaseTimeEntity {
 	@JoinColumn(name = "room_id") // foreign key 설정
 	private Room room;
 
-	@Column(nullable = false)
+	// @Column(nullable = false)
 	private String title;
 
-	@Column(nullable = false)
+	// @Column(nullable = false)
 	private Boolean publicYn;
 
-	@Column(nullable = false)
+	// @Column(nullable = false)
 	private Boolean annonyYn;
 
-	@Column(name = "post_content", nullable = false)
+	// @Column(name = "post_content", nullable = false)
 	private String content;
 
 	private LocalDateTime deleteTime;
 
-	@Column(nullable = false)
+	// @Column(nullable = false)
 	private String writer;
 
-	@Column(nullable = false)
+	// @Column(nullable = false)
 	private Boolean deleteYn;
 
-	@Column(nullable = false)
+	// @Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Category category;
 
-	@Column(nullable = false)
+	// @Column(nullable = false)
 	private Boolean readYn;
 
 	@Builder

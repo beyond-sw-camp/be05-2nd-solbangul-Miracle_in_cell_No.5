@@ -66,8 +66,8 @@ public class CustomUserDetails implements UserDetails {
 		return true;
 	}
 
-	public ResponseLoginUserDto getResponseLoginUserDto() {
-		return ResponseLoginUserDto.builder()
+	public AuthenticatedUserDto getAuthenticatedUser() {
+		return AuthenticatedUserDto.builder()
 			.loginId(user.getLoginId())
 			.password(user.getPassword())
 			.name(user.getName())

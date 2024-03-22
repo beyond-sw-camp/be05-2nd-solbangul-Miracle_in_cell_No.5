@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.solbangul.room.domain.dto.RoomListResponseDto;
 import com.solbangul.room.service.RoomService;
+import com.solbangul.user.domain.dto.AuthenticatedUserDto;
 import com.solbangul.user.domain.dto.CustomUserDetails;
-import com.solbangul.user.domain.dto.ResponseLoginUserDto;
 
 @Controller
 public class MainController {
@@ -22,12 +22,12 @@ public class MainController {
 
 	@GetMapping("/")
 	public String mainRoomList(Model model, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
-		ResponseLoginUserDto responseLoginUserDto = customUserDetails.getResponseLoginUserDto();
-		model.addAttribute("user", responseLoginUserDto);
+		AuthenticatedUserDto authenticatedUserDto = customUserDetails.getAuthenticatedUser();
+		model.addAttribute("user", authenticatedUserDto);
 
 		// 모든 room 출력
 		List<RoomListResponseDto> list = roomService.findAll();
-		System.out.println("Date: " + responseLoginUserDto.getCreatedDate());
+		System.out.println("Date: " + authenticatedUserDto.getCreatedDate());
 		model.addAttribute("roomList", list);
 		for (RoomListResponseDto response : list) {
 			System.out.println("debug >>> room : " + response);
