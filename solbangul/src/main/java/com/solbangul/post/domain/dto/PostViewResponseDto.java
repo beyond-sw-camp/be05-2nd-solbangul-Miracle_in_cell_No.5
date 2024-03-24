@@ -7,7 +7,6 @@ import com.solbangul.post.domain.Category;
 import com.solbangul.post.domain.Post;
 import com.solbangul.room.domain.Room;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -36,20 +35,6 @@ public class PostViewResponseDto {
 	private Category category;
 
 	private Boolean readYn;
-
-	@Builder
-	public PostViewResponseDto(Room room, String title, Boolean publicYn, Boolean annonyYn, String content,
-		String writer, Boolean deleteYn, Category category, Boolean readYn) {
-		this.room = room;
-		this.title = title;
-		this.publicYn = publicYn;
-		this.annonyYn = annonyYn;
-		this.content = content;
-		this.writer = writer;
-		this.deleteYn = deleteYn;
-		this.category = category;
-		this.readYn = readYn;
-	}
 
 	public PostViewResponseDto(Post p) {
 		this.room = p.getRoom();

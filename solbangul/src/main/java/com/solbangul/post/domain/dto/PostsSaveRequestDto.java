@@ -7,7 +7,6 @@ import com.solbangul.post.domain.Category;
 import com.solbangul.post.domain.Post;
 import com.solbangul.room.domain.Room;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -36,38 +35,6 @@ public class PostsSaveRequestDto {
 	private Category category;
 
 	private Boolean readYn;
-
-	@Builder
-	public PostsSaveRequestDto(Room room, String title, Boolean publicYn, Boolean annonyYn, String content,
-		String writer, Boolean deleteYn, Category category, Boolean readYn) {
-		this.room = room;
-		this.title = title;
-		this.publicYn = publicYn;
-		this.annonyYn = annonyYn;
-		this.content = content;
-		this.writer = writer;
-		this.deleteYn = deleteYn;
-		this.category = category;
-		this.readYn = readYn;
-	}
-
-	@Builder
-	public PostsSaveRequestDto(Boolean deleteYn, Boolean readYn) {
-		this.deleteYn = deleteYn;
-		this.readYn = readYn;
-	}
-	// @Builder
-	// public PostsSaveRequestDto(Room room, String title, Boolean publicYn, Boolean annonyYn, String content, String writer, Category category) {
-	// 	this.room = room;
-	// 	this.title = title;
-	// 	this.publicYn = publicYn;
-	// 	this.annonyYn = annonyYn;
-	// 	this.content = content;
-	// 	this.writer = writer;
-	// 	this.deleteYn = false;
-	// 	this.category = category;
-	// 	this.readYn = false;
-	// }
 
 	public Post toEntity() {
 		return Post.builder()

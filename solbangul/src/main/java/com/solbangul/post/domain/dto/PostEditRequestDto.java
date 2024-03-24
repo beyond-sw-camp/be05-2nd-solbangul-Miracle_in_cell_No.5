@@ -6,7 +6,6 @@ import jakarta.persistence.Enumerated;
 import com.solbangul.post.domain.Category;
 import com.solbangul.post.domain.Post;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,16 +24,6 @@ public class PostEditRequestDto {
 
 	@Enumerated(EnumType.STRING)
 	private Category category;
-
-	@Builder
-	public PostEditRequestDto(String title, Boolean publicYn, Boolean annonyYn, String content, String writer,
-		Category category) {
-		this.title = title;
-		this.publicYn = publicYn;
-		this.annonyYn = annonyYn;
-		this.content = content;
-		this.category = category;
-	}
 
 	public PostEditRequestDto(Post p) {
 		this.title = p.getTitle();

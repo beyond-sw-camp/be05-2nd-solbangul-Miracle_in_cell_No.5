@@ -38,12 +38,10 @@ public class PostController {
 	}
 
 	@PostMapping("/save")
-	public String postsSave(@PathVariable(name = "room_id") Long id, PostsSaveRequestDto requestDto,
+	public String postsSave(@PathVariable(name = "room_id") Long room_id, PostsSaveRequestDto requestDto,
 		@AuthenticationPrincipal CustomUserDetails customUserDetails) {
 		// 방에 들어와서 글을 쓴다. 지금 들어와 있는 room_id = id
-		// id를 갖는 room 찾아서 Post에 room 객체를 넣고, not null 조건 채워준다..
-		// 즉, 지금 들어와 있는 room을  post에 객체로 넣어주는 것,,! (일대다 관계에서 조인 방법)
-		RoomResponseDto roomResponseDto = roomService.findById(id);
+		RoomResponseDto roomResponseDto = roomService.findById(room_id);
 		AuthenticatedUserDto authenticatedUserDto = customUserDetails.getAuthenticatedUser();
 		requestDto.setRoom(roomResponseDto.toEntity());
 		requestDto.setWriter(authenticatedUserDto.getNickname());
@@ -52,17 +50,16 @@ public class PostController {
 		// 게시물 저장
 		Long post_id = postService.save(requestDto);
 		System.out.println("debug >>>> postsSave() post_id : " + post_id);
-		return "redirect:/room/" + id + "/view_room";
+		return "redirect:/room/" + room_id + "/view";
 	}
 
 	@GetMapping("/{post_id}/view")
-	public String postsView(@PathVariable(name = "room_id") Long room_id, @PathVariable(name = "post_id") Long id,
+	public String postsView(@PathVariable(name = "room_id") Long room_id, @PathVariable(name = "post_id") Long post_id,
 		Model model, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
-		// 여기서 id는 post_id
-		PostViewResponseDto response = postService.findById(id);
+		PostViewResponseDto response = postService.findById(post_id);
 		AuthenticatedUserDto authenticatedUserDto = customUserDetails.getAuthenticatedUser();
 		model.addAttribute("room_id", room_id);
-		model.addAttribute("post_id", id);
+		model.addAttribute("post_id", post_id);
 		model.addAttribute("postInfo", response); // writer
 		model.addAttribute("userInfo", authenticatedUserDto); // nickname
 
@@ -70,28 +67,26 @@ public class PostController {
 	}
 
 	@GetMapping("/{post_id}/edit")
-	public String updateForm(@PathVariable(name = "room_id") Long room_id, @PathVariable(name = "post_id") Long id,
+	public String updateForm(@PathVariable(name = "room_id") Long room_id, @PathVariable(name = "post_id") Long post_id,
 		Model model) {
-		// 여기서 id는 post_id
-		PostEditRequestDto dto = postService.editFindById(id);
+		PostEditRequestDto dto = postService.editFindById(post_id);
 		model.addAttribute("room_id", room_id);
-		model.addAttribute("post_id", id);
+		model.addAttribute("post_id", post_id);
 		model.addAttribute("postInfo", dto);
 		return "edit_post";
 	}
 
 	@PostMapping("/{post_id}/edit") //submit 눌렀을 때 ,,
-	public String update(@PathVariable(name = "room_id") Long room_id, @PathVariable(name = "post_id") Long id,
+	public String update(@PathVariable(name = "room_id") Long room_id, @PathVariable(name = "post_id") Long post_id,
 		PostEditRequestDto requestDto) {
-		postService.update(id, requestDto);
-		return "redirect:/room/" + room_id + "/post/" + id + "/view";
+		postService.update(post_id, requestDto);
+		return "redirect:/room/" + room_id + "/post/" + post_id + "/view";
 	}
 
 	@RequestMapping(value = "/{post_id}/delete", method = {RequestMethod.GET, RequestMethod.POST})
-	public String delete(@PathVariable(name = "room_id") Long room_id, @PathVariable(name = "post_id") Long id) {
-		// 여기서 id는 post_id
-		postService.delete(id);
-		return "redirect:/room/" + room_id + "/view/view_posts";
+	public String delete(@PathVariable(name = "room_id") Long room_id, @PathVariable(name = "post_id") Long post_id) {
+		postService.delete(post_id);
+		return "redirect:/room/" + room_id + "/view_posts";
 	}
 
 }
