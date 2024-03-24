@@ -4,6 +4,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.solbangul.file.FileStore;
+import com.solbangul.file.UploadFile;
 import com.solbangul.room.domain.Room;
 import com.solbangul.room.repository.RoomRepository;
 import com.solbangul.user.domain.User;
@@ -23,26 +25,10 @@ public class UserServiceImpl {
 	private final UserRepository userRepository;
 	private final PasswordEncoder passwordEncoder;
 	private final RoomRepository roomRepository;
+	private final FileStore fileStore;
 
 	public User findOne(Long id) {
-		return userRepository.findById(id).get();
-	}
-
-	@Transactional
-	public Long join(JoinRequestUserDto joinRequestUserDto) {
-		log.info("회원가입");
-
-		String encodePassword = passwordEncoder.encode(joinRequestUserDto.getPassword());
-		joinRequestUserDto.setEncodedPassword(encodePassword);
-		User user = joinRequestUserDto.toEntity();
-
-		// 회원가입 시, room 자동으로 생성 ! ( room save -> user에 room 넣고 -> user save
-		String name = joinRequestUserDto.getName();
-		Room room = new Room(user, "안녕하세요, " + name + "의 방 입니다!", name + "의 방");
-		roomRepository.save(room);
-		user.addRoom(room);
-
-		return userRepository.save(user).getId();
+		return userRepository.findById(id).orElseThrow();
 	}
 
 	public boolean isExistsByLoginId(JoinRequestUserDto joinRequestUserDto) {
@@ -55,5 +41,39 @@ public class UserServiceImpl {
 
 	public boolean isEmailAlreadyExists(EmailRequestDto email) {
 		return userRepository.existsByGitEmail(email.getEmail());
+	}
+
+	@Transactional
+	public Long join(JoinRequestUserDto joinRequestUserDto) {
+		setEncodePassword(joinRequestUserDto);
+		setProfileImage(joinRequestUserDto);
+
+		User user = joinRequestUserDto.toEntity();
+
+		// 회원가입 시, room 자동으로 생성
+		Room room = createRoom(joinRequestUserDto, user);
+		roomRepository.save(room);
+
+		user.addRoom(room);
+		return userRepository.save(user).getId();
+	}
+
+	private void setEncodePassword(JoinRequestUserDto joinRequestUserDto) {
+		String encodePassword = passwordEncoder.encode(joinRequestUserDto.getPassword());
+		joinRequestUserDto.setEncodedPassword(encodePassword);
+	}
+
+	private void setProfileImage(JoinRequestUserDto joinRequestUserDto) {
+		UploadFile uploadFile = fileStore.storeFile(joinRequestUserDto.getMultipartFile());
+		if (uploadFile != null) {
+			joinRequestUserDto.setProfileImage(uploadFile.getStoreFilename());
+		} else {
+			joinRequestUserDto.setProfileImage("basic.png");
+		}
+	}
+
+	private Room createRoom(JoinRequestUserDto joinRequestUserDto, User user) {
+		return new Room(user, "안녕하세요, " + joinRequestUserDto.getName() + "의 방 입니다!",
+			joinRequestUserDto.getName() + "의 방");
 	}
 }

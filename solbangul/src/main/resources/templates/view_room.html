@@ -8,7 +8,7 @@
 <div>
     <button><a th:href="@{/}">←</a></button>
     <div>
-        <img src="" alt="profile image">
+        <img th:src="|/images/${roomInfo.user.profileImage}|" width="300" height="300"/>
     </div>
     <div>
         <p th:text="${roomInfo.getRoomName()}"></p>

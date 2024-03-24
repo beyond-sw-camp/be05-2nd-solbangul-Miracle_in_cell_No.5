@@ -17,7 +17,7 @@
 
         <div class="form-floating mb-3">
             <input type="email" class="form-control" id="email" th:field="*{email}"
-                   th:errorclass="field-error" placeholder="이메일" required>
+                   th:errorclass="field-error" placeholder="이메일" readonly>
             <label for="email" class="text-secondary">이메일</label>
             <div class="field-error text-sm-start small" th:errors="*{email}">
                 이메일 오류

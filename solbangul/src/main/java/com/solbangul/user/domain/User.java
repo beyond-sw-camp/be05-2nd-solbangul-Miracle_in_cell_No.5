@@ -19,6 +19,7 @@ import com.solbangul.room.domain.Room;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Entity
@@ -56,36 +57,25 @@ public class User extends BaseTimeEntity {
 	@Enumerated(EnumType.STRING)
 	private Role role;
 
-	private String profilePictureUrl;
+	@Setter
+	private String profileImage;
 
 	private Integer solbangul;
 
 	@Builder
 	public User(String loginId, String password, String name, String nickname, String gitEmail, Role role,
-		String profilePictureUrl) {
+		String profileImage) {
 		this.loginId = loginId;
 		this.password = password;
 		this.name = name;
 		this.nickname = nickname;
 		this.gitEmail = gitEmail;
 		this.role = role;
-		this.profilePictureUrl = profilePictureUrl;
+		this.profileImage = profileImage;
 		this.solbangul = 0;
 	}
 
-	// 회원가입 시 기본값 설정
-	@Builder
-	public User(String loginId, String password, Role role) {
-		this.loginId = loginId;
-		this.password = password;
-		this.role = role;
-		this.name = "이름";
-		this.nickname = "닉네임";
-		this.gitEmail = "이메일";
-		this.profilePictureUrl = "프로필사진";
-		this.solbangul = 0;
-	}
-
+	// 연관관계 편의 메서드
 	public void addRoom(Room room) {
 		this.room = room;
 		room.setUser(this);

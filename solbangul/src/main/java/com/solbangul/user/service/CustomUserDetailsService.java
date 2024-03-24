@@ -20,9 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 public class CustomUserDetailsService implements UserDetailsService {
 
 	private final UserRepository userRepository;
-
-	// 사용자가 로그인을 하면 스프링 시큐리티 config가 검증을 위해서 username을 넣어주는데,
-	// username을 가지고 db의 username을 조회
+	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		User loginUser = userRepository.findByLoginId(username);
