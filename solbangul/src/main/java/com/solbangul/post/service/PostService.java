@@ -8,16 +8,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.solbangul.post.domain.Post;
 import com.solbangul.post.domain.dto.PostEditRequestDto;
+import com.solbangul.post.domain.dto.PostFindByRoomListResponseDto;
 import com.solbangul.post.domain.dto.PostListResponseDto;
 import com.solbangul.post.domain.dto.PostViewResponseDto;
 import com.solbangul.post.domain.dto.PostsSaveRequestDto;
 import com.solbangul.post.repository.PostRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service("post")
 @RequiredArgsConstructor
 @Transactional(readOnly = true) // JPA는 Transaction 안에서만 동작
+@Slf4j
 public class PostService {
 
 	private final PostRepository postRepository;
@@ -44,6 +47,17 @@ public class PostService {
 			-> new IllegalArgumentException("해당 room이 없습니다. id=" + id));
 
 		return new PostViewResponseDto(post);
+	}
+
+	public List<PostFindByRoomListResponseDto> findPostsByRoomId(Long id) {
+		List<PostFindByRoomListResponseDto> postList = new ArrayList<>();
+		List<Post> posts = postRepository.findPostsByRoomId(id);
+
+		for (Post p : posts) {
+			log.info("post 0 index post_id={}", p.getId());
+			postList.add(new PostFindByRoomListResponseDto(p));
+		}
+		return postList;
 	}
 
 	public PostEditRequestDto editFindById(Long id) {

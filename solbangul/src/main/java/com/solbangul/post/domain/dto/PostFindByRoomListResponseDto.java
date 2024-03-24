@@ -10,11 +10,12 @@ import com.solbangul.room.domain.Room;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
 @NoArgsConstructor
-public class PostRoomResponse {
-
+public class PostFindByRoomListResponseDto {
 	private Long id;
 
 	private Room room;
@@ -37,10 +38,8 @@ public class PostRoomResponse {
 	private Boolean readYn;
 
 	@Builder
-	public PostRoomResponse(Long id, Room room, String title, Boolean publicYn, Boolean annonyYn, String content,
-		String writer, Boolean deleteYn, Category category,
-		Boolean readYn) {
-		this.id = id;
+	public PostFindByRoomListResponseDto(Room room, String title, Boolean publicYn, Boolean annonyYn, String content,
+		String writer, Boolean deleteYn, Category category, Boolean readYn) {
 		this.room = room;
 		this.title = title;
 		this.publicYn = publicYn;
@@ -52,20 +51,31 @@ public class PostRoomResponse {
 		this.readYn = readYn;
 	}
 
-	public PostRoomResponse(Post post) {
-		this.id = post.getId();
-		this.room = post.getRoom();
-		this.title = post.getTitle();
-		this.publicYn = post.getPublicYn();
-		this.annonyYn = post.getAnnonyYn();
-		this.content = post.getContent();
-		this.writer = post.getWriter();
-		this.deleteYn = post.getDeleteYn();
-		this.category = post.getCategory();
-		this.readYn = post.getReadYn();
+	public PostFindByRoomListResponseDto(Post p) {
+		this.id = p.getId();
+		this.room = p.getRoom();
+		this.title = p.getTitle();
+		this.publicYn = p.getPublicYn();
+		this.annonyYn = p.getAnnonyYn();
+		this.content = p.getContent();
+		this.writer = p.getWriter();
+		this.deleteYn = p.getDeleteYn();
+		this.category = p.getCategory();
+		this.readYn = p.getReadYn();
 	}
 
-	public void addRoom(Room room) {
-		this.room = room;
+	public Post toEntity() {
+		return Post.builder()
+			.room(room)
+			.title(title)
+			.publicYn(publicYn)
+			.annonyYn(annonyYn)
+			.content(content)
+			.writer(writer)
+			.deleteYn(deleteYn)
+			.category(category)
+			.readYn(readYn)
+			.build();
 	}
+
 }

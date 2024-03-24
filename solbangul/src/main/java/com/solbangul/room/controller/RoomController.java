@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.solbangul.post.domain.Post;
-import com.solbangul.post.repository.PostRepository;
+import com.solbangul.post.domain.dto.PostFindByRoomListResponseDto;
+import com.solbangul.post.service.PostService;
 import com.solbangul.room.domain.dto.RoomEditResponseDto;
 import com.solbangul.room.domain.dto.RoomListResponseDto;
 import com.solbangul.room.domain.dto.RoomResponseDto;
@@ -27,17 +27,17 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @RequestMapping("/room")
 @Controller
-public class RoomController { // TODO: log 사용하기, 변수명 좀 더 가독성 좋게 바꾸기, 검증 로직 추가하기
+public class RoomController { // TODO: 검증 로직 추가하기
 
 	private final RoomService roomService;
-	private final PostRepository postRepository;
+	private final PostService postService;
 
 	@GetMapping("/list")
 	public String list(Model model) {
 		List<RoomListResponseDto> list = roomService.findAll();
 		model.addAttribute("roomList", list);
 		for (RoomListResponseDto response : list) {
-			System.out.println("debug >>> room : " + response);
+			log.info("debug >>> room={}", response);
 		}
 		return "main";
 	}
@@ -53,20 +53,21 @@ public class RoomController { // TODO: log 사용하기, 변수명 좀 더 가�
 		model.addAttribute("userInfo", authenticatedUser);
 
 		//response의 LoginId와 로그인 된 유저의 로그인 아이디 비교 or html 파일에서 if문,,
-		System.out.println("debug >>> 현재 방 주인 id:" + response.getUser().getLoginId());
-		System.out.println("debug >>> 로그인 한 사람 id:" + authenticatedUser.getLoginId());
+		log.info("debug >>> 현재 방 주인 id={}", response.getUser().getLoginId());
+		log.info("debug >>> 로그인 한 사람 id", authenticatedUser.getLoginId());
 		return "view_room";
 	}
 
 	// 해당 룸에 존재하는 글들
-	@GetMapping("/{room_id}/view/view_posts")
+	@GetMapping("/{room_id}/view_posts")
 	public String viewPosts(@PathVariable(name = "room_id") Long id, Model model) {
 		log.info("viewPosts roomId={}", id);
-		// TODO postService 생성
-		List<Post> postList = postRepository.findPostsByRoomId(id);
+		List<PostFindByRoomListResponseDto> postList = postService.findPostsByRoomId(id);
+		// List<Post> postList = postRepository.findPostsByRoomId(id);
 
 		model.addAttribute("room_id", id);
 		model.addAttribute("postList", postList);
+		// log.info("PostFindByRoomListResponseDto 0 index post_id={}", postList.get(0).getId());
 
 		return "view_postList";
 	}
@@ -74,7 +75,7 @@ public class RoomController { // TODO: log 사용하기, 변수명 좀 더 가�
 	@GetMapping("/{room_id}/edit")
 	public String updateForm(@PathVariable(name = "room_id") Long id, Model model) {
 		RoomEditResponseDto dto = roomService.editFindById(id);
-		System.out.println("updateForm >>>>> " + dto.getRoomName());
+		log.info("updateForm >>>>> {}", dto.getRoomName());
 
 		model.addAttribute("room_id", id);
 		model.addAttribute("roomInfo", dto);

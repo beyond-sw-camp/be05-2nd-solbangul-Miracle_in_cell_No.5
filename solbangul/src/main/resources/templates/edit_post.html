@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script>
-        function getAlter(){
-            window.alert("글이 수정되었습니다.") ;
+        function getAlter() {
+            window.alert("글이 수정되었습니다.");
         }
     </script>
 </head>
@@ -15,18 +15,20 @@
     <input type="text" id="title" name="title" th:field="*{title}"><br>
     <!--        공개비공개-->
     <label for="publicYn">Public:</label><br>
-    <input type="checkbox" id="publicYn" th:field="*{publicYn}" th:checked="${postInfo.getPublicYn()}" cam-variable-type="Boolean"><br>
+    <input type="checkbox" id="publicYn" th:field="*{publicYn}" th:checked="${postInfo.getPublicYn()}"
+           cam-variable-type="Boolean"><br>
     <!--        익명-->
     <label for="annonyYn">Anonymous:</label><br>
-    <input type="checkbox" id="annonyYn" th:field="*{annonyYn}" th:checked="${postInfo.getAnnonyYn()}" cam-variable-type="Boolean"><br>
+    <input type="checkbox" id="annonyYn" th:field="*{annonyYn}" th:checked="${postInfo.getAnnonyYn()}"
+           cam-variable-type="Boolean"><br>
 
     <label for="content">Content:</label><br>
     <textarea id="content" name="content" th:field="*{content}"></textarea><br>
 
     <label for="category">Category:</label><br>
     <select id="category" name="category">
-        <option value="CLAIMS" th:field="*{category}" >Claims</option>
-        <option value="COMPLIMENT" th:field="*{category}" >Compliment</option>
+        <option value="CLAIMS" th:field="*{category}">Claims</option>
+        <option value="COMPLIMENT" th:field="*{category}">Compliment</option>
         <option value="FREE" th:field="*{category}">Free</option>
     </select><br>
 
@@ -35,5 +37,6 @@
         <button><a th:href="@{'/room/'+${room_id}+'/post/'+${post_id}+'/view'}">취소</a></button>
     </div>
 </form>
+<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>
