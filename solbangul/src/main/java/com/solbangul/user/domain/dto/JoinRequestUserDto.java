@@ -4,6 +4,8 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.solbangul.user.domain.Role;
 import com.solbangul.user.domain.User;
 
@@ -37,6 +39,10 @@ public class JoinRequestUserDto {
 	@NotBlank(message = "이메일을 입력해주세요")
 	private String email;
 
+	private MultipartFile multipartFile;
+
+	private String profileImage;
+
 	public void setEncodedPassword(String encodedPassword) {
 		this.password = encodedPassword;
 	}
@@ -48,6 +54,7 @@ public class JoinRequestUserDto {
 			.name(name)
 			.gitEmail(email)
 			.nickname(nickname)
+			.profileImage(profileImage)
 			.role(Role.ROLE_USER)
 			.build();
 	}

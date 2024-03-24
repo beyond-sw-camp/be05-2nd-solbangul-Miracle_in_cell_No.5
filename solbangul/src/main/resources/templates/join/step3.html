@@ -12,8 +12,14 @@
 </style>
 
 <main class="form-signin">
-    <form th:action th:object="${user}" method="post" name="join">
+    <form th:action th:object="${user}" method="post" name="join" enctype="multipart/form-data">
         <img class="mb-4" src="/img/Hanwha_logo.svg" alt="" width="200" height="100">
+
+        <div>
+            <input type="file" name="multipartFile" accept="image/gif, image/png, image/jpeg, image/jpg"
+                   th:field="*{multipartFile}"
+                   class="form-label" id="profileImage">
+        </div>
 
         <div class="form-floating mb-3">
             <input type="text" class="form-control" id="name" th:field="*{name}"
@@ -25,6 +31,17 @@
         </div>
 
         <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="email" th:field="*{email}"
+                   th:errorclass="field-error" placeholder="이메일" readonly>
+            <label for="email" class="text-secondary">이메일</label>
+            <div class="field-error text-sm-start small" th:errors="*{email}">
+                이메일 오류
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="form-floating mb-3">
             <input type="text" class="form-control" id="nickname" th:field="*{nickname}"
                    th:errorclass="field-error" placeholder="닉네임" required>
             <label for="nickname" class="text-secondary">닉네임</label>
@@ -32,8 +49,6 @@
                 닉네임 오류
             </div>
         </div>
-
-        <hr>
 
         <div class="form-floating mb-3">
             <input type="text" class="form-control" id="loginId" th:field="*{loginId}"
@@ -62,19 +77,6 @@
             </div>
         </div>
 
-        <hr>
-
-        <div class="form-floating mb-3">
-            <input type="email" class="form-control" id="email" th:field="*{email}"
-                   th:errorclass="field-error" placeholder="이메일" readonly>
-            <label for="email" class="text-secondary">이메일</label>
-            <div class="field-error text-sm-start small" th:errors="*{email}">
-                이메일 오류
-            </div>
-        </div>
-
-        <hr>
-
         <div class="checkbox mb-3">
             <label>
                 <input type="checkbox" id="check-info">
@@ -91,7 +93,7 @@
     <div th:replace="~{fragments/footer :: footer}"></div>
 
     <script>
-        var password = document.getElementById("password")
+        const password = document.getElementById("password")
             , confirm_password = document.getElementById("passwordConfirm");
 
         function validatePassword() {

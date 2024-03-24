@@ -37,7 +37,7 @@ public class AuthenticatedUserDto {
 		this.nickname = user.getNickname();
 		this.gitEmail = user.getGitEmail();
 		this.role = user.getRole();
-		this.profilePictureUrl = user.getProfilePictureUrl();
+		this.profilePictureUrl = user.getProfileImage();
 		this.solbangul = user.getSolbangul();
 		this.createdDate = user.getCreatedDate();
 		this.modifiedDate = user.getModifiedDate();

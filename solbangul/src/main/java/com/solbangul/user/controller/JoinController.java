@@ -48,12 +48,13 @@ public class JoinController {
 	public String mailSend(@Valid @ModelAttribute("mail") EmailRequestDto emailRequestDto, BindingResult bindingResult,
 		HttpSession session) {
 
-		if (joinService.isEmailAlreadyExists(emailRequestDto)) {
-			bindingResult.rejectValue("email", "unique", "이메일이 이미 존재합니다.");
-		}
-		if (!isHanwhaUser(emailRequestDto)) {
-			bindingResult.rejectValue("email", "hanwha", "한화 SW교육 5기생만 가입 가능합니다.");
-		}
+		// if (joinService.isEmailAlreadyExists(emailRequestDto)) {
+		// 	bindingResult.rejectValue("email", "unique", "이메일이 이미 존재합니다.");
+		// }
+		// if (!isHanwhaUser(emailRequestDto)) {
+		// 	bindingResult.rejectValue("email", "hanwha", "한화 SW교육 5기생만 가입 가능합니다.");
+		// }
+
 		if (bindingResult.hasErrors()) {
 			return "join/step1";
 		}
@@ -93,7 +94,6 @@ public class JoinController {
 		}
 
 		if (bindingResult.hasErrors()) {
-			log.info("errors={}", bindingResult);
 			return "join/step2";
 		}
 
@@ -117,8 +117,10 @@ public class JoinController {
 			return "redirect:/join/step1";
 		}
 		JoinRequestUserDto joinRequestUserDto = new JoinRequestUserDto();
+
 		joinRequestUserDto.setEmail(emailRequestDto.getEmail());
-		joinRequestUserDto.setName(hanwhaUserRepository.findHanwhaUserByGitEmail(emailRequestDto.getEmail()).getName());
+		// joinRequestUserDto.setName(hanwhaUserRepository.findHanwhaUserByGitEmail(emailRequestDto.getEmail()).getName());
+		joinRequestUserDto.setName("테스트 유저");
 
 		model.addAttribute("user", joinRequestUserDto);
 
