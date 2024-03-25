@@ -13,8 +13,9 @@ import com.solbangul.post.domain.dto.PostEditRequestDto;
 import com.solbangul.post.domain.dto.PostViewResponseDto;
 import com.solbangul.post.domain.dto.PostsSaveRequestDto;
 import com.solbangul.post.service.PostService;
-import com.solbangul.user.domain.dto.AuthenticatedUserDto;
+import com.solbangul.user.domain.User;
 import com.solbangul.user.domain.dto.CustomUserDetails;
+import com.solbangul.user.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 public class PostController {
 
 	private final PostService postService;
+	private final UserService userService;
 
 	@GetMapping("/save")
 	public String getSave(@PathVariable(name = "room_id") Long id, Model model) {
@@ -38,9 +40,10 @@ public class PostController {
 	public String postsSave(@PathVariable(name = "room_id") Long roomId, PostsSaveRequestDto requestDto,
 		@AuthenticationPrincipal CustomUserDetails customUserDetails) {
 
-		// 로그인한 유저가 다른 유저의 방에 글을 쓴다.
-		AuthenticatedUserDto authenticatedUserDto = customUserDetails.getAuthenticatedUser(); // 로그인 한 유저
-		requestDto.setWriter(authenticatedUserDto.getNickname());
+		Long userId = customUserDetails.getAuthenticatedUser().getId();
+		User authenticatedUser = userService.findOne(userId);
+
+		requestDto.setWriter(authenticatedUser.getNickname());
 		requestDto.setDeleteYn(false);
 		requestDto.setReadYn(false);
 		requestDto.setRoomId(roomId);
@@ -54,12 +57,16 @@ public class PostController {
 	@GetMapping("/{post_id}/view")
 	public String postsView(@PathVariable(name = "room_id") Long room_id, @PathVariable(name = "post_id") Long post_id,
 		Model model, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
-		PostViewResponseDto response = postService.findById(post_id);
-		AuthenticatedUserDto authenticatedUserDto = customUserDetails.getAuthenticatedUser();
+
+		PostViewResponseDto postDto = postService.findById(post_id);
+
+		Long userId = customUserDetails.getAuthenticatedUser().getId();
+		User authenticatedUser = userService.findOne(userId);
+
 		model.addAttribute("room_id", room_id);
 		model.addAttribute("post_id", post_id);
-		model.addAttribute("postInfo", response); // writer
-		model.addAttribute("userInfo", authenticatedUserDto); // nickname
+		model.addAttribute("postInfo", postDto);
+		model.addAttribute("userInfo", authenticatedUser);
 
 		return "view_post";
 	}

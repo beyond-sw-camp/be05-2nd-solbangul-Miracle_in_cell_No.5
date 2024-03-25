@@ -17,8 +17,9 @@ import com.solbangul.room.domain.dto.RoomEditResponseDto;
 import com.solbangul.room.domain.dto.RoomListResponseDto;
 import com.solbangul.room.domain.dto.RoomResponseDto;
 import com.solbangul.room.service.RoomService;
-import com.solbangul.user.domain.dto.AuthenticatedUserDto;
+import com.solbangul.user.domain.User;
 import com.solbangul.user.domain.dto.CustomUserDetails;
+import com.solbangul.user.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +32,7 @@ public class RoomController { // TODO: 검증 로직 추가하기
 
 	private final RoomService roomService;
 	private final PostService postService;
+	private final UserService userService;
 
 	@GetMapping("/list")
 	public String list(Model model) {
@@ -48,13 +50,14 @@ public class RoomController { // TODO: 검증 로직 추가하기
 		@AuthenticationPrincipal CustomUserDetails customUserDetails) {
 		RoomResponseDto response = roomService.findById(id);
 
-		AuthenticatedUserDto authenticatedUser = customUserDetails.getAuthenticatedUser();
+		Long userId = customUserDetails.getAuthenticatedUser().getId();
+		User authenticatedUser = userService.findOne(userId);
 		model.addAttribute("roomInfo", response);
 		model.addAttribute("userInfo", authenticatedUser);
 
 		//response의 LoginId와 로그인 된 유저의 로그인 아이디 비교 or html 파일에서 if문,,
 		log.info("debug >>> 현재 방 주인 id={}", response.getLoginId());
-		log.info("debug >>> 로그인 한 사람 id", authenticatedUser.getLoginId());
+		log.info("debug >>> 로그인 한 사람 id={}", authenticatedUser.getLoginId());
 		return "view_room";
 	}
 

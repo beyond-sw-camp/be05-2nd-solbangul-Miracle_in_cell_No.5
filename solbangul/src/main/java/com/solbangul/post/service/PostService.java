@@ -1,5 +1,7 @@
 package com.solbangul.post.service;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +18,7 @@ import com.solbangul.post.repository.PostRepository;
 import com.solbangul.room.domain.Room;
 import com.solbangul.room.repository.RoomRepository;
 import com.solbangul.user.domain.User;
+import com.solbangul.user.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,19 +30,53 @@ import lombok.extern.slf4j.Slf4j;
 public class PostService {
 
 	public static final int COMPLIMENT_AMOUNT = 3;
+	public static final int WRITE_AMOUNT = 1;
+
 	private final PostRepository postRepository;
 	private final RoomRepository roomRepository;
+	private final UserRepository userRepository;
 
 	@Transactional
 	public Long save(PostsSaveRequestDto requestDto) {
-		Room room = roomRepository.findById(requestDto.getRoomId()).orElseThrow();
-		User user = room.getUser();
+		Room receiverRoom = roomRepository.findById(requestDto.getRoomId()).orElseThrow();
 
-		Post post = requestDto.toEntity(room);
-		if (post.getCategory().equals(Category.COMPLIMENT)) {
-			user.addSolbangul(COMPLIMENT_AMOUNT);
+		User receiverUser = receiverRoom.getUser();
+		User senderUser = userRepository.findByNickname(requestDto.getWriter());
+
+		Post post = requestDto.toEntity(receiverRoom);
+
+		String writer = senderUser.getNickname();
+		Category category = post.getCategory();
+		Post lastPost = postRepository.findLastPost(writer, receiverRoom, category);
+
+		if (postEmpty(lastPost)) {
+			addSolbangulSenderAndReceiver(post, receiverUser, senderUser);
+			return postRepository.save(post).getId();
 		}
+		LocalDateTime lastPostDateTime = lastPost.getCreatedDate();
+
+		if (!isWithin24Hours(lastPostDateTime)) {
+			addSolbangulSenderAndReceiver(post, receiverUser, senderUser);
+		}
+
 		return postRepository.save(post).getId();
+	}
+
+	private static boolean postEmpty(Post lastPost) {
+		return lastPost == null;
+	}
+
+	private static void addSolbangulSenderAndReceiver(Post post, User receiverUser, User senderUser) {
+		if (post.getCategory().equals(Category.COMPLIMENT)) {
+			receiverUser.addSolbangul(COMPLIMENT_AMOUNT);
+		}
+		senderUser.addSolbangul(WRITE_AMOUNT);
+	}
+
+	private static boolean isWithin24Hours(LocalDateTime lastPostDateTime) {
+		Duration duration = Duration.between(lastPostDateTime, LocalDateTime.now());
+		long betweenHour = duration.toHours();
+		return betweenHour < 24;
 	}
 
 	// 한 회원의 방
