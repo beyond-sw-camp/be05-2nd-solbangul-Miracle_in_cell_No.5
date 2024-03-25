@@ -16,7 +16,4 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 	@Query("select p from Post p where p.room.id = :roomId")
 	List<Post> findPostsByRoomId(@Param("roomId") Long roomId);
 
-	// @Query("select p from Post p where p.room.id = :roomId")
-	@Query("UPDATE Post SET deleteYn   = true ,deleteTime = NOW() WHERE id = :roomId")
-	List<Post> delete(@Param("roomId") Long roomId);
 }

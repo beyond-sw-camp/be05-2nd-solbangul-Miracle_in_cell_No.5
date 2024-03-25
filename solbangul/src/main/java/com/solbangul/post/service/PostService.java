@@ -9,10 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.solbangul.post.domain.Post;
 import com.solbangul.post.domain.dto.PostEditRequestDto;
 import com.solbangul.post.domain.dto.PostFindByRoomListResponseDto;
-import com.solbangul.post.domain.dto.PostListResponseDto;
 import com.solbangul.post.domain.dto.PostViewResponseDto;
 import com.solbangul.post.domain.dto.PostsSaveRequestDto;
 import com.solbangul.post.repository.PostRepository;
+import com.solbangul.room.repository.RoomRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,21 +24,13 @@ import lombok.extern.slf4j.Slf4j;
 public class PostService {
 
 	private final PostRepository postRepository;
+	private final RoomRepository roomRepository;
 
 	@Transactional
-	public Long save(PostsSaveRequestDto requestDto) {
-		return postRepository.save(requestDto.toEntity()).getId();
-	}
-
-	//이걸로 나중에 room 에서 수정
-	public List<PostListResponseDto> findAll() {
-		List<PostListResponseDto> postList = new ArrayList<>();
-		List<Post> posts = postRepository.findAll();
-		for (Post p : posts) {
-			postList.add(new PostListResponseDto(p));
-		}
-
-		return postList;
+	public Long save(PostsSaveRequestDto requestDto, Long room_id) {
+		// 글을 쓴 유저의 솔방울 +1 (칭찬인가,, 하루에 몇 개,, 수정 필요)
+		// 글을 받은 유저의 솔방울 +3 - post의 room
+		return postRepository.save(requestDto.toEntity(roomRepository.findById(room_id))).getId();
 	}
 
 	// 한 회원의 방

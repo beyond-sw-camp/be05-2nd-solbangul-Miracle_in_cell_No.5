@@ -6,9 +6,9 @@
 </head>
 <body>
 <button><a th:href="@{'/room/'+${room_id}+'/view'}">←</a></button>
-<div th:if="">
-    글이 존재하지 않습니다.
-</div>
+<!--<div th:if="">-->
+<!--    글이 존재하지 않습니다.-->
+<!--</div>-->
 <ul th:each="post : ${postList}">
     <li><a th:href="'/room/'+${room_id}+'/post/'+${post.getId()}+'/view'" th:text="${post.getTitle()}"></a></li>
 </ul>

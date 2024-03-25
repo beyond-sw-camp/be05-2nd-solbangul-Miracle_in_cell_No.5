@@ -7,19 +7,26 @@
 <body>
 <div>
     <button><a th:href="@{/}">←</a></button>
+    <button th:if="${roomInfo.getLoginId().equals(userInfo.getLoginId())}"><a th:href="@{/}">my page</a>
+    </button>
+
     <div>
-        <img th:src="|/images/${roomInfo.user.profileImage}|" width="300" height="300"/>
+        <img th:src="|/images/${roomInfo.profileImage}|" width="300" height="300"/>
     </div>
-    <div>
+    <div class="room-info">
         <p th:text="${roomInfo.getRoomName()}"></p>
         <div th:text="${roomInfo.getIntroduction()}"></div>
-        <button th:if="${roomInfo.getUser().getLoginId().equals(userInfo.getLoginId())}"><a
+        <div th:if="${roomInfo.getLoginId().equals(userInfo.getLoginId())}"
+             th:text="'솔방울 개수 : '+${userInfo.getSolbangul()}">solbangul
+        </div>
+        <button th:if="${roomInfo.getLoginId().equals(userInfo.getLoginId())}"><a
                 th:href="@{'/room/'+${roomInfo.getId()}+'/edit'}">방 수정하기</a></button>
     </div>
-    <div class="posts">
+    <hr>
+    <div class="posts-btn">
         <div></div>
         <div></div>
-        <button th:if="${!roomInfo.getUser().getLoginId().equals(userInfo.getLoginId())}"><a
+        <button th:if="${!roomInfo.getLoginId().equals(userInfo.getLoginId())}"><a
                 th:href="@{'/room/'+${roomInfo.id}+'/post/save'}">글 쓰기</a></button>
         <button><a th:href="@{'/room/'+${roomInfo.id}+'/view_posts'}">글 더보기 ...</a></button>
     </div>

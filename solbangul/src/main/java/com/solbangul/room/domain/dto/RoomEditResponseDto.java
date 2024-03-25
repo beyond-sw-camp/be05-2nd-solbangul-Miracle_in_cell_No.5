@@ -25,11 +25,4 @@ public class RoomEditResponseDto {
 		this.introduction = room.getIntroduction();
 		this.roomName = room.getRoomName();
 	}
-
-	// public Room toEntity() {
-	// 	return Room.builder()
-	// 		.introduction(introduction)
-	// 		.roomName(roomName)
-	// 		.build();
-	// }
 }
