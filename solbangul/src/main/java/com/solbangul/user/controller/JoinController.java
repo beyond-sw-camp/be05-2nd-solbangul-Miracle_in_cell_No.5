@@ -18,7 +18,7 @@ import com.solbangul.user.domain.Role;
 import com.solbangul.user.domain.dto.JoinRequestUserDto;
 import com.solbangul.user.mail.dto.EmailRequestDto;
 import com.solbangul.user.mail.service.MailSendService;
-import com.solbangul.user.service.UserServiceImpl;
+import com.solbangul.user.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class JoinController {
 
-	private final UserServiceImpl joinService;
+	private final UserService joinService;
 	private final MailSendService mailService;
 	private final HanwhaUserRepository hanwhaUserRepository;
 

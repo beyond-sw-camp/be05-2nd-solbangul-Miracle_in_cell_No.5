@@ -13,7 +13,9 @@ import com.solbangul.user.domain.dto.AuthenticatedUserDto;
 import com.solbangul.user.domain.dto.CustomUserDetails;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RequiredArgsConstructor
 @Controller
 public class MainController {
@@ -27,10 +29,9 @@ public class MainController {
 
 		// 모든 room 출력
 		List<RoomListResponseDto> list = roomService.findAll();
-		System.out.println("Date: " + authenticatedUserDto.getCreatedDate());
 		model.addAttribute("roomList", list);
 		for (RoomListResponseDto response : list) {
-			System.out.println("debug >>> room : " + response);
+			log.info("debug >>> room : {}", response);
 		}
 		return "main";
 	}

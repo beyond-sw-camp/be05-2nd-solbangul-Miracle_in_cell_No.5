@@ -20,7 +20,7 @@ public class AuthenticatedUserDto {
 	private String nickname;
 	private String gitEmail;
 	private Role role;
-	private String profilePictureUrl;
+	private String profileImage;
 	private Integer solbangul;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -37,7 +37,7 @@ public class AuthenticatedUserDto {
 		this.nickname = user.getNickname();
 		this.gitEmail = user.getGitEmail();
 		this.role = user.getRole();
-		this.profilePictureUrl = user.getProfileImage();
+		this.profileImage = user.getProfileImage();
 		this.solbangul = user.getSolbangul();
 		this.createdDate = user.getCreatedDate();
 		this.modifiedDate = user.getModifiedDate();

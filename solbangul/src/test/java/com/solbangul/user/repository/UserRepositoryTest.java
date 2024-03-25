@@ -58,7 +58,7 @@ class UserRepositoryTest {
 	}
 
 	private static User createUser(String name, String loginId, String password, String mail, Role role) {
-		User user = User.builder()
+		return User.builder()
 			.name(name)
 			.loginId(loginId)
 			.password(password)
@@ -66,7 +66,6 @@ class UserRepositoryTest {
 			.gitEmail(mail)
 			.role(role)
 			.build();
-		return user;
 	}
 
 	@Test

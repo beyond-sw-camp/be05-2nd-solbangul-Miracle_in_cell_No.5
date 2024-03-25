@@ -45,7 +45,7 @@ public class PostController {
 		requestDto.setReadYn(false);
 
 		// 게시물 저장
-		Long post_id = postService.save(requestDto, room_id); // room_id -> 다른 유저의 방
+		Long post_id = postService.save(requestDto);
 		System.out.println("debug >>>> postsSave() post_id : " + post_id);
 		return "redirect:/room/" + room_id + "/view";
 	}
