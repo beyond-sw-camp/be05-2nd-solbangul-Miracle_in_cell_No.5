@@ -20,11 +20,6 @@ import lombok.RequiredArgsConstructor;
 public class RoomService {
 	private final RoomRepository roomRepository;
 
-	// save 회원 가입과 동시에 ?
-	// public void save(){
-	//
-	// }
-
 	// 전체 방 list (방1, 방2 ...)
 	public List<RoomListResponseDto> findAll() {
 		List<RoomListResponseDto> roomList = new ArrayList<>();
@@ -57,5 +52,11 @@ public class RoomService {
 			-> new IllegalArgumentException("해당 room이 없습니다. id=" + id));
 		System.out.println("room id : " + room.getId());
 		room.update(requestDto.getIntroduction(), requestDto.getRoomName());
+	}
+
+	public Room getRoom(Long id) {
+		Room room = roomRepository.findById(id).orElseThrow(()
+			-> new IllegalArgumentException("해당 room이 없습니다. id=" + id));
+		return room;
 	}
 }

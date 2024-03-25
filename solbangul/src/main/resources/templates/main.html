@@ -24,7 +24,7 @@
 
     <div class="card" style="width: 18rem;"
          th:each="r : ${roomList}">
-        <img th:src="|/images/${r.user.profileImage}|"/>
+        <img th:src="|/images/${r.profileImage}|"/>
         <div class="card-body">
             <h5 class="card-title" th:text="${r.roomName}">Card title</h5>
             <p class="card-text" th:text="${r.introduction}"></p>

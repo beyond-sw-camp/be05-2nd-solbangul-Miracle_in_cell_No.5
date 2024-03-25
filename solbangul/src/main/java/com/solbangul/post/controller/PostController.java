@@ -13,8 +13,6 @@ import com.solbangul.post.domain.dto.PostEditRequestDto;
 import com.solbangul.post.domain.dto.PostViewResponseDto;
 import com.solbangul.post.domain.dto.PostsSaveRequestDto;
 import com.solbangul.post.service.PostService;
-import com.solbangul.room.domain.dto.RoomResponseDto;
-import com.solbangul.room.service.RoomService;
 import com.solbangul.user.domain.dto.AuthenticatedUserDto;
 import com.solbangul.user.domain.dto.CustomUserDetails;
 
@@ -28,7 +26,6 @@ import lombok.extern.slf4j.Slf4j;
 public class PostController {
 
 	private final PostService postService;
-	private final RoomService roomService;
 
 	@GetMapping("/save")
 	public String getSave(@PathVariable(name = "room_id") Long id, Model model) {
@@ -40,15 +37,15 @@ public class PostController {
 	@PostMapping("/save")
 	public String postsSave(@PathVariable(name = "room_id") Long room_id, PostsSaveRequestDto requestDto,
 		@AuthenticationPrincipal CustomUserDetails customUserDetails) {
-		// 방에 들어와서 글을 쓴다. 지금 들어와 있는 room_id = id
-		RoomResponseDto roomResponseDto = roomService.findById(room_id);
-		AuthenticatedUserDto authenticatedUserDto = customUserDetails.getAuthenticatedUser();
-		requestDto.setRoom(roomResponseDto.toEntity());
+
+		// 로그인한 유저가 다른 유저의 방에 글을 쓴다.
+		AuthenticatedUserDto authenticatedUserDto = customUserDetails.getAuthenticatedUser(); // 로그인 한 유저
 		requestDto.setWriter(authenticatedUserDto.getNickname());
 		requestDto.setDeleteYn(false);
 		requestDto.setReadYn(false);
+
 		// 게시물 저장
-		Long post_id = postService.save(requestDto);
+		Long post_id = postService.save(requestDto, room_id); // room_id -> 다른 유저의 방
 		System.out.println("debug >>>> postsSave() post_id : " + post_id);
 		return "redirect:/room/" + room_id + "/view";
 	}

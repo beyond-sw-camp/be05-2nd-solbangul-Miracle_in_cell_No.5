@@ -53,7 +53,7 @@ public class RoomController { // TODO: 검증 로직 추가하기
 		model.addAttribute("userInfo", authenticatedUser);
 
 		//response의 LoginId와 로그인 된 유저의 로그인 아이디 비교 or html 파일에서 if문,,
-		log.info("debug >>> 현재 방 주인 id={}", response.getUser().getLoginId());
+		log.info("debug >>> 현재 방 주인 id={}", response.getLoginId());
 		log.info("debug >>> 로그인 한 사람 id", authenticatedUser.getLoginId());
 		return "view_room";
 	}
@@ -63,7 +63,6 @@ public class RoomController { // TODO: 검증 로직 추가하기
 	public String viewPosts(@PathVariable(name = "room_id") Long id, Model model) {
 		log.info("viewPosts roomId={}", id);
 		List<PostFindByRoomListResponseDto> postList = postService.findPostsByRoomId(id);
-		// List<Post> postList = postRepository.findPostsByRoomId(id);
 
 		model.addAttribute("room_id", id);
 		model.addAttribute("postList", postList);

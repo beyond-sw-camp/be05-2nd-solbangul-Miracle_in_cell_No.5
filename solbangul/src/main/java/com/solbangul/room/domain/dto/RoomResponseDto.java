@@ -3,7 +3,6 @@ package com.solbangul.room.domain.dto;
 import com.solbangul.room.domain.Room;
 import com.solbangul.user.domain.User;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -13,28 +12,26 @@ public class RoomResponseDto {
 
 	private Long id;
 
-	private User user;
+	private Long userId;
+
+	private String loginId;
+
+	private String profileImage;
 
 	private String introduction;
 
 	private String roomName;
 
-	@Builder
-	public RoomResponseDto(Long id, User user, String introduction, String roomName) {
-		this.id = id;
-		this.user = user;
-		this.introduction = introduction;
-		this.roomName = roomName;
-	}
-
 	public RoomResponseDto(Room room) {
 		this.id = room.getId();
-		this.user = room.getUser();
+		this.userId = room.getId();
+		this.loginId = room.getUser().getLoginId();
+		this.profileImage = room.getUser().getProfileImage();
 		this.introduction = room.getIntroduction();
 		this.roomName = room.getRoomName();
 	}
 
-	public Room toEntity() {
+	public Room toEntity(User user) {
 		return Room.builder()
 			.id(id)
 			.user(user)
@@ -43,24 +40,4 @@ public class RoomResponseDto {
 			.build();
 	}
 
-	// @Builder
-	// public RoomResponseDto(Long id, String introduction, String roomName) {
-	// 	this.id = id;
-	// 	this.introduction = introduction;
-	// 	this.roomName = roomName;
-	// }
-	//
-	// public RoomResponseDto(Room room) {
-	// 	this.id = room.getId();
-	// 	this.introduction = room.getIntroduction();
-	// 	this.roomName = room.getRoomName();
-	// }
-	//
-	// public Room toEntity() {
-	// 	return Room.builder()
-	// 		.id(id)
-	// 		.introduction(introduction)
-	// 		.roomName(roomName)
-	// 		.build();
-	// }
 }
