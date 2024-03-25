@@ -80,4 +80,22 @@ public class User extends BaseTimeEntity {
 		this.room = room;
 		room.setUser(this);
 	}
+
+	public void addSolbangul(int amount) {
+		if (amount <= 0) {
+			return;
+		}
+		this.solbangul += amount;
+	}
+
+	public void subSolbangul(int amount) {
+		if (amount <= 0) {
+			return;
+		}
+		if ((solbangul - amount) < 0) {
+			this.solbangul = 0;
+			return;
+		}
+		this.solbangul -= amount;
+	}
 }

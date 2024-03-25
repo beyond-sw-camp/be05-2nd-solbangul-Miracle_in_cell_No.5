@@ -7,11 +7,13 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.solbangul.post.domain.Post;
 import com.solbangul.room.domain.Room;
 import com.solbangul.room.repository.RoomRepository;
 
+@Transactional
 @SpringBootTest
 class PostRepositoryTest {
 

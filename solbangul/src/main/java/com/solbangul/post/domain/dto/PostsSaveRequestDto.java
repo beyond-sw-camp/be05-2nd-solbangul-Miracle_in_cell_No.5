@@ -1,7 +1,5 @@
 package com.solbangul.post.domain.dto;
 
-import java.util.Optional;
-
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 
@@ -18,6 +16,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class PostsSaveRequestDto {
 	private Long id;
+
+	private Long roomId;
 
 	private String title;
 
@@ -36,9 +36,9 @@ public class PostsSaveRequestDto {
 
 	private Boolean readYn;
 
-	public Post toEntity(Optional<Room> room) {
+	public Post toEntity(Room room) {
 		return Post.builder()
-			.room(room.get())
+			.room(room)
 			.title(title)
 			.publicYn(publicYn)
 			.annonyYn(annonyYn)

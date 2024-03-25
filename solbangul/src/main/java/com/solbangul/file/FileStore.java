@@ -15,13 +15,13 @@ public class FileStore {
 	private String fileDir;
 
 	public UploadFile storeFile(MultipartFile multipartFile) {
-		if (multipartFile.isEmpty()) {
+		if (multipartFile == null || multipartFile.isEmpty()) {
 			return null;
 		}
 		String originalFilename = multipartFile.getOriginalFilename();
 		String storeFileName = createStoreFileName(originalFilename);
 		String storeFileFullPath = getFullPath(storeFileName);
-		
+
 		try {
 			multipartFile.transferTo(new File(storeFileFullPath));
 		} catch (IOException e) {

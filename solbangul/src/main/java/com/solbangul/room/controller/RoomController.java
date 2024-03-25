@@ -76,8 +76,8 @@ public class RoomController { // TODO: 검증 로직 추가하기
 		RoomEditResponseDto dto = roomService.editFindById(id);
 		log.info("updateForm >>>>> {}", dto.getRoomName());
 
-		model.addAttribute("room_id", id);
 		model.addAttribute("roomInfo", dto);
+		model.addAttribute("room_id", id);
 		return "edit_room";
 	}
 

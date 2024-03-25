@@ -6,13 +6,16 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.solbangul.post.domain.Category;
 import com.solbangul.post.domain.Post;
 import com.solbangul.post.domain.dto.PostEditRequestDto;
 import com.solbangul.post.domain.dto.PostFindByRoomListResponseDto;
 import com.solbangul.post.domain.dto.PostViewResponseDto;
 import com.solbangul.post.domain.dto.PostsSaveRequestDto;
 import com.solbangul.post.repository.PostRepository;
+import com.solbangul.room.domain.Room;
 import com.solbangul.room.repository.RoomRepository;
+import com.solbangul.user.domain.User;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,14 +26,20 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class PostService {
 
+	public static final int COPLIMENT_AMOUNT = 3;
 	private final PostRepository postRepository;
 	private final RoomRepository roomRepository;
 
 	@Transactional
-	public Long save(PostsSaveRequestDto requestDto, Long room_id) {
-		// 글을 쓴 유저의 솔방울 +1 (칭찬인가,, 하루에 몇 개,, 수정 필요)
-		// 글을 받은 유저의 솔방울 +3 - post의 room
-		return postRepository.save(requestDto.toEntity(roomRepository.findById(room_id))).getId();
+	public Long save(PostsSaveRequestDto requestDto) {
+		Room room = roomRepository.findById(requestDto.getRoomId()).orElseThrow();
+		User user = room.getUser();
+
+		Post post = requestDto.toEntity(room);
+		if (post.getCategory().equals(Category.COMPLIMENT)) {
+			user.addSolbangul(COPLIMENT_AMOUNT);
+		}
+		return postRepository.save(post).getId();
 	}
 
 	// 한 회원의 방

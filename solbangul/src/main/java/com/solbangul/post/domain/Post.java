@@ -43,7 +43,7 @@ public class Post extends BaseTimeEntity {
 	// @Column(nullable = false)
 	private Boolean annonyYn;
 
-	@Column(name = "post_content", nullable = false)
+	@Column(name = "post_content")
 	private String content;
 
 	private LocalDateTime deleteTime;
