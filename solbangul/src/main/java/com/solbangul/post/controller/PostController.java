@@ -35,7 +35,7 @@ public class PostController {
 	}
 
 	@PostMapping("/save")
-	public String postsSave(@PathVariable(name = "room_id") Long room_id, PostsSaveRequestDto requestDto,
+	public String postsSave(@PathVariable(name = "room_id") Long roomId, PostsSaveRequestDto requestDto,
 		@AuthenticationPrincipal CustomUserDetails customUserDetails) {
 
 		// 로그인한 유저가 다른 유저의 방에 글을 쓴다.
@@ -43,11 +43,12 @@ public class PostController {
 		requestDto.setWriter(authenticatedUserDto.getNickname());
 		requestDto.setDeleteYn(false);
 		requestDto.setReadYn(false);
+		requestDto.setRoomId(roomId);
 
 		// 게시물 저장
 		Long post_id = postService.save(requestDto);
 		System.out.println("debug >>>> postsSave() post_id : " + post_id);
-		return "redirect:/room/" + room_id + "/view";
+		return "redirect:/room/" + roomId + "/view";
 	}
 
 	@GetMapping("/{post_id}/view")

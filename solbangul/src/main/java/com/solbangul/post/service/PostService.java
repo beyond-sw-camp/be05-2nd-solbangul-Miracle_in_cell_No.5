@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class PostService {
 
-	public static final int COPLIMENT_AMOUNT = 3;
+	public static final int COMPLIMENT_AMOUNT = 3;
 	private final PostRepository postRepository;
 	private final RoomRepository roomRepository;
 
@@ -37,7 +37,7 @@ public class PostService {
 
 		Post post = requestDto.toEntity(room);
 		if (post.getCategory().equals(Category.COMPLIMENT)) {
-			user.addSolbangul(COPLIMENT_AMOUNT);
+			user.addSolbangul(COMPLIMENT_AMOUNT);
 		}
 		return postRepository.save(post).getId();
 	}
