@@ -56,6 +56,7 @@ public class JoinRequestUserDto {
 			.nickname(nickname)
 			.profileImage(profileImage)
 			.role(Role.ROLE_USER)
+			.solbangul(0)
 			.build();
 	}
 }

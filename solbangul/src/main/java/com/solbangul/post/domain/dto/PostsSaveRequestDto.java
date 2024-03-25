@@ -1,8 +1,5 @@
 package com.solbangul.post.domain.dto;
 
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-
 import com.solbangul.post.domain.Category;
 import com.solbangul.post.domain.Post;
 import com.solbangul.room.domain.Room;
@@ -31,7 +28,6 @@ public class PostsSaveRequestDto {
 
 	private Boolean deleteYn;
 
-	@Enumerated(EnumType.STRING)
 	private Category category;
 
 	private Boolean readYn;

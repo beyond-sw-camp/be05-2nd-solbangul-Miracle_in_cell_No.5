@@ -9,13 +9,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.solbangul.user.domain.User;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 public class CustomUserDetails implements UserDetails {
 
 	private final User user;
-
-	public CustomUserDetails(User user) {
-		this.user = user;
-	}
 
 	// 사용자의 특정 권한에 대해 리턴하는 메서드
 	// role 값에 대한 메서드
@@ -68,5 +67,9 @@ public class CustomUserDetails implements UserDetails {
 
 	public AuthenticatedUserDto getAuthenticatedUser() {
 		return new AuthenticatedUserDto(user);
+	}
+
+	public Long getId() {
+		return user.getId();
 	}
 }

@@ -13,6 +13,7 @@ import lombok.Getter;
 @Getter
 public class AuthenticatedUserDto {
 
+	private Long id;
 	private String loginId;
 	private Room room;
 	private String password;
@@ -30,6 +31,7 @@ public class AuthenticatedUserDto {
 	private LocalDateTime modifiedDate;
 
 	public AuthenticatedUserDto(User user) {
+		this.id = user.getId();
 		this.loginId = user.getLoginId();
 		this.room = user.getRoom();
 		this.password = user.getPassword();

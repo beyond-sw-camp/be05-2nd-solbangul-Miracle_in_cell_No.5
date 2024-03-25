@@ -20,7 +20,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Getter
 @Entity
 @Table(name = "users", uniqueConstraints = {
@@ -64,7 +66,7 @@ public class User extends BaseTimeEntity {
 
 	@Builder
 	public User(String loginId, String password, String name, String nickname, String gitEmail, Role role,
-		String profileImage) {
+		String profileImage, Integer solbangul) {
 		this.loginId = loginId;
 		this.password = password;
 		this.name = name;
@@ -72,7 +74,7 @@ public class User extends BaseTimeEntity {
 		this.gitEmail = gitEmail;
 		this.role = role;
 		this.profileImage = profileImage;
-		this.solbangul = 0;
+		this.solbangul = solbangul;
 	}
 
 	// 연관관계 편의 메서드
@@ -86,6 +88,7 @@ public class User extends BaseTimeEntity {
 			return;
 		}
 		this.solbangul += amount;
+		log.info("{}님 의 솔방울이 {}개 올랐습니다.", loginId, amount);
 	}
 
 	public void subSolbangul(int amount) {
@@ -97,5 +100,6 @@ public class User extends BaseTimeEntity {
 			return;
 		}
 		this.solbangul -= amount;
+		log.info("{}님 의 솔방울이 {}개 차감되었습니다.", loginId, amount);
 	}
 }

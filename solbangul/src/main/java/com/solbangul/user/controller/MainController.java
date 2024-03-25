@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.solbangul.room.domain.dto.RoomListResponseDto;
 import com.solbangul.room.service.RoomService;
-import com.solbangul.user.domain.dto.AuthenticatedUserDto;
 import com.solbangul.user.domain.dto.CustomUserDetails;
+import com.solbangul.user.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,15 +21,15 @@ import lombok.extern.slf4j.Slf4j;
 public class MainController {
 
 	private final RoomService roomService;
+	private final UserService userService;
 
 	@GetMapping("/")
 	public String mainRoomList(Model model, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
-		AuthenticatedUserDto authenticatedUserDto = customUserDetails.getAuthenticatedUser();
-		model.addAttribute("user", authenticatedUserDto);
-
-		// 모든 room 출력
+		model.addAttribute("user", userService.findOne(customUserDetails.getId()));
 		List<RoomListResponseDto> list = roomService.findAll();
+
 		model.addAttribute("roomList", list);
+
 		for (RoomListResponseDto response : list) {
 			log.info("debug >>> room : {}", response);
 		}
