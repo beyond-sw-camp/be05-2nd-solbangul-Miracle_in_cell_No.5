@@ -22,12 +22,18 @@
 <form th:action="@{/mypage/update}" th:object="${user}" method="post" enctype="multipart/form-data">
     <!--    <label for="profileImage">Profile Image:</label>-->
     <!--    <input type="file" id="profileImage" name="profileImage">-->
-    <label for="nickname">Nickname:</label>
+    <label for="nickname">닉네임:</label>
     <input type="text" id="nickname" name="nickname" th:value="${user.nickname}"
            th:errorclass="field-error">
 
-    <!--    <label for="password">New Password:</label>-->
-    <!--    <input type="password" id="password" name="password">-->
+           <div class="form-floating mb-auto">
+            <label for="password" class="text-secondary">비밀번호:</label>
+            <input type="password" class="form-control" id="password" th:field="*{password}"
+                   th:errorclass="field-error" placeholder="비밀번호" required>
+            <div class="field-error text-sm-start small" th:errors="*{password}">
+                비밀번호 오류
+            </div>
+        </div>
     <button type="submit">저장</button>
 </form>
 <a href="/mypage">취소</a>

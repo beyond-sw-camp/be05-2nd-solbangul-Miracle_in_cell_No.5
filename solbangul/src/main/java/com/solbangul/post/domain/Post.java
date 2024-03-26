@@ -54,6 +54,7 @@ public class Post extends BaseTimeEntity {
 	// @Column(nullable = false)
 	private Boolean readYn;
 
+
 	@Builder
 	public Post(Room room, String title, Boolean publicYn, Boolean annonyYn, String content,
 		String writer, Category category, Boolean readYn) {

@@ -34,15 +34,17 @@ public class MypageService {
 			if (updateUserDto.getNickname() != null && !updateUserDto.getNickname().isEmpty()) {
 				user.setNickname(updateUserDto.getNickname());
 			}
-			// if (updateUserDto.getPassword() != null && !updateUserDto.getPassword().isEmpty()) {
-			// 	user.setPassword(passwordEncoder.encode(updateUserDto.getPassword()));
-			// }
+			if (updateUserDto.getPassword() != null && !updateUserDto.getPassword().isEmpty()) {
+				user.setPassword(passwordEncoder.encode(updateUserDto.getPassword()));
+			}
 			// 프로필 사진 변경 로직---> 이거잘 모르겠움...
 			// if (updateUserDto.getProfileImage() != null && !updateUserDto.getProfileImage().isEmpty()) {
 			//
 			// }
 		}
 	}
+
+
 
 	public List<Post> getMyPosts(String writer) {
 		return postRepository.findAllByWriter(writer);
