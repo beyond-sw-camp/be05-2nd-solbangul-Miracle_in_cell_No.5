@@ -9,17 +9,33 @@
         border-color: #dc3545;
         color: #dc3545;
     }
+
+    /* Style for circular profile picture */
+    .profile-picture {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
 </style>
 
 <main class="form-signin">
     <form th:action th:object="${user}" method="post" name="join" enctype="multipart/form-data">
         <img class="mb-4" src="/img/Hanwha_logo.svg" alt="" width="200" height="100">
 
-        <div>
+        <!-- Display selected image -->
+        <img id="selectedAvatar" th:src="|/images/basic.png|"
+             class="rounded-circle" style="width: 150px; height: 150px; object-fit: cover;" alt="example placeholder"/>
+
+        <hr>
+        <!-- Profile picture input -->
+        <div class="mb-3">
             <input type="file" name="multipartFile" accept="image/gif, image/png, image/jpeg, image/jpg"
-                   th:field="*{multipartFile}"
-                   class="form-label" id="profileImage">
+                   onchange="displaySelectedImage(event)"
+                   class="form-control" id="multipartFile">
+            <label for="multipartFile" class="form-label text-secondary">프로필 사진</label>
         </div>
+
 
         <div class="form-floating mb-3">
             <input type="text" class="form-control" id="name" th:field="*{name}"
@@ -106,7 +122,15 @@
 
         password.onchange = validatePassword;
         confirm_password.onkeyup = validatePassword;
+
+        // Function to display selected image
+        function displaySelectedImage(event) {
+            const selectedImage = document.getElementById('selectedAvatar');
+            selectedImage.style.display = 'block';
+            selectedImage.src = URL.createObjectURL(event.target.files[0]);
+        }
     </script>
+
 </main>
 <script src="/js/bootstrap.bundle.js"></script>
 <script src="/js/bootstrap.esm.js"></script>

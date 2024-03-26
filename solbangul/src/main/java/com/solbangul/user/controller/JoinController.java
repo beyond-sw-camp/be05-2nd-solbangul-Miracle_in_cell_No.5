@@ -119,6 +119,7 @@ public class JoinController {
 		JoinRequestUserDto joinRequestUserDto = new JoinRequestUserDto();
 
 		joinRequestUserDto.setEmail(emailRequestDto.getEmail());
+		joinRequestUserDto.setProfileImage("faee2f50-d7cf-42d5-9a65-c6269d0ec26b.png");
 		// joinRequestUserDto.setName(hanwhaUserRepository.findHanwhaUserByGitEmail(emailRequestDto.getEmail()).getName());
 		joinRequestUserDto.setName("테스트 유저");
 
@@ -135,7 +136,7 @@ public class JoinController {
 		if (joinService.isExistsByLoginId(joinRequestUserDto)) {
 			bindingResult.rejectValue("loginId", "unique", "중복되는 아이디 입니다.");
 		}
-		if (joinService.isExistsByNickname(joinRequestUserDto)) {
+		if (joinService.isExistsByNickname(joinRequestUserDto.getNickname())) {
 			bindingResult.rejectValue("nickname", "unique", "중복되는 닉네임 입니다.");
 		}
 		if (!joinRequestUserDto.getPassword().equals(joinRequestUserDto.getPasswordConfirm())) {

@@ -1,7 +1,5 @@
 package com.solbangul.post.comment.domain;
 
-import java.time.LocalDateTime;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -41,18 +39,11 @@ public class Comment extends BaseTimeEntity {
 	@Column(name = "comment_content", nullable = false)
 	private String content;
 
-	private LocalDateTime deleteTime;
-
-	@Column(nullable = false)
-	private Boolean deleteYn;
-
 	@Builder
-	public Comment(User user, Post post, String writer, String content, LocalDateTime deleteTime, Boolean deleteYn) {
+	public Comment(User user, Post post, String writer, String content) {
 		this.user = user;
 		this.post = post;
 		this.writer = writer;
 		this.content = content;
-		this.deleteTime = deleteTime;
-		this.deleteYn = deleteYn;
 	}
 }

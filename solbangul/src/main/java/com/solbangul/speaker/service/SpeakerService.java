@@ -50,7 +50,8 @@ public class SpeakerService {
 
 	public SpeakerDto getAnnouncement() {
 		return speakerRepository.findAll()
-			.stream().filter(speaker -> speaker.getStartTime().isBefore(speaker.getEndTime()))
+			.stream()
+			.filter(speaker -> speaker.getStartTime().isBefore(speaker.getEndTime()))
 			.map(speaker -> {
 				SpeakerDto speakerDto = new SpeakerDto();
 				speakerDto.setContent(speaker.getContent());

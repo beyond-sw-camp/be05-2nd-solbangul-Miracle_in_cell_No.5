@@ -12,7 +12,7 @@
 </style>
 
 <main class="form-signin">
-    <form th:action th:object="${mail}" method="post" name="join">
+    <form th:action th:object="${mail}" method="post" name="join" onsubmit="showLoadingAnimation()">
         <img class="mb-4" src="/img/Hanwha_logo.svg" alt="" width="200" height="100">
 
         <div class="form-floating mb-3">
@@ -33,7 +33,11 @@
             </div>
         </div>
 
-        <button class="w-100 btn btn-lg btn-primary" type="submit">이메일 인증 번호 발송</button>
+        <button class="w-100 btn btn-lg btn-primary" type="submit">
+            <span id="emailVerificationBtn">이메일 인증 번호 발송</span>
+            <span class="spinner-border spinner-border-sm d-none" id="loadingSpinner" role="status"
+                  aria-hidden="true"></span>
+        </button>
     </form>
     <hr>
     <p class="text-center text-muted mt-2 mb-0">이미 계정이 있으신가요?
@@ -41,8 +45,17 @@
 
     <div th:replace="~{fragments/footer :: footer}"></div>
 </main>
+
 <script src="/js/bootstrap.bundle.js"></script>
 <script src="/js/bootstrap.esm.js"></script>
 <script src="/js/bootstrap.js"></script>
+<script>
+    function showLoadingAnimation() {
+        // Show loading spinner
+        document.getElementById('loadingSpinner').classList.remove('d-none');
+        // Disable the button to prevent double submission
+        document.getElementById('emailVerificationBtn').disabled = true;
+    }
+</script>
 </body>
 </html>
