@@ -1,4 +1,4 @@
-package com.solbangul.user.controller;
+package com.solbangul.mainpage.controller;
 
 import java.util.List;
 
@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.solbangul.room.domain.dto.RoomListResponseDto;
 import com.solbangul.room.service.RoomService;
+import com.solbangul.speaker.domain.dto.SpeakerDto;
+import com.solbangul.speaker.service.SpeakerService;
 import com.solbangul.user.domain.dto.CustomUserDetails;
 import com.solbangul.user.service.UserService;
 
@@ -22,6 +24,7 @@ public class MainController {
 
 	private final RoomService roomService;
 	private final UserService userService;
+	private final SpeakerService speakerService;
 
 	@GetMapping("/")
 	public String mainRoomList(Model model, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
@@ -29,7 +32,9 @@ public class MainController {
 		List<RoomListResponseDto> list = roomService.findAll();
 
 		model.addAttribute("roomList", list);
-
+		SpeakerDto announcements = speakerService.getAnnouncement();
+		System.out.println("allAnnouncements = " + announcements);
+		model.addAttribute("announcements", announcements);
 		for (RoomListResponseDto response : list) {
 			log.info("debug >>> room : {}", response);
 		}

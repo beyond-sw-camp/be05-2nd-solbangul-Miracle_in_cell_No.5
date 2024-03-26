@@ -43,7 +43,7 @@ spring:
       max-file-size: 10MB
 
 file:
-  dir: /Users/sangcheol/image/
+  dir: /Users/leeyunjae/image/
 
 logging.level:
   org.hibernate.SQL: debug

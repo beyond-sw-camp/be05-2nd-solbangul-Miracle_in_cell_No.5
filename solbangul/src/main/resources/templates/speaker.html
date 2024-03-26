@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>확성기</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+</head>
+<body>
+<h1>확성기</h1>
+<form action="#" th:action th:object="${speakerDto}" method="post">
+    문구: <input type="text" th:field="*{content}"/><br/>
+    시작일시: <input type="text" th:field="*{startTime}" id="startDateTime"/><br/>
+    종료일시: <input type="text" th:field="*{endTime}" id="endDateTime"/><br/>
+    <button type="submit">등록</button>
+</form>
+<div th:if="${announcementMessage}">
+    <h2 th:text="${announcementMessage}"></h2>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.js"></script>
+<script>
+    $(function () {
+        $("#startDateTime, #endDateTime").datetimepicker({
+            dateFormat: 'yy-mm-dd',
+            controlType: 'select',
+            timeFormat: 'HH:mm',
+            showSecond: false, // 초 표시하지 않음
+            showMillisec: false, // 밀리초 표시하지 않음
+            showMicrosec: false, // 마이크로초 표시하지 않음
+            showTimezone: false, // 시간대 표시하지 않음
+        });
+
+        // 폼 서브밋 시 시작일시와 종료일시 값을 LocalDateTime 형식으로 변환
+        $("form").submit(function () {
+            var startDateTime = $("#startDateTime").datetimepicker("getDate");
+            var endDateTime = $("#endDateTime").datetimepicker("getDate");
+
+            // LocalDateTime 형식에 맞게 문자열 조합 (yyyy-MM-ddTHH:mm:ss)
+            $("input[name='startTime']").val(startDateTime.toISOString().slice(0, 16));
+            $("input[name='endTime']").val(endDateTime.toISOString().slice(0, 16));
+        });
+    });
+</script>
+</body>
+</html>

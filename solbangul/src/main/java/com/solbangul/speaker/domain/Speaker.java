@@ -14,8 +14,10 @@ import jakarta.persistence.ManyToOne;
 import com.solbangul.user.domain.User;
 
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Getter
 @NoArgsConstructor
 @Entity
 public class Speaker {
