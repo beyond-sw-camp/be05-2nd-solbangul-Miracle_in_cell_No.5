@@ -24,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Getter
+@Setter
 @Entity
 @Table(name = "users", uniqueConstraints = {
 	@UniqueConstraint(name = "users_login_id_unique", columnNames = {"login_id"})

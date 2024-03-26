@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>내가 쓴글</title>
+    
+</head>
+<body>
+<div class="container">
+    <h2>내가 쓴 글</h2>
+    <div th:if="${myPosts.empty}">
+        <p>작성한 글이 없습니다.</p>
+    </div>
+    <div th:if="${not myPosts.empty}">
+        <ul>
+            <li th:each="post : ${myPosts}">
+                <span th:text="${post.title}">Post Title</span>
+                
+                <a th:href="@{/post/view/{id}(id=${post.id})}">View</a>
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>
