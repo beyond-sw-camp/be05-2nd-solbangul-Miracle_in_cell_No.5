@@ -20,4 +20,9 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
 	@Query("select p from Post p where p.writer = :writer and p.room = :room and p.category = :category order by p.createdDate desc limit 1")
 	Post findLastPost(@Param("writer") String writer, @Param("room") Room room, @Param("category") Category category);
+
+	//경원 추가부분..
+	@Query("select p from Post p where p.writer = :writerId and p.deleteYn = false")
+    List<Post> findAllByWriter(@Param("writer") String writer);
+
 }
