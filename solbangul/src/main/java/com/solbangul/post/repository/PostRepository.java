@@ -25,4 +25,8 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 	@Query("select p from Post p where p.writer = :writer")
 	List<Post> findAllByWriter(@Param("writer") String writer);
 
+	// 조회수 증가
+	// @Query("update Post p set viewCnt=viewCnt+1 where ")
+	// void updateByCnt(@Param(""))
+
 }
