@@ -4,7 +4,13 @@
     <title>메인 페이지</title>
 </head>
 <body>
+
 <div th:object="${user}" class="form-signin text-center">
+    <h3><a th:href="@{/speaker}">확성기</a></h3>
+    <p>확성기 내용:</p>
+    <div th:each="a : ${announcements}">
+        <div th:text="${a.content}"></div>
+    </div>
     <h3>메인 페이지</h3>
     <img th:src="|/images/*{profileImage}|" width="100" height="100"/>
     <div th:text="*{role}"></div>
@@ -12,6 +18,7 @@
     <div th:text="*{name}"></div>
     <div th:text="*{gitEmail}"></div>
     <div th:text="*{createdDate}"></div>
+
     <form action="/logout" method="post">
         <!--<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
         <button class="w-100 btn btn-sm btn-primary" type="submit">로그아웃</button>
