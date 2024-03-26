@@ -26,8 +26,6 @@ public class PostsSaveRequestDto {
 
 	private String writer;
 
-	private Boolean deleteYn;
-
 	private Category category;
 
 	private Boolean readYn;
@@ -40,7 +38,6 @@ public class PostsSaveRequestDto {
 			.annonyYn(annonyYn)
 			.content(content)
 			.writer(writer)
-			.deleteYn(deleteYn)
 			.category(category)
 			.readYn(readYn)
 			.build();

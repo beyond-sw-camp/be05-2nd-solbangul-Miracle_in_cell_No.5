@@ -1,6 +1,6 @@
 package com.solbangul.post.service;
 
-import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,9 +53,9 @@ public class PostService {
 			addSolbangulSenderAndReceiver(post, receiverUser, senderUser);
 			return postRepository.save(post).getId();
 		}
-		LocalDateTime lastPostDateTime = lastPost.getCreatedDate();
 
-		if (!isWithin24Hours(lastPostDateTime)) {
+		LocalDateTime lastPostDateTime = lastPost.getCreatedDate();
+		if (!isLastPostToday(lastPostDateTime)) {
 			addSolbangulSenderAndReceiver(post, receiverUser, senderUser);
 		}
 
@@ -73,10 +73,8 @@ public class PostService {
 		senderUser.addSolbangul(WRITE_AMOUNT);
 	}
 
-	private static boolean isWithin24Hours(LocalDateTime lastPostDateTime) {
-		Duration duration = Duration.between(lastPostDateTime, LocalDateTime.now());
-		long betweenHour = duration.toHours();
-		return betweenHour < 24;
+	private static boolean isLastPostToday(LocalDateTime lastPostDateTime) {
+		return lastPostDateTime.toLocalDate().isEqual(LocalDate.now());
 	}
 
 	// 한 회원의 방

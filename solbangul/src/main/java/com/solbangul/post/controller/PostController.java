@@ -44,7 +44,6 @@ public class PostController {
 		User authenticatedUser = userService.findOne(userId);
 
 		requestDto.setWriter(authenticatedUser.getNickname());
-		requestDto.setDeleteYn(false);
 		requestDto.setReadYn(false);
 		requestDto.setRoomId(roomId);
 

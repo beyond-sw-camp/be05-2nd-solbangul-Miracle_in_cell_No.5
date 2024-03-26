@@ -4,14 +4,30 @@
     <title>마이페이지</title>
 </head>
 <body>
+<style>
+    .field-error {
+        border-color: #dc3545;
+        color: #dc3545;
+    }
+
+    /* Style for circular profile picture */
+    .profile-picture {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+</style>
 <h2>내 정보 수정</h2>
-<form th:action="@{/mypage/update}" method="post" enctype="multipart/form-data">
-    <label for="profileImage">Profile Image:</label>
-    <input type="file" id="profileImage" name="profileImage">
+<form th:action="@{/mypage/update}" th:object="${user}" method="post" enctype="multipart/form-data">
+    <!--    <label for="profileImage">Profile Image:</label>-->
+    <!--    <input type="file" id="profileImage" name="profileImage">-->
     <label for="nickname">Nickname:</label>
-    <input type="text" id="nickname" name="nickname" th:value="${user.nickname}">
-    <label for="password">New Password:</label>
-    <input type="password" id="password" name="password">
+    <input type="text" id="nickname" name="nickname" th:value="${user.nickname}"
+           th:errorclass="field-error">
+
+    <!--    <label for="password">New Password:</label>-->
+    <!--    <input type="password" id="password" name="password">-->
     <button type="submit">저장</button>
 </form>
 <a href="/mypage">취소</a>

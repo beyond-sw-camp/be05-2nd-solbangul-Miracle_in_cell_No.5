@@ -69,9 +69,9 @@ class PostServiceTest {
 	}
 
 	@Test
-	@DisplayName("같은 대상에게 같은 사람이 24시간 안으로 글을 작성했다면 solbangul이 보내는 사람 받는 사람 둘 다 오르지 않아야 한다.")
+	@DisplayName("같은 대상에게 같은 사람이 오늘 안으로 글을 작성했다면 solbangul이 보내는 사람 받는 사람 둘 다 오르지 않아야 한다.")
 	void addSolbangul24Hour() {
-		
+
 	}
 
 	private static PostsSaveRequestDto createPostDto(Long roomId, Category category, String content, String writer) {

@@ -26,8 +26,6 @@ public class PostViewResponseDto {
 
 	private String writer;
 
-	private Boolean deleteYn;
-
 	@Enumerated(EnumType.STRING)
 	private Category category;
 
@@ -39,7 +37,6 @@ public class PostViewResponseDto {
 		this.annonyYn = p.getAnnonyYn();
 		this.content = p.getContent();
 		this.writer = p.getWriter();
-		this.deleteYn = p.getDeleteYn();
 		this.category = p.getCategory();
 		this.readYn = p.getReadYn();
 	}

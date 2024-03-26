@@ -35,8 +35,8 @@ public class UserService {
 		return userRepository.existsByLoginId(joinRequestUserDto.getLoginId());
 	}
 
-	public boolean isExistsByNickname(JoinRequestUserDto joinRequestUserDto) {
-		return userRepository.existsByNickname(joinRequestUserDto.getNickname());
+	public boolean isExistsByNickname(String nickname) {
+		return userRepository.existsByNickname(nickname);
 	}
 
 	public boolean isEmailAlreadyExists(EmailRequestDto email) {

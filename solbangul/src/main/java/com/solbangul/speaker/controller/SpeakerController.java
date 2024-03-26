@@ -1,6 +1,5 @@
 package com.solbangul.speaker.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,17 +11,15 @@ import com.solbangul.speaker.domain.dto.SpeakerDto;
 import com.solbangul.speaker.service.SpeakerService;
 import com.solbangul.user.domain.dto.CustomUserDetails;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@RequiredArgsConstructor
 @Controller
 public class SpeakerController {
-	private final SpeakerService speakerService;
 
-	@Autowired
-	public SpeakerController(SpeakerService speakerService) {
-		this.speakerService = speakerService;
-	}
+	private final SpeakerService speakerService;
 
 	@GetMapping("/speaker")
 	public String speakerMain(Model model) { // speaker.html로 이동하기
