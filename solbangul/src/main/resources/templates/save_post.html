@@ -2,7 +2,18 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>글쓰기</title>
+    <!-- 부트스트랩 CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .custom-container {
+            max-width: 600px;
+            overflow-y: auto; /* 수직 스크롤바 활성화 */
+            margin: auto; /* 컨테이너를 가운데 정렬 */
+            padding: 20px; /* 더 나은 외관을 위한 패딩 추가 */
+        }
+    </style>
     <script>
         function validateForm() {
             var title = document.getElementById("title").value;
@@ -17,34 +28,63 @@
     </script>
 </head>
 <body>
-<form th:action="@{'/room/'+${room_id}+'/post/save'}" th:object="${posts}" method="post">
-    <label for="title">Title:</label><br>
-    <input type="text" id="title" name="title" th:field="*{title}"><br>
-    <!--        공개비공개-->
-    <label for="publicYn">Public:</label><br>
-    <input type="checkbox" id="publicYn" th:field="*{publicYn}" th:checked="${posts.publicYn}"
-           cam-variable-type="Boolean"><br>
-    <!--        익명-->
-    <label for="annonyYn">Anonymous:</label><br>
-    <input type="checkbox" id="annonyYn" th:field="*{annonyYn}" th:checked="${posts.annonyYn}"
-           cam-variable-type="Boolean"><br>
+<div class="container custom-container">
+    <h1 class="mt-5">글쓰기</h1>
+    <hr>
+    <form th:action="@{'/room/' + ${room_id} + '/post/save'}" th:object="${post}" method="post">
+        <div class="form-group">
+            <label for="title"><strong>제목</strong></label>
+            <input type="text" class="form-control" id="title" th:field="*{title}" placeholder="글의 제목을 입력하세요">
+        </div>
+        <div class="form-group">
+            <label for="authorName"><strong>작성자</strong></label>
+            <input type="text" class="form-control" id="authorName" th:field="*{writer}" readonly>
+        </div>
 
-    <label for="content">Content:</label><br>
-    <textarea id="content" name="content" th:field="*{content}"></textarea><br>
+        <div class="form-group">
+            <label for="content"><strong>내용</strong></label>
+            <textarea class="form-control" id="content" rows="6" th:field="*{content}"
+                      placeholder="글을 작성하세요"></textarea>
+        </div>
 
-    <label for="category">Category:</label><br>
-    <select id="category" name="category">
-        <option value="CLAIMS" th:field="*{category}">Claims</option>
-        <option value="COMPLIMENT" th:field="*{category}">Compliment</option>
-        <option value="FREE" th:field="*{category}">Free</option>
-    </select><br>
+        <div class="form-group">
+            <label for="publicYn"><strong>익명 여부:</strong></label>
+            <input type="checkbox" id="publicYn" th:field="*{publicYn}" th:checked="*{publicYn}"
+                   cam-variable-type="Boolean"
+                   checked><br>
+        </div>
+        <!--        익명-->
+        <div class="form-group">
+            <label for="annonyYn"><strong>공개 여부:</strong></label>
+            <input type="checkbox" id="annonyYn" th:field="*{annonyYn}" th:checked="*{annonyYn}"
+                   cam-variable-type="Boolean"
+                   checked><br>
+        </div>
 
-    <div class="col-xs-4">
-        <button type="submit" class="btn btn-primary btn-block btn-flat" onclick="return validateForm()">글쓰기</button>
-        <button><a th:href="'/room/'+${room_id}+'/view'">←</a></button>
-    </div>
-</form>
 
+        <div class="form-group">
+            <label for="category"><strong>카테고리:</strong></label>
+            <select id="category" name="category" class="form-control">
+                <option value="CLAIMS" th:field="*{category}">Claims</option>
+                <option value="COMPLIMENT" th:field="*{category}">Compliment</option>
+                <option value="FREE" th:field="*{category}">Free</option>
+            </select>
+        </div>
+
+        <div class="form-row">
+            <div class="col-2">
+                <button type="submit" class="btn btn-primary">글 작성</button>
+            </div>
+            <div class="col-3">
+                <button type="button" class="btn btn-secondary"
+                        onclick="return validateForm()"
+                        th:href="'/room/' + ${room_id} + '/view'">취소
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 </body>
 </html>
