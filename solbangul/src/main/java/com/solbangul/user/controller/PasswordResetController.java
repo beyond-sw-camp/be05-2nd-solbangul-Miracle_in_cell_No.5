@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,11 +12,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.solbangul.hanwhauser.repository.HanwhaUserRepository;
 import com.solbangul.user.domain.Role;
-import com.solbangul.user.domain.dto.JoinRequestUserDto;
+import com.solbangul.user.domain.dto.PasswordResetDto;
+import com.solbangul.user.domain.dto.PasswordResetUserDto;
 import com.solbangul.user.mail.dto.EmailRequestDto;
 import com.solbangul.user.mail.service.MailSendService;
 import com.solbangul.user.service.UserService;
@@ -24,62 +24,59 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@RequestMapping("/join")
+@RequestMapping("/password")
 @RequiredArgsConstructor
 @Controller
-public class JoinController {
+public class PasswordResetController {
 
 	private final UserService userService;
+	private final PasswordEncoder passwordEncoder;
 	private final MailSendService mailService;
-	private final HanwhaUserRepository hanwhaUserRepository;
 
-	@GetMapping("/step1") // TODO: JoinValidator로 검증 로직 분리
-	public String joinStep1Form(Model model, HttpServletRequest request) {
+	@GetMapping("/step1")
+	public String passwordStep1Form(Model model, HttpServletRequest request) {
 		if (isAlreadyLoggedIn(request)) {
 			return "redirect:/";
 		}
 
 		model.addAttribute("mail", new EmailRequestDto());
 
-		return "join/step1";
+		return "password/step1";
 	}
 
 	@PostMapping("/step1")
 	public String mailSend(@Valid @ModelAttribute("mail") EmailRequestDto emailRequestDto, BindingResult bindingResult,
 		HttpSession session) {
 
-		// if (joinService.isEmailAlreadyExists(emailRequestDto)) {
-		// 	bindingResult.rejectValue("email", "unique", "이메일이 이미 존재합니다.");
-		// }
-		// if (!isHanwhaUser(emailRequestDto)) {
-		// 	bindingResult.rejectValue("email", "hanwha", "한화 SW교육 5기생만 가입 가능합니다.");
-		// }
+		if (!userService.isEmailAlreadyExists(emailRequestDto)) {
+			bindingResult.rejectValue("email", "unique", "가입된 이메일이 존재하지 않습니다.");
+		}
 
 		if (bindingResult.hasErrors()) {
-			return "join/step1";
+			return "password/step1";
 		}
 
 		mailService.sendEmailForJoin(emailRequestDto.getEmail());
 		log.info("이메일 인증 메일 발송, 이메일={}", emailRequestDto.getEmail());
 
 		session.setAttribute("emailRequestDto", emailRequestDto);
-		return "redirect:/join/step2";
+		return "redirect:/password/step2";
 	}
 
 	@GetMapping("/step2")
-	public String joinStep2Form(Model model, HttpServletRequest request) {
+	public String passwordStep2Form(Model model, HttpServletRequest request) {
 		if (isAlreadyLoggedIn(request)) {
 			return "redirect:/";
 		}
 
 		EmailRequestDto emailRequestDto = getEmailRequestDtoOnSession(request);
 		if (emailRequestDto == null) {
-			return "redirect:/join/step1";
+			return "redirect:/password/step1";
 		}
 
 		model.addAttribute("mail", emailRequestDto);
 
-		return "join/step2";
+		return "password/step2";
 	}
 
 	@PostMapping("/step2")
@@ -90,64 +87,53 @@ public class JoinController {
 		}
 
 		if (bindingResult.hasErrors()) {
-			return "join/step2";
+			return "password/step2";
 		}
 
 		log.info("이메일 인증 완료, 이메일={}", emailRequestDto.getEmail());
 		session.setAttribute("emailRequestDto", emailRequestDto);
-		return "redirect:/join/step3";
+		return "redirect:/password/step3";
 	}
 
 	@GetMapping("/step3")
-	public String joinStep3Form(Model model, HttpServletRequest request) {
+	public String passwordStep3Form(Model model, HttpServletRequest request) {
 		if (isAlreadyLoggedIn(request)) {
 			return "redirect:/";
 		}
 
 		EmailRequestDto emailRequestDto = getEmailRequestDtoOnSession(request);
 		if (emailRequestDto == null) {
-			return "redirect:/join/step1";
+			return "redirect:/password/step1";
 		}
 
-		JoinRequestUserDto joinRequestUserDto = new JoinRequestUserDto();
-		joinRequestUserDto.setEmail(emailRequestDto.getEmail());
-		joinRequestUserDto.setProfileImage("basic.png");
-		// joinRequestUserDto.setName(hanwhaUserRepository.findHanwhaUserByGitEmail(emailRequestDto.getEmail()).getName());
-		joinRequestUserDto.setName("테스트 유저");
+		model.addAttribute("user", new PasswordResetDto());
 
-		model.addAttribute("user", joinRequestUserDto);
-
-		return "join/step3";
+		return "password/step3";
 	}
 
 	@PostMapping("/step3")
-	public String joinStep3(@Valid @ModelAttribute("user") JoinRequestUserDto joinRequestUserDto,
-		BindingResult bindingResult, HttpSession session,
-		RedirectAttributes redirectAttributes) {
+	public String passwordStep3(@Valid @ModelAttribute("user") PasswordResetDto passwordResetDto,
+		BindingResult bindingResult, HttpSession session) {
 
-		if (getEmailRequestDtoOnSession(session) == null) {
-			return "redirect:/join/step1";
+		EmailRequestDto emailRequestDtoOnSession = getEmailRequestDtoOnSession(session);
+		if (emailRequestDtoOnSession == null) {
+			return "redirect:/password/step1";
 		}
+		PasswordResetUserDto userDto = userService.findUserByEmail(emailRequestDtoOnSession.getEmail());
+		log.info("userDto={}", userDto.getId());
 
-		if (userService.isExistsByLoginId(joinRequestUserDto)) {
-			bindingResult.rejectValue("loginId", "unique", "중복되는 아이디 입니다.");
-		}
-		if (userService.isExistsByNickname(joinRequestUserDto.getNickname())) {
-			bindingResult.rejectValue("nickname", "unique", "중복되는 닉네임 입니다.");
-		}
-		if (!joinRequestUserDto.getPassword().equals(joinRequestUserDto.getPasswordConfirm())) {
-			bindingResult.rejectValue("passwordConfirm", "confirm", "비밀번호가 일치하지 않습니다.");
+		if (!passwordResetDto.getResetPassword().equals(passwordResetDto.getConfirmResetPassword())) {
+			bindingResult.rejectValue("confirmResetPassword", "confirm",
+				"비밀번호가 일치하지 않습니다.");
 		}
 
 		if (bindingResult.hasErrors()) {
-			return "join/step3";
+			return "password/step3";
 		}
 
-		userService.join(joinRequestUserDto);
-		log.info("{} 회원가입 완료", joinRequestUserDto.getName());
+		userService.updatePassword(userDto.getId(), passwordResetDto.getResetPassword());
 		session.removeAttribute("emailRequestDto");
 
-		redirectAttributes.addAttribute("status", true);
 		return "redirect:/login";
 	}
 
@@ -161,10 +147,6 @@ public class JoinController {
 
 	private static EmailRequestDto getEmailRequestDtoOnSession(HttpSession session) {
 		return (EmailRequestDto)session.getAttribute("emailRequestDto");
-	}
-
-	private boolean isHanwhaUser(EmailRequestDto emailRequestDto) {
-		return hanwhaUserRepository.existsHanwhaUserByGitEmail(emailRequestDto.getEmail());
 	}
 
 	private boolean isAlreadyLoggedIn(HttpServletRequest request) {

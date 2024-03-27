@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="~{fragments/header :: header}">
+    <title>회원가입</title>
+</head>
+<body class="text-center">
+<style>
+    .field-error {
+        border-color: #dc3545;
+        color: #dc3545;
+    }
+
+    /* Style for circular profile picture */
+    .profile-picture {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+</style>
+
+<main class="form-signin">
+    <form th:action th:object="${user}" method="post" name="join" enctype="multipart/form-data">
+        <img class="mb-4" src="/img/Hanwha_logo.svg" alt="" width="200" height="100">
+
+        <div class="form-floating mb-auto">
+            <input type="password" class="form-control" id="resetPassword" th:field="*{resetPassword}"
+                   th:errorclass="field-error" placeholder="변경할 비밀번호" required>
+            <label for="resetPassword" class="text-secondary">변경할 비밀번호</label>
+            <div class="field-error text-sm-start small" th:errors="*{resetPassword}">
+                비밀번호 변경 오류
+            </div>
+        </div>
+
+        <div class="form-floating mb-auto">
+            <input type="password" class="form-control" id="confirmResetPassword" th:field="*{confirmResetPassword}"
+                   th:errorclass="field-error" placeholder="변경할 비밀번호 확인" required>
+            <label for="confirmResetPassword" class="text-secondary">변경할 비밀번호 확인</label>
+            <div class="field-error text-sm-start small" th:errors="*{confirmResetPassword}">
+                비밀번호 변경 확인 오류
+            </div>
+        </div>
+
+        <button class="w-100 btn btn-lg btn-primary" type="submit">비밀번호 번경</button>
+    </form>
+    <hr>
+    <p class="text-center text-muted mt-2 mb-0">이미 계정이 있으신가요?
+        <a href="/login" class="fw-bold text-body"><u>로그인</u></a></p>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <script>
+        const password = document.getElementById("password")
+            , confirm_password = document.getElementById("passwordConfirm");
+
+        function validatePassword() {
+            if (password.value !== confirm_password.value) {
+                confirm_password.setCustomValidity("비밀번호가 일치하지 않습니다.");
+            } else {
+                confirm_password.setCustomValidity(''); // 오류가 없으면 메시지를 빈 문자열로 설정해야한다. 오류 메시지가 비어 있지 않은 한 양식은 유효성 검사를 통과하지 않고 제출되지 않는다.
+            }
+        }
+
+        password.onchange = validatePassword;
+        confirm_password.onkeyup = validatePassword;
+
+        // Function to display selected image
+        function displaySelectedImage(event) {
+            const selectedImage = document.getElementById('selectedAvatar');
+            selectedImage.style.display = 'block';
+            selectedImage.src = URL.createObjectURL(event.target.files[0]);
+        }
+    </script>
+
+</main>
+<script src="/js/bootstrap.bundle.js"></script>
+<script src="/js/bootstrap.esm.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="https://kit.fontawesome.com/bdbb2968c3.js" crossorigin="anonymous"></script>
+</body>
+</html>
