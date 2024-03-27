@@ -31,6 +31,9 @@ public class PostViewResponseDto {
 
 	private Boolean readYn;
 
+	//경원 수정부분...
+	private Integer viewCount;
+
 	public PostViewResponseDto(Post p) {
 		this.title = p.getTitle();
 		this.publicYn = p.getPublicYn();
@@ -39,6 +42,7 @@ public class PostViewResponseDto {
 		this.writer = p.getWriter();
 		this.category = p.getCategory();
 		this.readYn = p.getReadYn();
+		this.viewCount = p.getViewCount();
 	}
 
 }
