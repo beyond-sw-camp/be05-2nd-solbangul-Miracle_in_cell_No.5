@@ -2,6 +2,7 @@ package com.solbangul.post.comment.controller;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,6 +43,14 @@ public class CommentController {
 
 		Long commentId = commentService.save(commentSaveDto);
 
+		return "redirect:/room/" + roomId + "/post/" + postId + "/view";
+	}
+
+	@GetMapping("/room/{roomId}/post/{postId}/comment/{commentId}/delete")
+	public String deleteComment(@PathVariable("roomId") Long roomId,
+		@PathVariable("postId") Long postId,
+		@PathVariable("commentId") Long commentId) {
+		commentRepository.deleteById(commentId);
 		return "redirect:/room/" + roomId + "/post/" + postId + "/view";
 	}
 }
