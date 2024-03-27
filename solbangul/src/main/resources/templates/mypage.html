@@ -2,18 +2,21 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>마이페이지</title>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/signin.css"/>
 </head>
 <body>
-<h2>마이페이지</h2>
-<div>
-    <h3>내 정보</h3>
+<div class="form-signin">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
+    <h2>마이페이지</h2>
     <div>
         <img th:if="${user.profileImage}" th:src="@{'/images/' + ${user.profileImage}}" alt="Profile Image" width="100"
              height="100">
-        <a href="/mypage/profileImgEdit" class="edit-btn">프로필사진 수정</a> 
+        <a href="/mypage/profileImgEdit" class="edit-btn">프로필사진 수정</a>
     </div>
     <p>이름 : <span th:text="${user.name}">Name</span></p>
-    <p>닉네임 : <span th:text="${user.nickname}">Nickname</span> <a href="/mypage/nicknameEdit" class="edit-btn">닉네임 수정</a></p> 
+    <p>닉네임 : <span th:text="${user.nickname}">Nickname</span> <a href="/mypage/nicknameEdit" class="edit-btn">닉네임 수정</a>
+    </p>
     <p>깃허브 이메일 : <span th:text="${user.gitEmail}">Email</span></p>
     <p>가입일자 : <span th:text="${user.createdDate}">CreatedDate</span></p>
     <a href="/mypage/pwdEdit" class="edit-btn">비밀번호 수정</a>

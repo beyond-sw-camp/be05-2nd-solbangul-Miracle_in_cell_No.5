@@ -1,8 +1,5 @@
 package com.solbangul.post.domain.dto;
 
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-
 import com.solbangul.post.domain.Category;
 import com.solbangul.post.domain.Post;
 
@@ -14,15 +11,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class PostEditRequestDto {
+
 	private String title;
-
 	private Boolean publicYn;
-
 	private Boolean annonyYn;
-
 	private String content;
-
-	@Enumerated(EnumType.STRING)
 	private Category category;
 
 	public PostEditRequestDto(Post p) {

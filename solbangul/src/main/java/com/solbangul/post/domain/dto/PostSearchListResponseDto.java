@@ -12,9 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class PostSearchListResponseDto {
 	private Long id;
-
 	private String title;
-
 	private Category category;
 
 	public PostSearchListResponseDto(Post p) {

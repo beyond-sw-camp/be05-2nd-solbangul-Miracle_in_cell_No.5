@@ -28,14 +28,10 @@ public class MainController {
 	@GetMapping("/")
 	public String mainRoomList(Model model, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
 		model.addAttribute("user", userService.findOne(customUserDetails.getId()));
-		List<RoomListResponseDto> list = roomService.findAll();
+		List<RoomListResponseDto> rooms = roomService.findAll();
 
-		model.addAttribute("roomList", list);
-		String speakerContent = speakerService.getSpeakerContent();
-		model.addAttribute("speakerContent", speakerContent);
-		for (RoomListResponseDto response : list) {
-			log.info("debug >>> room : {}", response);
-		}
+		model.addAttribute("roomList", rooms);
+		model.addAttribute("speakerContent", speakerService.getSpeakerContent());
 		return "main";
 	}
 }

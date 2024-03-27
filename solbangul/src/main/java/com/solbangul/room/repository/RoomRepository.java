@@ -9,7 +9,6 @@ import com.solbangul.room.domain.Room;
 
 public interface RoomRepository extends JpaRepository<Room, Long> {
 
-	@Override
 	@Query("select r from Room r join fetch r.user")
-	List<Room> findAll();
+	List<Room> findAllWithUser();
 }

@@ -32,30 +32,23 @@ public class Post extends BaseTimeEntity {
 	@JoinColumn(name = "room_id") // foreign key 설정
 	private Room room;
 
-	// @Column(nullable = false)
 	private String title;
 
-	// @Column(nullable = false)
 	private Boolean publicYn;
 
-	// @Column(nullable = false)
 	private Boolean annonyYn;
 
 	@Column(name = "post_content")
 	private String content;
 
-	// @Column(nullable = false)
 	private String writer;
 
-	// @Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Category category;
 
-	// @Column(nullable = false)
 	private Boolean readYn;
 
 	private Integer viewCount;
-
 
 	@Builder
 	public Post(Room room, String title, Boolean publicYn, Boolean annonyYn, String content,

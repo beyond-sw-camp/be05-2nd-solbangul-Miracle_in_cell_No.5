@@ -4,7 +4,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,7 +29,6 @@ import lombok.extern.slf4j.Slf4j;
 public class PasswordResetController {
 
 	private final UserService userService;
-	private final PasswordEncoder passwordEncoder;
 	private final MailSendService mailService;
 
 	@GetMapping("/step1")

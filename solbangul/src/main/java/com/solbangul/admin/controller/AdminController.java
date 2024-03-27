@@ -23,20 +23,17 @@ public class AdminController {
 
 	@GetMapping
 	public String viewAllPosts(Model model) {
+		List<Post> posts = postRepository.findAll();
+		model.addAttribute("posts", posts);
 
-        List<Post> allposts = postRepository.findAll();
-        model.addAttribute("posts", allposts);
-        
-        return "admin";
-    }
+		return "admin";
+	}
 
-
-    @PostMapping("/admin/delete")
-    public String deleteByAdmin(@RequestParam("postId") Long postId) {
-        postRepository.deleteById(postId);
-        return "redirect:/admin";
-    }
-    
+	@PostMapping("/delete")
+	public String deleteByAdmin(@RequestParam("postId") Long postId) {
+		postRepository.deleteById(postId);
+		return "redirect:/admin";
+	}
 
 }
 
