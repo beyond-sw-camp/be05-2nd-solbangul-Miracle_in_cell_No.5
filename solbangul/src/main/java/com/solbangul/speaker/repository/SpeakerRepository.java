@@ -4,12 +4,15 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.Query;
 
 import com.solbangul.speaker.domain.Speaker;
 
-@Repository
 public interface SpeakerRepository extends JpaRepository<Speaker, Long> {
-	List<Speaker> findAllByStartTimeBeforeAndEndTimeAfter(LocalDateTime startTime,
-		LocalDateTime endTime);
+
+	@Query("select s.content from Speaker s where NOW() between s.startTime and s.endTime")
+	String findSpeakerForCurrentTime();
+
+	@Query("select s.startTime from Speaker s where NOW() < s.endTime")
+	List<LocalDateTime> findReservedSpeakers();
 }

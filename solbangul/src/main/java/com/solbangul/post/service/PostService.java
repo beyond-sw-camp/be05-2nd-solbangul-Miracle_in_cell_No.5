@@ -120,7 +120,7 @@ public class PostService {
 	}
 
 	@Transactional
-	public void updateViewCntById(Long id){
-		postRepository.updateByCnt(id);
+	public void updateViewCountById(Long id) {
+		postRepository.updateByCount(id);
 	}
 }

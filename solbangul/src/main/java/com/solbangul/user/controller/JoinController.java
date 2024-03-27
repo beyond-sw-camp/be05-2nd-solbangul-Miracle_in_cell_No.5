@@ -72,11 +72,7 @@ public class JoinController {
 			return "redirect:/";
 		}
 
-		HttpSession session = request.getSession(false);
-		if (session == null) {
-			return "redirect:/join/step1";
-		}
-		EmailRequestDto emailRequestDto = (EmailRequestDto)session.getAttribute("emailRequestDto");
+		EmailRequestDto emailRequestDto = getEmailRequestDtoOnSession(request);
 		if (emailRequestDto == null) {
 			return "redirect:/join/step1";
 		}
@@ -108,16 +104,12 @@ public class JoinController {
 			return "redirect:/";
 		}
 
-		HttpSession session = request.getSession(false);
-		if (session == null) {
-			return "redirect:/join/step1";
-		}
-		EmailRequestDto emailRequestDto = (EmailRequestDto)session.getAttribute("emailRequestDto");
+		EmailRequestDto emailRequestDto = getEmailRequestDtoOnSession(request);
 		if (emailRequestDto == null) {
 			return "redirect:/join/step1";
 		}
-		JoinRequestUserDto joinRequestUserDto = new JoinRequestUserDto();
 
+		JoinRequestUserDto joinRequestUserDto = new JoinRequestUserDto();
 		joinRequestUserDto.setEmail(emailRequestDto.getEmail());
 		joinRequestUserDto.setProfileImage("faee2f50-d7cf-42d5-9a65-c6269d0ec26b.png");
 		// joinRequestUserDto.setName(hanwhaUserRepository.findHanwhaUserByGitEmail(emailRequestDto.getEmail()).getName());
@@ -132,6 +124,11 @@ public class JoinController {
 	public String joinStep3(@Valid @ModelAttribute("user") JoinRequestUserDto joinRequestUserDto,
 		BindingResult bindingResult, HttpSession session,
 		RedirectAttributes redirectAttributes) {
+
+		if (getEmailRequestDtoOnSession(session) == null) {
+			log.info("포스트맨 공격");
+			return "redirect:/join/step1";
+		}
 
 		if (joinService.isExistsByLoginId(joinRequestUserDto)) {
 			bindingResult.rejectValue("loginId", "unique", "중복되는 아이디 입니다.");
@@ -153,6 +150,22 @@ public class JoinController {
 
 		redirectAttributes.addAttribute("status", true);
 		return "redirect:/login";
+	}
+
+	private static EmailRequestDto getEmailRequestDtoOnSession(HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		if (session == null) {
+			return null;
+		}
+		return getEmailRequestDtoOnSession(session);
+	}
+
+	private static EmailRequestDto getEmailRequestDtoOnSession(HttpSession session) {
+		EmailRequestDto emailRequestDto = (EmailRequestDto)session.getAttribute("emailRequestDto");
+		if (emailRequestDto == null) {
+			return null;
+		}
+		return emailRequestDto;
 	}
 
 	private boolean isHanwhaUser(EmailRequestDto emailRequestDto) {
