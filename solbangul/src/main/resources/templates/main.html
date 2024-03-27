@@ -7,10 +7,11 @@
 
 <div th:object="${user}" class="form-signin text-center">
     <h3><a th:href="@{/speaker}">확성기</a></h3>
-    <p>확성기 내용:</p>
-    <div th:each="a : ${announcements}">
-        <div th:text="${a.content}"></div>
-    </div>
+
+    <h5>확성기 내용:</h5>
+    <div th:text="${speakerContent}"></div>
+    <hr>
+
     <h3>메인 페이지</h3>
     <img th:src="|/images/*{profileImage}|" width="100" height="100"/>
     <div th:text="*{role}"></div>

@@ -1,7 +1,9 @@
 package com.solbangul.speaker.service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,45 +22,40 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class SpeakerService {
+
 	private final SpeakerRepository speakerRepository;
 	private final UserRepository userRepository;
 
-	@Transactional
-	public boolean saveAnnouncement(SpeakerDto speakerDto) {
-		User user = userRepository.findByLoginId(speakerDto.getLoginId());
-		try {
-			Speaker speaker = Speaker.builder()
-				.startTime(speakerDto.getStartTime())
-				.endTime(speakerDto.getEndTime())
-				.content(speakerDto.getContent())
-				.user(user)
-				.build();
+	public String getSpeakerContent() {
+		return speakerRepository.findSpeakerForCurrentTime();
+	}
 
+	public List<LocalDateTime> findReservedSpeakers() {
+		return speakerRepository.findReservedSpeakers();
+	}
+
+	@Transactional
+	public boolean saveSpeaker(SpeakerDto speakerDto) {
+		User user = userRepository.findByLoginId(speakerDto.getLoginId());
+		LocalDateTime startTime = getLocalDateTime(speakerDto);
+		Speaker speaker = Speaker.builder()
+			.startTime(startTime)
+			.endTime(startTime.plusMinutes(30))
+			.content(speakerDto.getContent())
+			.user(user)
+			.build();
+
+		if (user.subSolbangul(10)) {
 			speakerRepository.save(speaker);
 			return true;
-		} catch (Exception e) {
-			log.error("Failed to save announcement", e);
+		} else {
 			return false;
 		}
 	}
 
-	public List<String> getAllAnnouncements() {
-		return speakerRepository.findAll().stream()
-			.map(Speaker::getContent)
-			.collect(Collectors.toList());
-	}
-
-	public SpeakerDto getAnnouncement() {
-		return speakerRepository.findAll()
-			.stream()
-			.filter(speaker -> speaker.getStartTime().isBefore(speaker.getEndTime()))
-			.map(speaker -> {
-				SpeakerDto speakerDto = new SpeakerDto();
-				speakerDto.setContent(speaker.getContent());
-				speakerDto.setStartTime(speaker.getStartTime());
-				speakerDto.setEndTime(speaker.getEndTime());
-				return speakerDto;
-			})
-			.findFirst().orElse(null);
+	private static LocalDateTime getLocalDateTime(SpeakerDto speakerDto) {
+		LocalDate reservationDate = speakerDto.getReservationDate();
+		LocalTime reservationTime = speakerDto.getReservationTime();
+		return LocalDateTime.of(reservationDate, reservationTime);
 	}
 }
