@@ -49,6 +49,7 @@ public class RoomController {
 		return "main";
 	}
 
+	// 해당 룸이 내 룸인가 다른 사람 룸인가
 	@GetMapping("/{room_id}/view")
 	public String viewRoom(@PathVariable(name = "room_id") Long id, Model model,
 		@AuthenticationPrincipal CustomUserDetails customUserDetails) {
@@ -89,10 +90,12 @@ public class RoomController {
 
 	@GetMapping("/{room_id}/search")
 	public String search(@PathVariable(name = "room_id") Long id,
-		@RequestParam(value = "keyword", defaultValue = "") String keyword, Model model,
+		@RequestParam(value = "keyword", defaultValue = "") String keyword,
+		@RequestParam(value = "categorySearch", defaultValue = "") String categorySearch,
+		Model model,
 		@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 
-		Page<PostSearchListResponseDto> postDtos = postService.search(keyword, pageable);
+		Page<PostSearchListResponseDto> postDtos = postService.search(keyword, categorySearch, pageable);
 		List<PostSearchListResponseDto> postList = postDtos.getContent();
 		int totalPages = postDtos.getTotalPages();  // 총 페이지 수 얻기
 
@@ -103,6 +106,7 @@ public class RoomController {
 		model.addAttribute("previous", pageable.previousOrFirst().getPageNumber());
 		model.addAttribute("next", pageable.next().getPageNumber());
 		model.addAttribute("keyword", keyword);
+		model.addAttribute("categorySearch", categorySearch);
 
 		return "view_search_postList";
 	}

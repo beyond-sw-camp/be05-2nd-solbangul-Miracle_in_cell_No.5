@@ -19,7 +19,7 @@ import com.solbangul.room.domain.Room;
 import io.lettuce.core.dynamic.annotation.Param;
 
 @Repository
-public interface PostRepository extends JpaRepository<Post, Long> {
+public interface PostRepository extends JpaRepository<Post, Long>, JpaSpecificationExecutor<Post> {
 
 	@Query("select p from Post p where p.room.id = :roomId")
 	List<Post> findPostsByRoomId(@Param("roomId") Long roomId);

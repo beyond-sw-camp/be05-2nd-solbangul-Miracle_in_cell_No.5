@@ -14,53 +14,64 @@
 <form th:action="'/room/'+${room_id}+'/search'" method="GET">
     <div class="btn-group" role="group" aria-label="Basic example">
         <input name="keyword" type="text" placeholder="검색어를 입력해주세요" th:value="${keyword}">
+        <select name="categorySearch" th:value="${categorySearch}">
+            <option value="" th:selected="${categorySearch == ''}">all</option>
+            <option value="claims" th:selected="${categorySearch == 'claims'}">claims</option>
+            <option value="compliment" th:selected="${categorySearch == 'compliment'}">compliment</option>
+            <option value="free" th:selected="${categorySearch == 'free'}">free</option>
+        </select>
         <button class="btn btn-secondary">검색</button>
     </div>
 </form>
 
-<div>
-    <ul th:each="post : ${postList}">
-        <li th:switch="${post.category.toString()}">
-        <span th:case="'CLAIMS'">
-            <a th:style="'color: #DB4455'"
-               th:href="'/room/'+${room_id}+'/post/'+${post.getId()}+'/view'"
-               th:text="${post.getTitle()}"></a>
-        </span>
-            <span th:case="'COMPLIMENT'">
-            <a th:style="'color: #4491DB'"
-               th:href="'/room/'+${room_id}+'/post/'+${post.getId()}+'/view'"
-               th:text="${post.getTitle()}"></a>
-        </span>
-            <span th:case="'FREE'">
-            <a th:style="'color: #95999E'"
-               th:href="'/room/'+${room_id}+'/post/'+${post.getId()}+'/view'"
-               th:text="${post.getTitle()}"></a>
-        </span>
-        </li>
-        
-    </ul>
+<div th:if="${postList.size()==0}">
+    아직 글이 존재하지 않습니다.
 </div>
+<div th:if="${postList.size()!=0}">
+    <div>
+        <ul th:each="post : ${postList}">
+            <li th:switch="${post.category.toString()}">
+                <span th:case="'CLAIMS'">
+                    <a th:style="'color: #DB4455'"
+                       th:href="'/room/'+${room_id}+'/post/'+${post.getId()}+'/view'"
+                       th:text="${post.getTitle()}"></a>
+                </span>
+                <span th:case="'COMPLIMENT'">
+                    <a th:style="'color: #4491DB'"
+                       th:href="'/room/'+${room_id}+'/post/'+${post.getId()}+'/view'"
+                       th:text="${post.getTitle()}"></a>
+                </span>
+                <span th:case="'FREE'">
+                    <a th:style="'color: #95999E'"
+                       th:href="'/room/'+${room_id}+'/post/'+${post.getId()}+'/view'"
+                       th:text="${post.getTitle()}"></a>
+                </span>
+            </li>
 
-<nav aria-label="Page navigation example">
-    <ul class="pagination">
-        <li class="page-item">
-            <a class="page-link" th:href="'?page='+${previous}" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-            </a>
-        </li>
-        <li class="page-item" th:each="pageNumber : ${#numbers.sequence(0, totalPages)}">
-            <a class="page-link" th:href="@{/room/{room_id}/view_posts(room_id=${room_id}, page=${pageNumber})}"
-               th:text="${pageNumber+1}"></a>
-        </li>
-        <li class="page-item">
-            <a class="page-link"
-               th:href="${(next <= totalPages ? '?page=' + (next) : '')}"
-               aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-            </a>
-        </li>
-    </ul>
-</nav>
+        </ul>
+    </div>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item">
+                <a class="page-link" th:href="'?page='+${previous}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item" th:each="pageNumber : ${#numbers.sequence(0, totalPages)}">
+                <a class="page-link" th:href="@{/room/{room_id}/view_posts(room_id=${room_id}, page=${pageNumber})}"
+                   th:text="${pageNumber+1}"></a>
+            </li>
+            <li class="page-item">
+                <a class="page-link"
+                   th:href="${(next <= totalPages ? '?page=' + (next) : '')}"
+                   aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
 
 <div th:replace="~{fragments/footer :: footer}"></div>
 </body>

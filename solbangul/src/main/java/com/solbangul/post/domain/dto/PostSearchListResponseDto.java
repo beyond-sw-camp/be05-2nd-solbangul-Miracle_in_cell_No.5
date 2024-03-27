@@ -20,7 +20,7 @@ public class PostSearchListResponseDto {
 	public PostSearchListResponseDto(Post p) {
 		this.id = p.getId();
 		this.title = p.getTitle();
-		this.category = getCategory();
+		this.category = p.getCategory();
 	}
 
 }
