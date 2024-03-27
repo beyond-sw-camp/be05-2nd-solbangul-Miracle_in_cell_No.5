@@ -2,7 +2,9 @@ package com.solbangul.post.repository;
 
 import java.util.List;
 
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -13,7 +15,7 @@ import com.solbangul.room.domain.Room;
 import io.lettuce.core.dynamic.annotation.Param;
 
 @Repository
-public interface PostRepository extends JpaRepository<Post, Long> {
+public interface PostRepository extends JpaRepository<Post, Long>, JpaSpecificationExecutor<Post> {
 
 	@Query("select p from Post p where p.room.id = :roomId")
 	List<Post> findPostsByRoomId(@Param("roomId") Long roomId);
@@ -29,4 +31,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 	// @Query("update Post p set viewCnt=viewCnt+1 where ")
 	// void updateByCnt(@Param(""))
 
+	List<Post> findAll(Specification<Post> spec);
+
+	// Page<Post> findAll(Specification<Post> spec, Pageable pagaable);
 }

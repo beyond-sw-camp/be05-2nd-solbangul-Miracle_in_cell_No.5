@@ -74,6 +74,15 @@ public class RoomController { // TODO: 검증 로직 추가하기
 		return "view_postList";
 	}
 
+	@GetMapping("/{room_id}/search")
+	public String search(@PathVariable(name = "room_id") Long id, String keyword, Model model) {
+
+		model.addAttribute("room_id", id);
+		model.addAttribute("postList", postService.search(keyword));
+
+		return "view_postList";
+	}
+
 	@GetMapping("/{room_id}/edit")
 	public String updateForm(@PathVariable(name = "room_id") Long id, Model model) {
 		RoomEditResponseDto dto = roomService.editFindById(id);
