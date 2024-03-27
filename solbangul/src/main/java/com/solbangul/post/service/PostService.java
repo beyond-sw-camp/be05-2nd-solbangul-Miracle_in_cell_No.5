@@ -129,4 +129,8 @@ public class PostService {
 		postRepository.delete(post);
 	}
 
+	@Transactional
+	public void updateViewCntById(Long id){
+		postRepository.updateByCnt(id);
+	}
 }

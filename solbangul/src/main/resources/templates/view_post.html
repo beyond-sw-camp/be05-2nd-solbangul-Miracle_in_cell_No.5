@@ -21,6 +21,8 @@
         <div th:text="${postInfo.getCategory()}"></div>
         <p>작성자 : </p>
         <div th:if="${postInfo.getAnnonyYn()==false}" th:text="${postInfo.getWriter()}"></div>
+        <p>조회수 : </p>
+        <div th:text="${postInfo.getViewCount()}"></div>
         <div>마지막 수정 날짜</div>
         <br>
     </div>

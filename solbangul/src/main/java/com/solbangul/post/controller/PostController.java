@@ -67,6 +67,8 @@ public class PostController {
 		model.addAttribute("postInfo", postDto);
 		model.addAttribute("userInfo", authenticatedUser);
 
+		postService.updateViewCntById(post_id);
+
 		return "view_post";
 	}
 

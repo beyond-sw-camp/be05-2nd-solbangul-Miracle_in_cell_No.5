@@ -22,4 +22,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	void updateBySolbangul(@Param("userId") Long userId);
 
 	User findByNickname(String nickname);
+
 }
