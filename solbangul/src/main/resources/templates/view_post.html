@@ -24,6 +24,7 @@
         <div th:text="${postInfo.getModifiedDate()}"></div>
         <br>
     </div>
+
     <div class="btn">
         <button th:if="${postInfo.getWriter().equals(userInfo.getNickname())}"><a
                 th:href="'/room/'+${room_id}+'/post/'+${post_id}+'/edit'">글 수정하기</a></button>
@@ -31,6 +32,24 @@
                 th:href="'/room/'+${room_id}+'/post/'+${post_id}+'/delete'">글 삭제하기</a></button>
         <button><a th:href="'/room/'+${room_id}+'/view_posts'">←</a></button>
 
+    </div>
+
+    <div class="comment-section">
+        <h3>댓글 달기</h3>
+        <form th:action="@{'/room/' + ${room_id} + '/post/' + ${post_id} + '/comment'}" method="post">
+            <textarea name="content" placeholder="댓글을 입력하세요"></textarea>
+            <button type="submit">댓글 달기</button>
+        </form>
+    </div>
+
+    <div class="comment-list">
+        <h3>댓글 목록</h3>
+        <ul>
+            <li th:each="comment : ${comments}">
+                <span th:text="${comment.writer}"></span>
+                <span th:text="${comment.content}"></span>
+            </li>
+        </ul>
     </div>
 
 </div>
