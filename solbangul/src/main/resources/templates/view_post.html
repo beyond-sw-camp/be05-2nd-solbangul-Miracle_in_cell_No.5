@@ -48,6 +48,9 @@
             <li th:each="comment : ${comments}">
                 <span th:text="${comment.writer}"></span>
                 <span th:text="${comment.content}"></span>
+                <button th:if="${comment.writer.equals(userInfo.getNickname())}">
+                    <a th:href="'/room/' + ${room_id} + '/post/' + ${post_id} + '/comment/' + ${comment.id} + '/delete'">x</a>
+                </button>
             </li>
         </ul>
     </div>
