@@ -23,18 +23,6 @@
     <form th:action th:object="${user}" method="post" name="join" enctype="multipart/form-data">
         <img class="mb-4" src="/img/Hanwha_logo.svg" alt="" width="200" height="100">
 
-        <!-- Display selected image -->
-        <!--        <img id="selectedAvatar" th:src="|/images/basic.png|"-->
-        <!--             class="rounded-circle" style="width: 150px; height: 150px; object-fit: cover;" alt="example placeholder"/>-->
-
-        <!-- Profile picture input -->
-        <!--        <div class="mb-3">-->
-        <!--            <input type="file" name="multipartFile" accept="image/gif, image/png, image/jpeg, image/jpg"-->
-        <!--                   onchange="displaySelectedImage(event)"-->
-        <!--                   class="form-control" id="multipartFile">-->
-        <!--            <label for="multipartFile" class="form-label text-secondary">프로필 사진</label>-->
-        <!--        </div>-->
-
         <div>
             <div class="d-flex justify-content-center mb-4">
                 <img id="selectedAvatar" th:src="|/images/basic.png|"

@@ -10,6 +10,7 @@ import com.solbangul.room.domain.Room;
 import com.solbangul.room.repository.RoomRepository;
 import com.solbangul.user.domain.User;
 import com.solbangul.user.domain.dto.JoinRequestUserDto;
+import com.solbangul.user.domain.dto.PasswordResetUserDto;
 import com.solbangul.user.mail.dto.EmailRequestDto;
 import com.solbangul.user.repository.UserRepository;
 
@@ -41,6 +42,18 @@ public class UserService {
 
 	public boolean isEmailAlreadyExists(EmailRequestDto email) {
 		return userRepository.existsByGitEmail(email.getEmail());
+	}
+
+	public PasswordResetUserDto findUserByEmail(String email) {
+		User findUser = userRepository.findByGitEmail(email);
+		return new PasswordResetUserDto(findUser);
+	}
+
+	@Transactional
+	public void updatePassword(Long id, String resetPassword) {
+		String encodeResetPassword = passwordEncoder.encode(resetPassword);
+		userRepository.updatePassword(id, encodeResetPassword);
+		log.info("user id={} 의 비밀번호가 변경되었습니다.", id);
 	}
 
 	@Transactional
