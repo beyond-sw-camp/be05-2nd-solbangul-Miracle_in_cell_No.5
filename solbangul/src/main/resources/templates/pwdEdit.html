@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>비밀번호 변경</title>
+</head>
+<body>
+<h2>비밀번호 변경</h2>
+<form th:action="@{/mypage/updatePassword}" th:object="${user}" method="post">
+    <div class="form-floating mb-auto">
+        <label for="password" class="text-secondary">새 비밀번호:</label>
+        <input type="password" class="form-control" id="password" name="password" placeholder="새 비밀번호" required>
+    </div>
+    <button type="submit">비밀번호 변경</button>
+</form>
+<a href="/mypage">취소</a>
+</body>
+</html>

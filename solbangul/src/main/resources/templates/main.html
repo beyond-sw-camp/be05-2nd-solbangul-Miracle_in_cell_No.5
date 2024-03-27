@@ -20,14 +20,16 @@
     <div th:text="*{gitEmail}"></div>
     <div th:text="*{createdDate}"></div>
 
-    <!-- 경원 수정 부분...-->
+    
     <a href="/mypage" class="w-100 btn btn-lg btn-secondary mb-3">마이페이지</a>
 
+    
 
     <form action="/logout" method="post">
         <!--<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
         <button class="w-100 btn btn-sm btn-primary" type="submit">로그아웃</button>
     </form>
+
     <!--    <ul th:each="r : ${roomList}">-->
     <!--        <li><a th:href="@{'/room/'+${r.id}+'/view'}" th:text="${r.roomName}"></a></li>-->
     <!--    </ul>-->
@@ -44,8 +46,12 @@
         </div>
     </div>
 
-    <!-- 경원 수정 부분...-->
-    <a href="/admin" class="w-70 btn btn-lg btn-secondary mb-3">관리자페이지</a>
+
+    
+    <div th:if="${user.role.name() == 'ROLE_ADMIN'}">
+        <a href="/admin" class="w-70 btn btn-lg btn-secondary mb-3">관리자 페이지</a>
+    </div>
+    
 
     <div th:replace="~{fragments/footer :: footer}"></div>
 </div>

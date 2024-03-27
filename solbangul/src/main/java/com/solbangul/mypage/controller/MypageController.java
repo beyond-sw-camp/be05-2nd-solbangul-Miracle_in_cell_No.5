@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.solbangul.mypage.domain.UpdateUserDto;
 import com.solbangul.mypage.service.MypageService;
@@ -37,25 +39,52 @@ public class MypageController {
 		return "mypage";
 	}
 
-	@GetMapping("/edit")
-	public String editUserInfo(Model model, @AuthenticationPrincipal CustomUserDetails currentUser) {
+	// @GetMapping("/edit")
+	// public String editUserInfo(Model model, @AuthenticationPrincipal CustomUserDetails currentUser) {
+	// 	model.addAttribute("user", mypageService.getMypageInfo(currentUser.getUsername()));
+	// 	return "edit_user_info";
+	// }
+
+
+	@GetMapping("/profileImgEdit")
+	public String showProfileImgEditForm(Model model, @AuthenticationPrincipal CustomUserDetails currentUser) {
 		model.addAttribute("user", mypageService.getMypageInfo(currentUser.getUsername()));
-		return "edit_user_info";
+		return "profileImgEdit"; 
 	}
 
-	@PostMapping("/update")
-	public String updateUserInfo(@Valid @ModelAttribute("user") UpdateUserDto updateUserDto,
-		BindingResult bindingResult,
-		@AuthenticationPrincipal CustomUserDetails currentUser) {
-		String loginId = currentUser.getUsername();
-		if (userService.isExistsByNickname(updateUserDto.getNickname())) {
-			bindingResult.rejectValue("nickname", "unique", "중복되는 닉네임 입니다.");
-		}
-		if (bindingResult.hasErrors()) {
-			return "edit_user_info";
-		}
+	
+	@GetMapping("/nicknameEdit")
+	public String showNicknameEditForm(Model model, @AuthenticationPrincipal CustomUserDetails currentUser) {
+		model.addAttribute("user", mypageService.getMypageInfo(currentUser.getUsername()));
+		return "nicknameEdit"; 
+	}
 
-		mypageService.updateUserInfo(updateUserDto, loginId);
+	
+	@GetMapping("/pwdEdit")
+	public String showPasswordEditForm(Model model, @AuthenticationPrincipal CustomUserDetails currentUser) {
+		model.addAttribute("user", mypageService.getMypageInfo(currentUser.getUsername()));
+		return "pwdEdit"; 
+	}
+
+
+	@PostMapping("/updateProfilePicture")
+	public String updateProfilePicture(@RequestParam("multipartFile") MultipartFile multipartFile,
+										@AuthenticationPrincipal CustomUserDetails currentUser) {
+		mypageService.updateProfilePicture(multipartFile, currentUser.getUsername());
+		return "redirect:/mypage";
+	}
+
+	@PostMapping("/updateNickname")
+	public String updateNickname(@RequestParam("nickname") String nickname,
+								@AuthenticationPrincipal CustomUserDetails currentUser) {
+		mypageService.updateNickname(nickname, currentUser.getUsername());
+		return "redirect:/mypage";
+	}
+	
+	@PostMapping("/updatePassword")
+	public String updatePassword(@RequestParam("password") String password,
+								@AuthenticationPrincipal CustomUserDetails currentUser) {
+		mypageService.updatePassword(password, currentUser.getUsername());
 		return "redirect:/mypage";
 	}
 
