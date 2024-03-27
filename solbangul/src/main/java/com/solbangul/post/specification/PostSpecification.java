@@ -7,6 +7,7 @@ import jakarta.persistence.criteria.Root;
 
 import org.springframework.data.jpa.domain.Specification;
 
+import com.solbangul.post.domain.Category;
 import com.solbangul.post.domain.Post;
 
 public class PostSpecification {
@@ -35,6 +36,15 @@ public class PostSpecification {
 			@Override
 			public Predicate toPredicate(Root<Post> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
 				return criteriaBuilder.like(root.get("writer"), "%" + writer + "%");
+			}
+		};
+	}
+
+	public static Specification<Post> findByCategory(Category category) {
+		return new Specification<Post>() {
+			@Override
+			public Predicate toPredicate(Root<Post> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+				return criteriaBuilder.equal(root.get("category"), category);
 			}
 		};
 	}

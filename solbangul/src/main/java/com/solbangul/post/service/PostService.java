@@ -94,11 +94,19 @@ public class PostService {
 	}
 
 	@Transactional
-	public Page<PostSearchListResponseDto> search(String keyword, Pageable pageable) {
+	public Page<PostSearchListResponseDto> search(String keyword, String category, Pageable pageable) {
 
 		Specification<Post> spec = Specification.where(PostSpecification.likeContents(keyword));
 		spec = spec.or(PostSpecification.likeTitle(keyword));
 		spec = spec.or(PostSpecification.likeWriter(keyword));
+
+		if (category.equals("compliment")) {
+			spec = spec.and(PostSpecification.findByCategory(Category.COMPLIMENT));
+		} else if (category.equals("claims")) {
+			spec = spec.and(PostSpecification.findByCategory(Category.CLAIMS));
+		} else if (category.equals("free")) {
+			spec = spec.and(PostSpecification.findByCategory(Category.FREE));
+		}
 
 		Page<Post> posts = postRepository.findAll(spec, pageable);
 
