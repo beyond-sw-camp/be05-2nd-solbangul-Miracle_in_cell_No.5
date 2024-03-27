@@ -7,70 +7,29 @@
 <body>
 <div>
     <button><a th:href="@{/}">←</a></button>
-    <button th:if="${roomInfo.getLoginId().equals(userInfo.getLoginId())}"><a th:href="@{/}">my page</a></button>
-    <div class="card text-center">
-        <div class="card-header">
-            <ul class="nav nav-tabs card-header-tabs">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="true" href="#!">전체글</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#!">칭찬글</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled">건의글</a>
-                </li>
-            </ul>
-        </div>
+    <button th:if="${roomInfo.getLoginId().equals(userInfo.getLoginId())}"><a th:href="@{/}">my page</a>
+    </button>
 
-        <div class="card-body">
-            <div>
-                <img th:src="|/images/${roomInfo.profileImage}|" width="300" height="300"/>
-            </div>
-            <h5 class="card-title" th:text="${roomInfo.getRoomName()}">Special title treatment</h5>
-            <p class="card-text" th:text="${roomInfo.getIntroduction()}"></p>
-            <div class="card-text" th:if="${roomInfo.getLoginId().equals(userInfo.getLoginId())}"
-                 th:text="'솔방울 개수 : '+${userInfo.getSolbangul()}"></div>
-            <a th:if="${roomInfo.getLoginId().equals(userInfo.getLoginId())}"
-               th:href="@{'/room/'+${roomInfo.getId()}+'/edit'}"
-               class="btn btn-primary" data-mdb-ripple-init>방 수정하기</a>
-
-            <hr>
-            <div class="posts-btn">
-                <div></div>
-                <div></div>
-                <button th:if="${!roomInfo.getLoginId().equals(userInfo.getLoginId())}"><a
-                        th:href="@{'/room/'+${roomInfo.id}+'/post/save'}">글 쓰기</a></button>
-                <button><a th:href="@{'/room/'+${roomInfo.id}+'/view_posts'}">글 더보기 ...</a></button>
-            </div>
-        </div>
+    <div>
+        <img th:src="|/images/${roomInfo.profileImage}|" width="300" height="300"/>
     </div>
-
-    <!--    <button><a th:href="@{/}">←</a></button>-->
-    <!--    <button th:if="${roomInfo.getLoginId().equals(userInfo.getLoginId())}"><a th:href="@{/}">my page</a>-->
-    <!--    </button>-->
-
-    <!--    <div>-->
-    <!--        <img th:src="|/images/${roomInfo.profileImage}|" width="300" height="300"/>-->
-    <!--    </div>-->
-    <!--    <div class="room-info">-->
-    <!--        <p th:text="${roomInfo.getRoomName()}"></p>-->
-    <!--        <div th:text="${roomInfo.getIntroduction()}"></div>-->
-    <!--        <div th:if="${roomInfo.getLoginId().equals(userInfo.getLoginId())}"-->
-    <!--             th:text="'솔방울 개수 : '+${userInfo.getSolbangul()}">solbangul-->
-    <!--        </div>-->
-    <!--        <button th:if="${roomInfo.getLoginId().equals(userInfo.getLoginId())}"><a-->
-    <!--                th:href="@{'/room/'+${roomInfo.getId()}+'/edit'}">방 수정하기</a></button>-->
-    <!--    </div>-->
-    <!--    <hr>-->
-    <!--    <div class="posts-btn">-->
-    <!--        <div></div>-->
-    <!--        <div></div>-->
-    <!--        <button th:if="${!roomInfo.getLoginId().equals(userInfo.getLoginId())}"><a-->
-    <!--                th:href="@{'/room/'+${roomInfo.id}+'/post/save'}">글 쓰기</a></button>-->
-    <!--        <button><a th:href="@{'/room/'+${roomInfo.id}+'/view_posts'}">글 더보기 ...</a></button>-->
-    <!--    </div>-->
-    <!--</div>-->
+    <div class="room-info">
+        <p th:text="${roomInfo.getRoomName()}"></p>
+        <div th:text="${roomInfo.getIntroduction()}"></div>
+        <div th:if="${roomInfo.getLoginId().equals(userInfo.getLoginId())}"
+             th:text="'솔방울 개수 : '+${userInfo.getSolbangul()}">solbangul
+        </div>
+        <button th:if="${roomInfo.getLoginId().equals(userInfo.getLoginId())}"><a
+                th:href="@{'/room/'+${roomInfo.getId()}+'/edit'}">방 수정하기</a></button>
+    </div>
+    <hr>
+    <div class="posts-btn">
+        <div></div>
+        <div></div>
+        <button th:if="${!roomInfo.getLoginId().equals(userInfo.getLoginId())}"><a
+                th:href="@{'/room/'+${roomInfo.id}+'/post/save'}">글 쓰기</a></button>
+        <button><a th:href="@{'/room/'+${roomInfo.id}+'/view_posts'}">글 더보기 ...</a></button>
+    </div>
 </div>
 <div th:replace="~{fragments/footer :: footer}"></div>
 </body>

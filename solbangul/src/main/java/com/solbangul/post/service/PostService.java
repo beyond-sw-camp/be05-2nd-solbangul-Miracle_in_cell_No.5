@@ -2,9 +2,10 @@ package com.solbangul.post.service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,9 +13,11 @@ import com.solbangul.post.domain.Category;
 import com.solbangul.post.domain.Post;
 import com.solbangul.post.domain.dto.PostEditRequestDto;
 import com.solbangul.post.domain.dto.PostFindByRoomListResponseDto;
+import com.solbangul.post.domain.dto.PostSearchListResponseDto;
 import com.solbangul.post.domain.dto.PostViewResponseDto;
 import com.solbangul.post.domain.dto.PostsSaveRequestDto;
 import com.solbangul.post.repository.PostRepository;
+import com.solbangul.post.specification.PostSpecification;
 import com.solbangul.room.domain.Room;
 import com.solbangul.room.repository.RoomRepository;
 import com.solbangul.user.domain.User;
@@ -23,7 +26,7 @@ import com.solbangul.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Service("post")
+@Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true) // JPA는 Transaction 안에서만 동작
 @Slf4j
@@ -85,15 +88,21 @@ public class PostService {
 		return new PostViewResponseDto(post);
 	}
 
-	public List<PostFindByRoomListResponseDto> findPostsByRoomId(Long id) {
-		List<PostFindByRoomListResponseDto> postList = new ArrayList<>();
-		List<Post> posts = postRepository.findPostsByRoomId(id);
+	public Page<PostFindByRoomListResponseDto> findPostsByRoomId(Long id, Pageable pageable) {
+		Page<Post> posts = postRepository.findPostsByRoomIdPaging(id, pageable);
+		return posts.map(p -> new PostFindByRoomListResponseDto(p));
+	}
 
-		for (Post p : posts) {
-			log.info("post 0 index post_id={}", p.getId());
-			postList.add(new PostFindByRoomListResponseDto(p));
-		}
-		return postList;
+	@Transactional
+	public Page<PostSearchListResponseDto> search(String keyword, Pageable pageable) {
+
+		Specification<Post> spec = Specification.where(PostSpecification.likeContents(keyword));
+		spec = spec.or(PostSpecification.likeTitle(keyword));
+		spec = spec.or(PostSpecification.likeWriter(keyword));
+
+		Page<Post> posts = postRepository.findAll(spec, pageable);
+
+		return posts.map(p -> new PostSearchListResponseDto(p));
 	}
 
 	public PostEditRequestDto editFindById(Long id) {
@@ -108,7 +117,8 @@ public class PostService {
 		Post post = postRepository.findById(id).orElseThrow(()
 			-> new IllegalArgumentException("해당 room이 없습니다. id=" + id));
 		System.out.println("room id : " + post.getId());
-		post.update(requestDto.getTitle(), requestDto.getPublicYn(), requestDto.getAnnonyYn(), requestDto.getContent(),
+		post.update(requestDto.getTitle(), requestDto.getPublicYn(), requestDto.getAnnonyYn(),
+			requestDto.getContent(),
 			requestDto.getCategory());
 	}
 

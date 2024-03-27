@@ -1,5 +1,6 @@
 package com.solbangul.post.domain.dto;
 
+import com.solbangul.post.domain.Category;
 import com.solbangul.post.domain.Post;
 
 import lombok.Getter;
@@ -14,9 +15,12 @@ public class PostSearchListResponseDto {
 
 	private String title;
 
+	private Category category;
+
 	public PostSearchListResponseDto(Post p) {
 		this.id = p.getId();
 		this.title = p.getTitle();
+		this.category = getCategory();
 	}
 
 }

@@ -20,20 +20,6 @@
 
 <div>
     <ul th:each="post : ${postList}">
-        <!--        <li th:if="${post.getCategory().equals(${T(com.solbangul.post.domain.Category.CLAIMS)})}">-->
-        <!--            <a style="color: #DB4455"-->
-        <!--               th:href="'/room/'+${room_id}+'/post/'+${post.getId()}+'/view'" th:text="${post.getTitle()}"></a>-->
-        <!--        </li>-->
-        <!--        <li th:if="${post.getCategory().equals(${T(com.solbangul.post.domain.Category.COMPLIMENT)})}">-->
-        <!--            <a style="color: #4491DB"-->
-        <!--               th:href="'/room/'+${room_id}+'/post/'+${post.getId()}+'/view'"-->
-        <!--               th:text="${post.getTitle()}"></a>-->
-        <!--        </li>-->
-        <!--        <li th:if="${post.getCategory().equals(${T(com.solbangul.post.domain.Category.FREE)})}">-->
-        <!--            <a style="color: 	#95999E"-->
-        <!--               th:href="'/room/'+${room_id}+'/post/'+${post.getId()}+'/view'"-->
-        <!--               th:text="${post.getTitle()}"></a>-->
-        <!--        </li>-->
         <li><a th:href="'/room/'+${room_id}+'/post/'+${post.getId()}+'/view'" th:text="${post.getTitle()}"></a></li>
     </ul>
 </div>
@@ -41,23 +27,27 @@
 <nav aria-label="Page navigation example">
     <ul class="pagination">
         <li class="page-item">
-            <a class="page-link" th:href="'?page='+${previous}" aria-label="Previous">
+            <a class="page-link"
+               th:href="@{'/room/' + ${room_id} + '/search?keyword=' + ${keyword} + '&page=' + ${previous}}"
+               aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
             </a>
         </li>
         <li class="page-item" th:each="pageNumber : ${#numbers.sequence(0, totalPages)}">
-            <a class="page-link" th:href="@{/room/{room_id}/view_posts(room_id=${room_id}, page=${pageNumber})}"
+            <a class="page-link"
+               th:href="@{'/room/' + ${room_id} + '/search?keyword=' + ${keyword} + '&page=' + ${pageNumber}}"
                th:text="${pageNumber+1}"></a>
         </li>
         <li class="page-item">
             <a class="page-link"
-               th:href="${(next <= totalPages ? '?page=' + (next) : '')}"
+               th:href="@{'/room/' + ${room_id} + '/search?keyword=' + ${keyword} + ${(next <= totalPages ? '&page=' + (next) : '')} }"
                aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
             </a>
         </li>
     </ul>
 </nav>
+
 
 <div th:replace="~{fragments/footer :: footer}"></div>
 </body>
