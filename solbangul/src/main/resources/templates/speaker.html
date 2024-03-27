@@ -1,47 +1,100 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>확성기</title>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservation Form</title>
+    <style>
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+    </style>
+    <script th:inline="javascript">
+        // Function to set min attribute of date input to today's date
+        function setMinDate() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById("reservationDate").setAttribute("min", today);
+        }
+
+        // Function to update time options based on selected date and existing reservations
+        function updateTimeOptions(selectedDate, reservedTimes) {
+            const select = document.getElementById("reservationTime");
+            const now = new Date();
+            const currentHour = now.getHours();
+            const currentMinute = now.getMinutes();
+
+            // Clear existing options
+            select.innerHTML = '';
+
+            // Get the selected date as a Date object
+            const selectedDateObj = new Date(selectedDate);
+
+            // Check if the selected date is after today
+            const isAfterToday = selectedDateObj > now;
+
+            // Add options for future times not in the reservedTimes array if the selected date is today or after
+            for (let hour = isAfterToday ? 0 : currentHour; hour <= 20; hour++) {
+                for (let minute = 0; minute < 60; minute += 30) {
+                    const timeString = (hour < 10 ? '0' : '') + hour + ':' + (minute === 0 ? '00' : minute);
+                    const option = document.createElement('option');
+                    option.value = timeString;
+                    option.textContent = timeString;
+                    if (!reservedTimes.includes(timeString) && (isAfterToday || (hour > currentHour || (hour === currentHour && minute >= currentMinute)))) {
+                        select.appendChild(option);
+                    }
+                }
+            }
+        }
+
+        // Function to handle date change and update time options
+        function handleDateChange(selectedDate) {
+            // Retrieve reserved times from the server based on the selected date (if needed)
+            const reservedSpeakersTime = [[${reservedSpeakersTime}]]; // Example reserved times, replace with actual data
+
+            // Extract times for the selected date
+            const selectedDateTimes = reservedSpeakersTime.filter(time => time.startsWith(selectedDate));
+
+            // Extract only hours and minutes from the selectedDateTimes
+            const reservedTimes = selectedDateTimes.map(time => {
+                const dateObj = new Date(time);
+                const hour = dateObj.getHours();
+                const minute = dateObj.getMinutes();
+                return (hour < 10 ? '0' : '') + hour + ':' + (minute < 10 ? '0' : '') + minute;
+            });
+
+            updateTimeOptions(selectedDate, reservedTimes);
+        }
+    </script>
 </head>
-<body>
-<h1>확성기</h1>
-<form action="#" th:action th:object="${speakerDto}" method="post">
-    문구: <input type="text" th:field="*{content}"/><br/>
-    시작일시: <input type="text" th:field="*{startTime}" id="startDateTime"/><br/>
-    종료일시: <input type="text" th:field="*{endTime}" id="endDateTime"/><br/>
-    <button type="submit">등록</button>
+<body onload="setMinDate(); updateTimeOptions(new Date(), '[[${reservedSpeakersTime[new Date()]}]]')">
+
+<h2>Reservation Form</h2>
+
+<form th:action th:object="${speakerDto}" method="post">
+    <label for="content" class="text-secondary">확성기 내용</label>
+    <input type="text" class="form-control" id="content" th:field="*{content}"
+           th:errorclass="field-error" placeholder="확성기 내용" required>
+
+    <hr>
+
+    <label for="reservationDate">Select Date:</label>
+    <!-- Date input with min attribute set by JavaScript -->
+    <input type="date" id="reservationDate" name="reservationDate" onchange="handleDateChange(this.value)" required>
+    <br><br>
+
+    <label for="reservationTime">Select Time:</label>
+    <select id="reservationTime" name="reservationTime" required>
+        <option value="" disabled selected>Select a time</option>
+    </select><br><br>
+
+    <input type="submit" value="Submit">
+
+    <div th:if="${#fields.hasGlobalErrors()}">
+        <p class="field-error" th:each="err : ${#fields.globalErrors()}"
+           th:text="${err}">전체 오류 메시지</p>
+    </div>
 </form>
-<div th:if="${announcementMessage}">
-    <h2 th:text="${announcementMessage}"></h2>
-</div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.js"></script>
-<script>
-    $(function () {
-        $("#startDateTime, #endDateTime").datetimepicker({
-            dateFormat: 'yy-mm-dd',
-            controlType: 'select',
-            timeFormat: 'HH:mm',
-            showSecond: false, // 초 표시하지 않음
-            showMillisec: false, // 밀리초 표시하지 않음
-            showMicrosec: false, // 마이크로초 표시하지 않음
-            showTimezone: false, // 시간대 표시하지 않음
-        });
-
-        // 폼 서브밋 시 시작일시와 종료일시 값을 LocalDateTime 형식으로 변환
-        $("form").submit(function () {
-            var startDateTime = $("#startDateTime").datetimepicker("getDate");
-            var endDateTime = $("#endDateTime").datetimepicker("getDate");
-
-            // LocalDateTime 형식에 맞게 문자열 조합 (yyyy-MM-ddTHH:mm:ss)
-            $("input[name='startTime']").val(startDateTime.toISOString().slice(0, 16));
-            $("input[name='endTime']").val(endDateTime.toISOString().slice(0, 16));
-        });
-    });
-</script>
 </body>
 </html>

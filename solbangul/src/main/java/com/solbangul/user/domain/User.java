@@ -92,15 +92,16 @@ public class User extends BaseTimeEntity {
 		log.info("{}님 의 솔방울이 {}개 올랐습니다.", loginId, amount);
 	}
 
-	public void subSolbangul(int amount) {
+	public boolean subSolbangul(int amount) {
 		if (amount <= 0) {
-			return;
+			return false;
 		}
 		if ((solbangul - amount) < 0) {
 			this.solbangul = 0;
-			return;
+			return false;
 		}
 		this.solbangul -= amount;
-		log.info("{}님 의 솔방울이 {}개 차감되었습니다.", loginId, amount);
+		log.info("{}님 의 솔방울을 {}개 사용하였습니다.", loginId, amount);
+		return true;
 	}
 }

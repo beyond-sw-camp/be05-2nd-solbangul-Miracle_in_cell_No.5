@@ -52,7 +52,6 @@ public class MypageController {
 			bindingResult.rejectValue("nickname", "unique", "중복되는 닉네임 입니다.");
 		}
 		if (bindingResult.hasErrors()) {
-			System.out.println("bindingResult = " + bindingResult);
 			return "edit_user_info";
 		}
 

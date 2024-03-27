@@ -31,14 +31,11 @@ public class MainController {
 		List<RoomListResponseDto> list = roomService.findAll();
 
 		model.addAttribute("roomList", list);
-		// SpeakerDto announcements = speakerService.getAnnouncement();
-		// System.out.println("allAnnouncements = " + announcements);
-		// model.addAttribute("announcements", announcements);
+		String speakerContent = speakerService.getSpeakerContent();
+		model.addAttribute("speakerContent", speakerContent);
 		for (RoomListResponseDto response : list) {
 			log.info("debug >>> room : {}", response);
 		}
 		return "main";
 	}
-
-
 }
