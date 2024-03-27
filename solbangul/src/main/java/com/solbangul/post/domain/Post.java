@@ -54,10 +54,12 @@ public class Post extends BaseTimeEntity {
 	// @Column(nullable = false)
 	private Boolean readYn;
 
+	private Integer viewCount;
+
 
 	@Builder
 	public Post(Room room, String title, Boolean publicYn, Boolean annonyYn, String content,
-		String writer, Category category, Boolean readYn) {
+		String writer, Category category, Boolean readYn, Integer viewCount) {
 		this.room = room;
 		this.title = title;
 		this.publicYn = publicYn;
@@ -66,6 +68,7 @@ public class Post extends BaseTimeEntity {
 		this.writer = writer;
 		this.category = category;
 		this.readYn = readYn;
+		this.viewCount = viewCount;
 	}
 
 	public void update(String title, Boolean publicYn, Boolean annonyYn, String content, Category category) {

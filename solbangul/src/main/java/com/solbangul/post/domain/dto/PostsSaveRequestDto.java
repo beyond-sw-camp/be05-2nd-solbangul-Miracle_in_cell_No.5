@@ -30,6 +30,8 @@ public class PostsSaveRequestDto {
 
 	private Boolean readYn;
 
+	private Integer viewCount;
+
 	public Post toEntity(Room room) {
 		return Post.builder()
 			.room(room)
@@ -40,6 +42,7 @@ public class PostsSaveRequestDto {
 			.writer(writer)
 			.category(category)
 			.readYn(readYn)
+			.viewCount(0)
 			.build();
 	}
 }
