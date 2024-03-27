@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>닉네임 변경</title>
+</head>
+<body>
+<h2>닉네임 변경</h2>
+<form th:action="@{/mypage/updateNickname}" th:object="${user}" method="post">
+    <label for="nickname">새 닉네임:</label>
+    <input type="text" id="nickname" name="nickname" th:value="${user.nickname}" required class="form-control">
+    <button type="submit">닉네임 변경</button>
+</form>
+<a href="/mypage">취소</a>
+</body>
+</html>

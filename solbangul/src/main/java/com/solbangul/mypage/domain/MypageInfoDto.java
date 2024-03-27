@@ -1,5 +1,7 @@
 package com.solbangul.mypage.domain;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,4 +12,5 @@ public class MypageInfoDto {
     private String nickname;
     private String name;
     private String gitEmail;
+
 }

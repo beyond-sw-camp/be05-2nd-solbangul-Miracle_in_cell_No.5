@@ -1,34 +1,3 @@
-<!--
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>내가 쓴글</title>
-
-</head>
-<body>
-<div class="container">
-    <h2>내가 쓴 글</h2>
-    <div th:if="${myPosts.isEmpty()}">
-        <p>작성한 글이 없습니다.</p>
-    </div>
-    <div th:if="${!myPosts.isEmpty()}">
-        <ul>
-            <li th:each="post : ${myPosts}">
-                <span th:text="${post.title}">Post Title</span>
-                <span th:text="${post.room.user.name}">Post Title</span>
-
-                <a th:href="@{'/room/' + ${post.room.id} + '/post/' + ${post.id} + '/view'}">View</a>
-            </li>
-        </ul>
-    </div>
-</div>
-    <div class="btn">
-        <button><a th:href="'/mypage'">←</a></button>
-    </div>
-</body>
-</html>
--->
 
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">

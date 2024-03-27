@@ -3,6 +3,8 @@ package com.solbangul.post.domain.dto;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 
+import java.time.LocalDateTime;
+
 import com.solbangul.post.domain.Category;
 import com.solbangul.post.domain.Post;
 
@@ -31,8 +33,10 @@ public class PostViewResponseDto {
 
 	private Boolean readYn;
 
-	//경원 수정부분...
+	
 	private Integer viewCount;
+
+	private LocalDateTime modifiedDate;
 
 	public PostViewResponseDto(Post p) {
 		this.title = p.getTitle();
@@ -43,6 +47,7 @@ public class PostViewResponseDto {
 		this.category = p.getCategory();
 		this.readYn = p.getReadYn();
 		this.viewCount = p.getViewCount();
+		this.modifiedDate = p.getModifiedDate();
 	}
 
 }

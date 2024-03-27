@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>프로필 사진 변경</title>
+</head>
+<body>
+<style>
+    /* Style for circular profile picture */
+    .profile-picture {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+</style>
+<h2>프로필 사진 변경</h2>
+<form th:action="@{/mypage/updateProfilePicture}" th:object="${user}" method="post" enctype="multipart/form-data">
+    <div class="mb-3">
+        <label for="multipartFile" class="form-label text-secondary">프로필 사진:</label>
+        <input type="file" name="multipartFile" accept="image/gif, image/png, image/jpeg, image/jpg" class="form-control" id="multipartFile">
+    </div>
+    <button type="submit">사진 변경</button>
+</form>
+<a href="/mypage">취소</a>
+</body>
+</html>
