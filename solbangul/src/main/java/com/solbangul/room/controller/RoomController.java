@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.solbangul.post.domain.Category;
 import com.solbangul.post.domain.dto.PostFindByRoomListResponseDto;
 import com.solbangul.post.domain.dto.PostSearchListResponseDto;
 import com.solbangul.post.service.PostService;
@@ -34,12 +33,11 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @RequestMapping("/room")
 @Controller
-public class RoomController { // TODO: 검증 로직 추가하기
+public class RoomController {
 
 	private final RoomService roomService;
 	private final PostService postService;
 	private final UserService userService;
-	private Category category;
 
 	@GetMapping("/list")
 	public String list(Model model) {
@@ -51,7 +49,6 @@ public class RoomController { // TODO: 검증 로직 추가하기
 		return "main";
 	}
 
-	// 해당 룸이 내 룸인가 다른 사람 룸인가
 	@GetMapping("/{room_id}/view")
 	public String viewRoom(@PathVariable(name = "room_id") Long id, Model model,
 		@AuthenticationPrincipal CustomUserDetails customUserDetails) {
@@ -86,7 +83,6 @@ public class RoomController { // TODO: 검증 로직 추가하기
 		model.addAttribute("previous", pageable.previousOrFirst().getPageNumber());
 		model.addAttribute("next", pageable.next().getPageNumber());
 		model.addAttribute("keyword", keyword);
-		model.addAttribute("category", category);
 
 		return "view_postList";
 	}
