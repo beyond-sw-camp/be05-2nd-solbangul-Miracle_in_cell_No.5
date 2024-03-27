@@ -30,7 +30,7 @@
 <div th:if="${postList.size()!=0}">
     <div>
         <ul th:each="post : ${postList}">
-            <li th:switch="${post.category.toString()}">
+            <li th:if="${post.getId()}" th:switch="${post.category.toString()}">
                 <span th:case="'CLAIMS'">
                     <a th:style="'color: #DB4455'"
                        th:href="'/room/'+${room_id}+'/post/'+${post.getId()}+'/view'"
