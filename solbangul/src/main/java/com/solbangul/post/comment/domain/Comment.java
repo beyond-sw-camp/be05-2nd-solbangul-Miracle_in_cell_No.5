@@ -14,8 +14,12 @@ import com.solbangul.post.domain.Post;
 import com.solbangul.user.domain.User;
 
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Setter
+@Getter
 @NoArgsConstructor
 @Entity
 public class Comment extends BaseTimeEntity {
@@ -26,17 +30,17 @@ public class Comment extends BaseTimeEntity {
 	private Long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id", nullable = false)
+	@JoinColumn(name = "user_id")
 	private User user;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "post_id", nullable = false)
+	@JoinColumn(name = "post_id")
 	private Post post;
 
-	@Column(nullable = false)
+	@Column
 	private String writer;
 
-	@Column(name = "comment_content", nullable = false)
+	@Column(name = "comment_content")
 	private String content;
 
 	@Builder

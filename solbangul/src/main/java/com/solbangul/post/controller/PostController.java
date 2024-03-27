@@ -1,5 +1,7 @@
 package com.solbangul.post.controller;
 
+import java.util.List;
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.solbangul.post.comment.domain.Comment;
+import com.solbangul.post.comment.repository.CommentRepository;
+import com.solbangul.post.comment.service.CommentService;
 import com.solbangul.post.domain.dto.PostEditRequestDto;
 import com.solbangul.post.domain.dto.PostViewResponseDto;
 import com.solbangul.post.domain.dto.PostsSaveRequestDto;
@@ -28,6 +33,8 @@ public class PostController {
 
 	private final PostService postService;
 	private final UserService userService;
+	private final CommentService commentService;
+	private final CommentRepository commentRepository;
 
 	@GetMapping("/save")
 	public String getSave(@PathVariable(name = "room_id") Long id, Model model) {
@@ -62,10 +69,13 @@ public class PostController {
 		Long userId = customUserDetails.getAuthenticatedUser().getId();
 		User authenticatedUser = userService.findOne(userId);
 
+		List<Comment> comments = commentRepository.findByPostId(post_id);
+
 		model.addAttribute("room_id", room_id);
 		model.addAttribute("post_id", post_id);
 		model.addAttribute("postInfo", postDto);
 		model.addAttribute("userInfo", authenticatedUser);
+		model.addAttribute("comments", comments);
 
 		postService.updateViewCountById(post_id);
 
