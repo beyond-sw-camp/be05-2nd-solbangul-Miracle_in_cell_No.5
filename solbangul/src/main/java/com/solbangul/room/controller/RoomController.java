@@ -2,6 +2,10 @@ package com.solbangul.room.controller;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.solbangul.post.domain.Category;
 import com.solbangul.post.domain.dto.PostFindByRoomListResponseDto;
+import com.solbangul.post.domain.dto.PostSearchListResponseDto;
 import com.solbangul.post.service.PostService;
 import com.solbangul.room.domain.dto.RoomEditResponseDto;
 import com.solbangul.room.domain.dto.RoomListResponseDto;
@@ -33,6 +39,7 @@ public class RoomController { // TODO: 검증 로직 추가하기
 	private final RoomService roomService;
 	private final PostService postService;
 	private final UserService userService;
+	private Category category;
 
 	@GetMapping("/list")
 	public String list(Model model) {
@@ -61,17 +68,47 @@ public class RoomController { // TODO: 검증 로직 추가하기
 		return "view_room";
 	}
 
-	// 해당 룸에 존재하는 글들
 	@GetMapping("/{room_id}/view_posts")
-	public String viewPosts(@PathVariable(name = "room_id") Long id, Model model) {
+	public String viewPosts(@PathVariable(name = "room_id") Long id, Model model,
+		@RequestParam(value = "keyword", defaultValue = "") String keyword,
+		@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+
 		log.info("viewPosts roomId={}", id);
-		List<PostFindByRoomListResponseDto> postList = postService.findPostsByRoomId(id);
+
+		Page<PostFindByRoomListResponseDto> postDtos = postService.findPostsByRoomId(id, pageable);
+		List<PostFindByRoomListResponseDto> postList = postDtos.getContent();
+		int totalPages = postDtos.getTotalPages();  // 총 페이지 수 얻기
 
 		model.addAttribute("room_id", id);
 		model.addAttribute("postList", postList);
-		// log.info("PostFindByRoomListResponseDto 0 index post_id={}", postList.get(0).getId());
+		model.addAttribute("totalPages", totalPages - 1);
+		model.addAttribute("pageable", pageable);
+		model.addAttribute("previous", pageable.previousOrFirst().getPageNumber());
+		model.addAttribute("next", pageable.next().getPageNumber());
+		model.addAttribute("keyword", keyword);
+		model.addAttribute("category", category);
 
 		return "view_postList";
+	}
+
+	@GetMapping("/{room_id}/search")
+	public String search(@PathVariable(name = "room_id") Long id,
+		@RequestParam(value = "keyword", defaultValue = "") String keyword, Model model,
+		@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+
+		Page<PostSearchListResponseDto> postDtos = postService.search(keyword, pageable);
+		List<PostSearchListResponseDto> postList = postDtos.getContent();
+		int totalPages = postDtos.getTotalPages();  // 총 페이지 수 얻기
+
+		model.addAttribute("room_id", id);
+		model.addAttribute("postList", postList);
+		model.addAttribute("pageable", pageable);
+		model.addAttribute("totalPages", totalPages - 1);
+		model.addAttribute("previous", pageable.previousOrFirst().getPageNumber());
+		model.addAttribute("next", pageable.next().getPageNumber());
+		model.addAttribute("keyword", keyword);
+
+		return "view_search_postList";
 	}
 
 	@GetMapping("/{room_id}/edit")

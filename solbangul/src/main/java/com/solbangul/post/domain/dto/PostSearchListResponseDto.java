@@ -10,17 +10,17 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class PostFindByRoomListResponseDto {
+public class PostSearchListResponseDto {
 	private Long id;
 
 	private String title;
 
 	private Category category;
 
-	public PostFindByRoomListResponseDto(Post p) {
+	public PostSearchListResponseDto(Post p) {
 		this.id = p.getId();
 		this.title = p.getTitle();
-		this.category = p.getCategory();
+		this.category = getCategory();
 	}
 
 }

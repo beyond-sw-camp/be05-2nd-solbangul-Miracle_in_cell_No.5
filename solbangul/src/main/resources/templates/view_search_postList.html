@@ -1,0 +1,54 @@
+<link
+        href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.min.css"
+        rel="stylesheet"
+/>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<button><a th:href="@{'/room/'+${room_id}+'/view'}">←</a></button>
+
+<form th:action="'/room/'+${room_id}+'/search'" method="GET">
+    <div class="btn-group" role="group" aria-label="Basic example">
+        <input name="keyword" type="text" placeholder="검색어를 입력해주세요." th:value="${keyword}">
+        <button class="btn btn-secondary">검색</button>
+    </div>
+</form>
+
+<div>
+    <ul th:each="post : ${postList}">
+        <li><a th:href="'/room/'+${room_id}+'/post/'+${post.getId()}+'/view'" th:text="${post.getTitle()}"></a></li>
+    </ul>
+</div>
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item">
+            <a class="page-link"
+               th:href="@{'/room/' + ${room_id} + '/search?keyword=' + ${keyword} + '&page=' + ${previous}}"
+               aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        <li class="page-item" th:each="pageNumber : ${#numbers.sequence(0, totalPages)}">
+            <a class="page-link"
+               th:href="@{'/room/' + ${room_id} + '/search?keyword=' + ${keyword} + '&page=' + ${pageNumber}}"
+               th:text="${pageNumber+1}"></a>
+        </li>
+        <li class="page-item">
+            <a class="page-link"
+               th:href="@{'/room/' + ${room_id} + '/search?keyword=' + ${keyword} + ${(next <= totalPages ? '&page=' + (next) : '')} }"
+               aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>
