@@ -13,23 +13,14 @@ import lombok.Setter;
 @NoArgsConstructor
 public class PostsSaveRequestDto {
 	private Long id;
-
 	private Long roomId;
-
 	private String title;
-
 	private Boolean publicYn;
-
 	private Boolean annonyYn;
-
 	private String content;
-
 	private String writer;
-
 	private Category category;
-
 	private Boolean readYn;
-
 	private Integer viewCount;
 
 	public Post toEntity(Room room) {

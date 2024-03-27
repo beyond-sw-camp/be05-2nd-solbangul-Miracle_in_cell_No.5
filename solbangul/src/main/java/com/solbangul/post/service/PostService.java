@@ -28,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true) // JPA는 Transaction 안에서만 동작
+@Transactional(readOnly = true)
 @Slf4j
 public class PostService {
 

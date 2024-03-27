@@ -12,7 +12,6 @@ import lombok.Setter;
 @Setter
 public class RoomEditResponseDto {
 	private String introduction;
-
 	private String roomName;
 
 	@Builder

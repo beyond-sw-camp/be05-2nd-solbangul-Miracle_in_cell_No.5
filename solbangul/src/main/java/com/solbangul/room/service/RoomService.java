@@ -20,10 +20,9 @@ import lombok.RequiredArgsConstructor;
 public class RoomService {
 	private final RoomRepository roomRepository;
 
-	// 전체 방 list (방1, 방2 ...)
 	public List<RoomListResponseDto> findAll() {
 		List<RoomListResponseDto> roomList = new ArrayList<>();
-		List<Room> rooms = roomRepository.findAll();
+		List<Room> rooms = roomRepository.findAllWithUser();
 		for (Room r : rooms) {
 			roomList.add(new RoomListResponseDto(r));
 		}

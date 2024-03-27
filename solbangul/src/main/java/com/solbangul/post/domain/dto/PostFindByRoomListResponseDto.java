@@ -12,9 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class PostFindByRoomListResponseDto {
 	private Long id;
-
 	private String title;
-
 	private Category category;
 
 	public PostFindByRoomListResponseDto(Post p) {

@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/signin.css"/>
     <title>Reservation Form</title>
     <style>
         .field-error {
@@ -69,32 +71,36 @@
 </head>
 <body onload="setMinDate(); updateTimeOptions(new Date(), '[[${reservedSpeakersTime[new Date()]}]]')">
 
-<h2>Reservation Form</h2>
+<div class="form-signin">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
 
-<form th:action th:object="${speakerDto}" method="post">
-    <label for="content" class="text-secondary">확성기 내용</label>
-    <input type="text" class="form-control" id="content" th:field="*{content}"
-           th:errorclass="field-error" placeholder="확성기 내용" required>
+    <h2>Reservation Form</h2>
 
-    <hr>
+    <form th:action th:object="${speakerDto}" method="post">
+        <label for="content" class="text-secondary">확성기 내용</label>
+        <input type="text" class="form-control" id="content" th:field="*{content}"
+               th:errorclass="field-error" placeholder="확성기 내용" required>
 
-    <label for="reservationDate">Select Date:</label>
-    <!-- Date input with min attribute set by JavaScript -->
-    <input type="date" id="reservationDate" name="reservationDate" onchange="handleDateChange(this.value)" required>
-    <br><br>
+        <hr>
 
-    <label for="reservationTime">Select Time:</label>
-    <select id="reservationTime" name="reservationTime" required>
-        <option value="" disabled selected>Select a time</option>
-    </select><br><br>
+        <label for="reservationDate">Select Date:</label>
+        <!-- Date input with min attribute set by JavaScript -->
+        <input type="date" id="reservationDate" name="reservationDate" onchange="handleDateChange(this.value)" required>
+        <br><br>
 
-    <input type="submit" value="Submit">
+        <label for="reservationTime">Select Time:</label>
+        <select id="reservationTime" name="reservationTime" required>
+            <option value="" disabled selected>Select a time</option>
+        </select><br><br>
 
-    <div th:if="${#fields.hasGlobalErrors()}">
-        <p class="field-error" th:each="err : ${#fields.globalErrors()}"
-           th:text="${err}">전체 오류 메시지</p>
-    </div>
-</form>
+        <input type="submit" value="Submit">
+
+        <div th:if="${#fields.hasGlobalErrors()}">
+            <p class="field-error" th:each="err : ${#fields.globalErrors()}"
+               th:text="${err}">전체 오류 메시지</p>
+        </div>
+    </form>
+</div>
 
 </body>
 </html>

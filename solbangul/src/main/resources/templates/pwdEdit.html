@@ -1,17 +1,34 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:replace="~{fragments/header :: header}">
     <title>비밀번호 변경</title>
 </head>
 <body>
-<h2>비밀번호 변경</h2>
-<form th:action="@{/mypage/updatePassword}" th:object="${user}" method="post">
-    <div class="form-floating mb-auto">
-        <label for="password" class="text-secondary">새 비밀번호:</label>
-        <input type="password" class="form-control" id="password" name="password" placeholder="새 비밀번호" required>
-    </div>
-    <button type="submit">비밀번호 변경</button>
-</form>
+<style>
+    .field-error {
+        border-color: #dc3545;
+        color: #dc3545;
+    }
+</style>
+<div class="form-signin">
+    <form th:action="@{/mypage/updatePassword}" th:object="${user}" method="post">
+        <h2>비밀번호 변경</h2>
+        <hr>
+        <div class="form-floating mb-3">
+            <input type="password" class="form-control" id="password" th:field="*{password}"
+                   th:errorclass="field-error" placeholder="비밀번호" required>
+            <label for="password" class="text-secondary">비밀번호</label>
+            <div class="field-error text-sm-start small" th:errors="*{password}">
+                비밀번호 오류
+            </div>
+        </div>
+        <button type="submit">비밀번호 변경</button>
+    </form>
+</div>
 <a href="/mypage">취소</a>
+<script src="/js/bootstrap.bundle.js"></script>
+<script src="/js/bootstrap.esm.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="https://kit.fontawesome.com/bdbb2968c3.js" crossorigin="anonymous"></script>
 </body>
 </html>
