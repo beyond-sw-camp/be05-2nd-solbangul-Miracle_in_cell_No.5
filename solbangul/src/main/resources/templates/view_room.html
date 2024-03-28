@@ -2,35 +2,89 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>나만의 방</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .custom-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-image {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            border-radius: 50%;
+            border: 5px solid #fff; /* Optional: Add a border around the image */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .room-info p {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .room-info div {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
+    </style>
 </head>
 <body>
-<div>
-    <button><a th:href="@{/}">←</a></button>
+<div class="container custom-container align-items-center">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
+
+    <div class="d-flex justify-content-between align-items-center mt-5">
+        <h3 th:text="${roomInfo.roomName}">룸 이름</h3>
+        <a class="btn btn-secondary"
+           href="/">←</a>
+    </div>
+    <hr>
+
     <button th:if="${roomInfo.getLoginId().equals(userInfo.getLoginId())}"><a th:href="@{/}">my page</a>
     </button>
 
     <div>
-        <img th:src="|/images/${roomInfo.profileImage}|" width="300" height="300"/>
+        <img class="profile-image" th:src="|/images/${roomInfo.profileImage}|" width="300" height="300"/>
     </div>
     <div class="room-info">
         <p th:text="${roomInfo.getRoomName()}"></p>
         <div th:text="${roomInfo.getIntroduction()}"></div>
-        <div th:if="${roomInfo.getLoginId().equals(userInfo.getLoginId())}"
-             th:text="'솔방울 개수 : '+${userInfo.getSolbangul()}">solbangul
+        <div th:if="${roomInfo.getLoginId().equals(userInfo.getLoginId())}">
+            <img src="/img/sol_img.png" width="20" height="20"><strong>
+            <span th:text="'솔방울 개수 : ' + ${userInfo.getSolbangul()}"></span></strong>
         </div>
         <button th:if="${roomInfo.getLoginId().equals(userInfo.getLoginId())}"><a
                 th:href="@{'/room/'+${roomInfo.getId()}+'/edit'}">방 수정하기</a></button>
-    </div>
-    <hr>
-    <div class="posts-btn">
-        <div></div>
-        <div></div>
         <button th:if="${!roomInfo.getLoginId().equals(userInfo.getLoginId())}"><a
                 th:href="@{'/room/'+${roomInfo.id}+'/post/save'}">글 쓰기</a></button>
         <button><a th:href="@{'/room/'+${roomInfo.id}+'/view_posts'}">글 더보기 ...</a></button>
     </div>
+    <div class="posts-btn">
+    </div>
+    <div th:replace="~{fragments/footer :: footer}"></div>
 </div>
-<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>

@@ -1,14 +1,28 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <title>프로필 사진 변경</title>
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="/css/signin.css"/>
+    <style>
+        .custom-container {
+            max-width: 600px;
+            overflow-y: auto; /* 수직 스크롤바 활성화 */
+            margin: auto; /* 컨테이너를 가운데 정렬 */
+            padding: 20px; /* 더 나은 외관을 위한 패딩 추가 */
+        }
+    </style>
 </head>
 <body>
-<div class="form-signin text-center">
+<div class="container custom-container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
     <form th:action="@{/mypage/updateProfilePicture}" th:object="${user}" method="post" enctype="multipart/form-data">
-        <h2>프로필 사진 변경</h2>
+
+        <div class="d-flex justify-content-between align-items-center mt-5">
+            <h3>프로필 사진 변경</h3> <!-- Back button added here -->
+            <a class="btn btn-secondary" href="/mypage">←</a>
+        </div>
+        <hr>
         <div class="d-flex justify-content-center mb-4">
             <img id="selectedAvatar" th:src="|/images/*{profileImage}|"
                  class="rounded-circle" style="width: 200px; height: 200px; object-fit: cover;"
@@ -25,9 +39,9 @@
             </div>
         </div>
         <hr>
-        <button class="btn-primary" type="submit">사진 변경</button>
-        <hr>
-        <a href="/mypage">취소</a>
+        <button type="submit" class="btn btn-primary btn-block btn-flat">
+            사진 변경
+        </button>
     </form>
 </div>
 
@@ -39,5 +53,7 @@
         selectedImage.src = URL.createObjectURL(event.target.files[0]);
     }
 </script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>
 </html>

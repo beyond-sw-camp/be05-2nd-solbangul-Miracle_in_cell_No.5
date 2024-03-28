@@ -40,19 +40,19 @@ public class MypageController {
 	@GetMapping("/profileImgEdit")
 	public String showProfileImgEditForm(Model model, @AuthenticationPrincipal CustomUserDetails currentUser) {
 		model.addAttribute("user", mypageService.getMypageProfileInfo(currentUser.getUsername()));
-		return "profileImgEdit";
+		return "edit_profile";
 	}
 
 	@GetMapping("/nicknameEdit")
 	public String showNicknameEditForm(Model model, @AuthenticationPrincipal CustomUserDetails currentUser) {
 		model.addAttribute("user", mypageService.getMypageInfo(currentUser.getUsername()));
-		return "nicknameEdit";
+		return "edit_nickname";
 	}
 
 	@GetMapping("/pwdEdit")
 	public String showPasswordEditForm(Model model, @AuthenticationPrincipal CustomUserDetails currentUser) {
 		model.addAttribute("user", mypageService.getMypageInfo(currentUser.getUsername()));
-		return "pwdEdit";
+		return "edit_password";
 	}
 
 	@PostMapping("/updateProfilePicture")
@@ -74,7 +74,7 @@ public class MypageController {
 		BindingResult bindingResult,
 		@AuthenticationPrincipal CustomUserDetails currentUser) {
 		if (bindingResult.hasErrors()) {
-			return "pwdEdit";
+			return "edit_password";
 		}
 		mypageService.updatePassword(updateUserPasswordDto.getPassword(), currentUser.getUsername());
 		return "redirect:/mypage";

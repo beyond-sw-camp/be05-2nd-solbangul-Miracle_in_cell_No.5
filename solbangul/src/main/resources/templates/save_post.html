@@ -29,12 +29,19 @@
 </head>
 <body>
 <div class="container custom-container">
-    <h1 class="mt-5">글쓰기</h1>
+    <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
+
+    <div class="d-flex justify-content-between align-items-center mt-5">
+        <h3>글 작성</h3>
+        <a class="btn btn-secondary"
+           th:href="'/room/' + ${room_id} + '/view'">←</a>
+    </div>
     <hr>
     <form th:action="@{'/room/' + ${room_id} + '/post/save'}" th:object="${post}" method="post">
         <div class="form-group">
             <label for="title"><strong>제목</strong></label>
-            <input type="text" class="form-control" id="title" th:field="*{title}" placeholder="글의 제목을 입력하세요">
+            <input type="text" class="form-control" id="title" th:field="*{title}" placeholder="글의 제목을 입력하세요"
+                   required>
         </div>
         <div class="form-group">
             <label for="authorName"><strong>작성자</strong></label>
@@ -44,19 +51,19 @@
         <div class="form-group">
             <label for="content"><strong>내용</strong></label>
             <textarea class="form-control" id="content" rows="6" th:field="*{content}"
-                      placeholder="글을 작성하세요"></textarea>
+                      placeholder="글을 작성하세요" required></textarea>
         </div>
 
         <div class="form-group">
-            <label for="publicYn"><strong>익명 여부:</strong></label>
-            <input type="checkbox" id="publicYn" th:field="*{publicYn}" th:checked="*{publicYn}"
+            <label for="annonyYn"><strong>익명 여부:</strong></label>
+            <input type="checkbox" id="annonyYn" th:field="*{annonyYn}" th:checked="*{annonyYn}"
                    cam-variable-type="Boolean"
                    checked><br>
         </div>
         <!--        익명-->
         <div class="form-group">
-            <label for="annonyYn"><strong>공개 여부:</strong></label>
-            <input type="checkbox" id="annonyYn" th:field="*{annonyYn}" th:checked="*{annonyYn}"
+            <label for="publicYn"><strong>공개 여부:</strong></label>
+            <input type="checkbox" id="publicYn" th:field="*{publicYn}" th:checked="*{publicYn}"
                    cam-variable-type="Boolean"
                    checked><br>
         </div>

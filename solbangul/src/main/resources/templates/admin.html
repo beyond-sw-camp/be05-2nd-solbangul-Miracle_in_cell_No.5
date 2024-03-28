@@ -16,7 +16,11 @@
 <body>
 <div class="container custom-container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
-    <h3 class="mt-5">관리자 페이지</h3>
+    <div class="d-flex justify-content-between align-items-center mt-5">
+        <h3>관리자 페이지</h3>
+        <a class="btn btn-secondary"
+           href="/">←</a>
+    </div>
     <hr>
     <table th:if="${!posts.isEmpty()}" class="table text-center">
         <thead>

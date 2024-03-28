@@ -35,9 +35,14 @@ public class PostController {
 	private final CommentRepository commentRepository;
 
 	@GetMapping("/save")
-	public String getSave(@PathVariable(name = "room_id") Long id, Model model) {
+	public String getSave(@PathVariable(name = "room_id") Long id, Model model,
+		@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+		String nickname = customUserDetails.getAuthenticatedUser().getNickname();
+		PostsSaveRequestDto post = new PostsSaveRequestDto();
+		post.setWriter(nickname);
+
 		model.addAttribute("room_id", id);
-		model.addAttribute("posts", new PostsSaveRequestDto());
+		model.addAttribute("post", post);
 		return "save_post";
 	}
 
@@ -69,6 +74,7 @@ public class PostController {
 
 		List<Comment> comments = commentRepository.findByPostId(post_id);
 
+		System.out.println("postInfo = " + postDto);
 		model.addAttribute("room_id", room_id);
 		model.addAttribute("post_id", post_id);
 		model.addAttribute("postInfo", postDto);
@@ -82,8 +88,10 @@ public class PostController {
 
 	@GetMapping("/{post_id}/edit")
 	public String updateForm(@PathVariable(name = "room_id") Long room_id, @PathVariable(name = "post_id") Long post_id,
+		@AuthenticationPrincipal CustomUserDetails customUserDetails,
 		Model model) {
 		PostEditRequestDto dto = postService.editFindById(post_id);
+		dto.setWriter(customUserDetails.getAuthenticatedUser().getName());
 		model.addAttribute("room_id", room_id);
 		model.addAttribute("post_id", post_id);
 		model.addAttribute("postInfo", dto);

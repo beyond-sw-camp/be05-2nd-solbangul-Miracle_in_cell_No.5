@@ -17,6 +17,7 @@ public class PostEditRequestDto {
 	private Boolean annonyYn;
 	private String content;
 	private Category category;
+	private String writer;
 
 	public PostEditRequestDto(Post p) {
 		this.title = p.getTitle();

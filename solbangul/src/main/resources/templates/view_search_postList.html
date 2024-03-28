@@ -1,82 +1,124 @@
-<link
-        href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.min.css"
-        rel="stylesheet"
-/>
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Title</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- MDB UI Kit CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.min.css" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .custom-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+        }
+    </style>
 </head>
 <body>
-<button><a th:href="@{'/room/'+${room_id}+'/view'}">←</a></button>
+<div class="container custom-container">
 
-<form th:action="'/room/'+${room_id}+'/search'" method="GET">
-    <div class="btn-group" role="group" aria-label="Basic example">
-        <input name="keyword" type="text" placeholder="검색어를 입력해주세요." th:value="${keyword}">
-        <select name="categorySearch" th:value="${categorySearch}">
-            <option value="" th:selected="${categorySearch == ''}">all</option>
-            <option value="claims" th:selected="${categorySearch == 'claims'}">claims</option>
-            <option value="compliment" th:selected="${categorySearch == 'compliment'}">compliment</option>
-            <option value="free" th:selected="${categorySearch == 'free'}">free</option>
-        </select>
-        <button class="btn btn-secondary">검색</button>
+    <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
+    <div class="d-flex justify-content-between align-items-center mt-5">
+        <h3>글 리스트</h3>
+        <a class="btn btn-secondary"
+           th:href="@{'/room/'+${room_id}+'/view'}">←</a>
     </div>
-</form>
+    <hr>
 
-<div th:if="${postList.size()==0}">
-    아직 글이 존재하지 않습니다.
+    <form th:action="'/room/'+${room_id}+'/search'" method="GET">
+        <div class="input-group mb-3">
+            <div class="mb-0">
+                <select name="categorySearch" th:value="${categorySearch}" class="form-select-sm"
+                        aria-label="Category Search">
+                    <option value="" th:selected="${categorySearch == ''}" selected>all</option>
+                    <option value="claims" th:selected="${categorySearch == 'claims'}">claims</option>
+                    <option value="compliment" th:selected="${categorySearch == 'compliment'}">compliment</option>
+                    <option value="free" th:selected="${categorySearch == 'free'}">free</option>
+                </select>
+                <input name="keyword" type="text" style="width: 350px" placeholder="검색어를 입력해주세요" th:value="${keyword}">
+                <!--                <input name="keyword" type="text" placeholder="검색어를 입력해주세요" th:value="${keyword}">-->
+                <button class="btn btn-secondary" type="submit">검색</button>
+            </div>
+        </div>
+    </form>
+
+    <div th:if="${postList.size()==0}">
+        아직 글이 존재하지 않습니다.
+    </div>
+    <div th:if="${postList.size()!=0}">
+        <div>
+            <ul th:each="post : ${postList}" class="list-group">
+                <li th:if="${post.getId()}" th:switch="${post.category.toString()}"
+                    class="list-group-item d-flex justify-content-between align-items-center">
+                    <span th:case="'CLAIMS'">
+                    <p>제목: <a th:style="'color: #DB4455'"
+                              th:href="'/room/'+${room_id}+'/post/'+${post.getId()}+'/view'"
+                              th:text="${post.getTitle()}"></a>
+                    </p>
+                        <small class="text-muted">작성자:
+                            <span th:if="${post.annonyYn == false}"
+                                  th:text="${post.writer}">작성자 이름</span> - 작성일:
+                            <span th:text="${#temporals.format(post.createDate, 'yyyy-MM-dd HH:mm:ss')}"></span>
+                        </small>
+
+                    </span>
+                    <span th:case="'COMPLIMENT'">
+                    <p>제목: <a th:style="'color: #4491DB'"
+                              th:href="'/room/'+${room_id}+'/post/'+${post.getId()}+'/view'"
+                              th:text="${post.getTitle()}"></a></p>
+                        <small class="text-muted">작성자:
+                            <span th:if="${post.annonyYn == false}"
+                                  th:text="${post.writer}">작성자 이름></span> - 작성일:
+                            <span th:text="${#temporals.format(post.createDate, 'yyyy-MM-dd HH:mm:ss')}"></span>
+                        </small>
+                </span>
+                    <span th:case="'FREE'">
+                    <p>제목: <a th:style="'color: #95999E'"
+                              th:href="'/room/'+${room_id}+'/post/'+${post.getId()}+'/view'"
+                              th:text="${post.getTitle()}"></a></p>
+                        <small class="text-muted">작성자:
+                            <span th:if="${post.annonyYn == false}"
+                                  th:text="${post.writer}">작성자 이름></span> - 작성일:
+                            <span th:text="${#temporals.format(post.createDate, 'yyyy-MM-dd HH:mm:ss')}"></span>
+                        </small>
+                </span>
+                </li>
+
+            </ul>
+        </div>
+        <hr>
+
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item">
+                    <a class="page-link"
+                       th:href="@{'/room/' + ${room_id} + '/search?keyword=' + ${keyword} + '&categorySearch='+${categorySearch}+'&page=' + ${previous}}"
+                       aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item" th:each="pageNumber : ${#numbers.sequence(0, totalPages)}">
+                    <a class="page-link"
+                       th:href="@{'/room/' + ${room_id} + '/search?keyword=' + ${keyword} + '&categorySearch='+${categorySearch}+ '&page=' + ${pageNumber}}"
+                       th:text="${pageNumber+1}"></a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link"
+                       th:href="@{'/room/' + ${room_id} + '/search?keyword=' + ${keyword} + '&categorySearch='+${categorySearch}+ ${(next <= totalPages ? '&page=' + (next) : '')} }"
+                       aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </div>
 
-<div th:if="${postList.size()!=0}">
-    <div>
-        <ul th:each="post : ${postList}">
-            <li th:switch="${post.category.toString()}">
-                <span th:case="'CLAIMS'">
-                    <a th:style="'color: #DB4455'"
-                       th:href="'/room/'+${room_id}+'/post/'+${post.getId()}+'/view'"
-                       th:text="${post.getTitle()}"></a>
-                </span>
-                <span th:case="'COMPLIMENT'">
-                    <a th:style="'color: #4491DB'"
-                       th:href="'/room/'+${room_id}+'/post/'+${post.getId()}+'/view'"
-                       th:text="${post.getTitle()}"></a>
-                </span>
-                <span th:case="'FREE'">
-                    <a th:style="'color: #95999E'"
-                       th:href="'/room/'+${room_id}+'/post/'+${post.getId()}+'/view'"
-                       th:text="${post.getTitle()}"></a>
-                </span>
-            </li>
-        </ul>
-    </div>
-
-    <nav aria-label="Page navigation example">
-        <ul class="pagination">
-            <li class="page-item">
-                <a class="page-link"
-                   th:href="@{'/room/' + ${room_id} + '/search?keyword=' + ${keyword} + '&categorySearch='+${categorySearch}+'&page=' + ${previous}}"
-                   aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            <li class="page-item" th:each="pageNumber : ${#numbers.sequence(0, totalPages)}">
-                <a class="page-link"
-                   th:href="@{'/room/' + ${room_id} + '/search?keyword=' + ${keyword} + '&categorySearch='+${categorySearch}+ '&page=' + ${pageNumber}}"
-                   th:text="${pageNumber+1}"></a>
-            </li>
-            <li class="page-item">
-                <a class="page-link"
-                   th:href="@{'/room/' + ${room_id} + '/search?keyword=' + ${keyword} + '&categorySearch='+${categorySearch}+ ${(next <= totalPages ? '&page=' + (next) : '')} }"
-                   aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-
-</div>
-
-<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>

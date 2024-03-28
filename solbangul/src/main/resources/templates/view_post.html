@@ -1,61 +1,110 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>글 보기</title>
+    <!-- 부트스트랩 CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .custom-container {
+            max-width: 600px;
+            overflow-y: auto; /* 수직 스크롤바 활성화 */
+            margin: auto; /* 컨테이너를 가운데 정렬 */
+            padding: 20px; /* 더 나은 외관을 위한 패딩 추가 */
+        }
+
+        .post-details p {
+            display: inline-block;
+            margin-right: 20px;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .article-content {
+            border: 1px solid #ced4da;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-<div>
-    <div>
-        <!--        <img th:src="|/images/${userInfo.getProfileImage}|" width="100" height="100"/>-->
+<div class="container custom-container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
+
+    <div class="d-flex justify-content-between align-items-center mt-5">
+        <h1 th:text="${postInfo.title}">글 제목</h1>
+        <a class="btn btn-secondary"
+           th:href="@{'/room/'+${room_id}+'/view_posts'}">
+            ←
+        </a>
     </div>
-    <div class="post">
-        <h2 th:text="${postInfo.getTitle()}"></h2>
-        <div th:text="${postInfo.getContent()}"></div>
-        <p>공개 : </p>
-        <div th:text="${postInfo.getPublicYn()}"></div>
-        <p>카테고리 : </p>
-        <div th:text="${postInfo.getCategory()}"></div>
-        <p>작성자 : </p>
-        <div th:if="${postInfo.getAnnonyYn()==false}" th:text="${postInfo.getWriter()}"></div>
-        <p>조회수 : </p>
-        <div th:text="${postInfo.getViewCount()}"></div>
-        <p>마지막 수정 날짜 : </p>
-        <div th:text="${postInfo.getModifiedDate()}"></div>
-        <br>
+    <hr>
+    <div class="post-details">
+        <a th:href="'/room/' + ${postInfo.postUserRoomId} + '/view'"><img th:src="|/images/${userInfo.getProfileImage}|"
+                                                                          width="50" height="50"
+                                                                          class="rounded-circle"/></a>
+        <p><strong>작성자: </strong><span th:if="${postInfo.getAnnonyYn()==false}"
+                                       th:text="${postInfo.getWriter()}">작성자 이름</span></p>
+        <p><strong>공개 여부: </strong><span th:text="${postInfo.publicYn}">모든 사용자에게 표시</span></p>
+        <p><strong>카테고리: </strong><span th:text="${postInfo.category}">칭찬</span></p>
+        <p><strong>조회수: </strong><span th:text="${postInfo.viewCount}">100</span></p>
+        <p><strong>작성일: </strong><span th:text="${#temporals.format(postInfo.createDate, 'yyyy-MM-dd HH:mm:ss')}">2024년 3월 31일</span>
+        </p>
+        <p><strong>수정일: </strong><span th:text="${#temporals.format(postInfo.modifiedDate, 'yyyy-MM-dd HH:mm:ss')}">2024년 4월 1일</span>
+        </p>
+    </div>
+    <div class="article-content">
+        <h5>내용</h5>
+        <div th:text="${postInfo.content}"></div>
     </div>
 
-    <div class="btn">
-        <button th:if="${postInfo.getWriter().equals(userInfo.getNickname())}"><a
-                th:href="'/room/'+${room_id}+'/post/'+${post_id}+'/edit'">글 수정하기</a></button>
-        <button th:if="${postInfo.getWriter().equals(userInfo.getNickname())}"><a
-                th:href="'/room/'+${room_id}+'/post/'+${post_id}+'/delete'">글 삭제하기</a></button>
-        <button><a th:href="'/room/'+${room_id}+'/view_posts'">←</a></button>
+    <hr>
+    <form class="form-row mt-3">
+        <div class="col-6">
+            <a type="submit" class="btn btn-primary"
+               th:if="${postInfo.getWriter().equals(userInfo.getNickname())}"
+               th:href="'/room/'+${room_id}+'/post/'+${post_id}+'/edit'">수정하기</a>
 
-    </div>
-
+            <a type="button" class="btn btn-danger ml-2"
+               th:if="${postInfo.getWriter().equals(userInfo.getNickname())}"
+               th:href="'/room/'+${room_id}+'/post/'+${post_id}+'/delete'">삭제하기</a>
+        </div>
+    </form>
+    <hr>
     <div class="comment-section">
-        <h3>댓글 달기</h3>
-        <form th:action="@{'/room/' + ${room_id} + '/post/' + ${post_id} + '/comment'}" method="post">
-            <textarea name="content" placeholder="댓글을 입력하세요"></textarea>
-            <button type="submit">댓글 달기</button>
-        </form>
-    </div>
-
-    <div class="comment-list">
-        <h3>댓글 목록</h3>
+        <h6>댓글 목록</h6>
         <ul>
             <li th:each="comment : ${comments}">
-                <span th:text="${comment.writer}"></span>
-                <span th:text="${comment.content}"></span>
-                <button th:if="${comment.writer.equals(userInfo.getNickname())}">
-                    <a th:href="'/room/' + ${room_id} + '/post/' + ${post_id} + '/comment/' + ${comment.id} + '/delete'">x</a>
-                </button>
+                <div>
+                    <span><strong>작성자: </strong></span> <span th:text="${comment.writer} "></span>
+                    <a class="btn-sm btn-danger"
+                       th:if="${comment.writer.equals(userInfo.getNickname())}"
+                       th:href="'/room/' + ${room_id} + '/post/' + ${post_id} + '/comment/' + ${comment.id} + '/delete'">
+                        x
+                    </a>
+                    <p th:text="${comment.content}">댓글 내용이 여기에 들어갑니다.</p>
+                </div>
             </li>
         </ul>
     </div>
 
+    <hr>
+    <div class="comment-form">
+        <h6>댓글 작성</h6>
+        <form th:action="@{'/room/' + ${room_id} + '/post/' + ${post_id} + '/comment'}" method="post">
+            <div class="form-group">
+                <label for="content"><strong>내용</strong></label>
+                <textarea class="form-control" id="content" rows="3" name="content"
+                          placeholder="댓글을 작성하세요"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">댓글 작성</button>
+        </form>
+    </div>
+    <div th:replace="~{fragments/footer :: footer}"></div>
 </div>
-<div th:replace="~{fragments/footer :: footer}"></div>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>
 </html>
