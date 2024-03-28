@@ -49,4 +49,13 @@ public class PostSpecification {
 		};
 	}
 
+	public static Specification<Post> findByRoomId(Long room_id) {
+		return new Specification<Post>() {
+			@Override
+			public Predicate toPredicate(Root<Post> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+				return criteriaBuilder.equal(root.get("room").get("id"), room_id);
+			}
+		};
+	}
+
 }

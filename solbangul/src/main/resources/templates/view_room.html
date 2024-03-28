@@ -22,6 +22,7 @@
         .profile-image {
             width: 100%;
             max-width: 300px;
+            max-height: 300px;
             height: auto;
             border-radius: 50%;
             border: 5px solid #fff; /* Optional: Add a border around the image */
@@ -63,8 +64,8 @@
     </div>
     <hr>
 
-    <button th:if="${roomInfo.getLoginId().equals(userInfo.getLoginId())}"><a th:href="@{/}">my page</a>
-    </button>
+    <a class="btn btn-primary"
+       th:if="${roomInfo.getLoginId().equals(userInfo.getLoginId())}" th:href="@{/mypage}">my page</a>
 
     <div>
         <img class="profile-image" th:src="|/images/${roomInfo.profileImage}|" width="300" height="300"/>
@@ -73,14 +74,16 @@
         <p th:text="${roomInfo.getRoomName()}"></p>
         <div th:text="${roomInfo.getIntroduction()}"></div>
         <div th:if="${roomInfo.getLoginId().equals(userInfo.getLoginId())}">
-            <img src="/img/sol_img.png" width="20" height="20"><strong>
+            <img src="/img/sol_img.png" width="25" height="25"><strong>
             <span th:text="'솔방울 개수 : ' + ${userInfo.getSolbangul()}"></span></strong>
         </div>
-        <button th:if="${roomInfo.getLoginId().equals(userInfo.getLoginId())}"><a
-                th:href="@{'/room/'+${roomInfo.getId()}+'/edit'}">방 수정하기</a></button>
-        <button th:if="${!roomInfo.getLoginId().equals(userInfo.getLoginId())}"><a
-                th:href="@{'/room/'+${roomInfo.id}+'/post/save'}">글 쓰기</a></button>
-        <button><a th:href="@{'/room/'+${roomInfo.id}+'/view_posts'}">글 더보기 ...</a></button>
+        <a th:if="${roomInfo.getLoginId().equals(userInfo.getLoginId())}"
+           class="btn btn-primary"
+           th:href="@{'/room/' + ${roomInfo.getId()} + '/edit'}">방 수정하기</a>
+        <a th:if="${!roomInfo.getLoginId().equals(userInfo.getLoginId())}"
+           class="btn btn-primary"
+           th:href="@{'/room/' + ${roomInfo.id} + '/post/save'}">글 쓰기</a>
+        <a th:href="@{'/room/' + ${roomInfo.id} + '/view_posts'}" class="btn btn-primary">글 더보기 ...</a>
     </div>
     <div class="posts-btn">
     </div>

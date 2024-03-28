@@ -94,7 +94,7 @@ public class RoomController {
 		@RequestParam(value = "categorySearch", defaultValue = "") String categorySearch, Model model,
 		@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 
-		Page<PostSearchListResponseDto> postDtos = postService.search(keyword, categorySearch, pageable);
+		Page<PostSearchListResponseDto> postDtos = postService.search(keyword, categorySearch, id, pageable);
 		List<PostSearchListResponseDto> postList = postDtos.getContent();
 		int totalPages = postDtos.getTotalPages();  // 총 페이지 수 얻기
 

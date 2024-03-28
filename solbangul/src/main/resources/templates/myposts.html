@@ -1,35 +1,49 @@
-
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>내가 쓴 글</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .custom-container {
+            max-width: 600px;
+            overflow-y: auto;
+            margin: auto;
+            padding: 20px;
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-    <h2>내가 쓴 글</h2>
+<div class="container custom-container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
+    <div class="d-flex justify-content-between align-items-center mt-5">
+        <h3>내가 쓴 글</h3>
+        <a class="btn btn-secondary"
+           href="/mypage">←</a>
+    </div>
+    <hr>
+
     <div th:if="${myPosts.isEmpty()}">
         <p>작성한 글이 없습니다.</p>
     </div>
-    <table th:if="${!myPosts.isEmpty()}">
+    <table th:if="${!myPosts.isEmpty()}" class="table text-center">
         <thead>
-            <tr>
-                <th>제목</th>
-                <th>작성한 방</th>
-                <th>상세보기</th>
-            </tr>
+        <tr>
+            <th>제목</th>
+            <th>작성한 방</th>
+            <th>상세보기</th>
+        </tr>
         </thead>
         <tbody>
-            <tr th:each="post : ${myPosts}">
-                <td th:text="${post.title}">Post Title</td>
-                <td th:text="${post.room.user.nickname}">User Name</td>
-                <td><a th:href="@{'/room/' + ${post.room.id} + '/post/' + ${post.id} + '/view'}">     View</a></td>
-            </tr>
+        <tr th:each="post : ${myPosts}">
+            <td th:text="${post.title}">Post Title</td>
+            <td><a th:text="${post.room.user.nickname}" th:href="@{'/room/' + ${post.room.id} + '/view'}">User Name</a>
+            </td>
+            <td><a th:href="@{'/room/' + ${post.room.id} + '/post/' + ${post.id} + '/view'}"> View</a></td>
+        </tr>
         </tbody>
     </table>
-</div>
-<div class="btn">
-    <button><a th:href="'/mypage'">←</a></button>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </div>
 </body>
 </html>

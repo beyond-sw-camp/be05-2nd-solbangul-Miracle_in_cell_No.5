@@ -13,8 +13,6 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import com.solbangul.BaseTimeEntity;
 import com.solbangul.room.domain.Room;
 
@@ -62,13 +60,11 @@ public class User extends BaseTimeEntity {
 	@Enumerated(EnumType.STRING)
 	private Role role;
 
-	
 	@Setter
 	private String profileImage;
 
 	private Integer solbangul;
 
-	
 	@Builder
 	public User(String loginId, String password, String name, String nickname, String gitEmail, Role role,
 		String profileImage, Integer solbangul) {
@@ -80,7 +76,7 @@ public class User extends BaseTimeEntity {
 		this.role = role;
 		this.profileImage = profileImage;
 		this.solbangul = solbangul;
-		
+
 	}
 
 	// 연관관계 편의 메서드
