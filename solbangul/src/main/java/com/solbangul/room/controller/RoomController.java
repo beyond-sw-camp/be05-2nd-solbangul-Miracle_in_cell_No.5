@@ -91,8 +91,7 @@ public class RoomController {
 	@GetMapping("/{room_id}/search")
 	public String search(@PathVariable(name = "room_id") Long id,
 		@RequestParam(value = "keyword", defaultValue = "") String keyword,
-		@RequestParam(value = "categorySearch", defaultValue = "") String categorySearch,
-		Model model,
+		@RequestParam(value = "categorySearch", defaultValue = "") String categorySearch, Model model,
 		@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 
 		Page<PostSearchListResponseDto> postDtos = postService.search(keyword, categorySearch, pageable);

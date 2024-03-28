@@ -8,9 +8,11 @@ import com.solbangul.post.domain.Post;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 public class PostViewResponseDto {
 	private Long id;
@@ -22,7 +24,9 @@ public class PostViewResponseDto {
 	private Category category;
 	private Boolean readYn;
 	private Integer viewCount;
+	private LocalDateTime createDate;
 	private LocalDateTime modifiedDate;
+	private Long postUserRoomId;
 
 	public PostViewResponseDto(Post p) {
 		this.title = p.getTitle();
@@ -33,6 +37,7 @@ public class PostViewResponseDto {
 		this.category = p.getCategory();
 		this.readYn = p.getReadYn();
 		this.viewCount = p.getViewCount();
+		this.createDate = p.getCreatedDate();
 		this.modifiedDate = p.getModifiedDate();
 	}
 

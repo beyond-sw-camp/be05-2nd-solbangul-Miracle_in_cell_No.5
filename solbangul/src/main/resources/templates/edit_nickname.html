@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>닉네임 변경</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .custom-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container custom-container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
+    <div class="d-flex justify-content-between align-items-center mt-5">
+        <h3>닉네임 변경</h3>
+        <a class="btn btn-secondary"
+           href="/mypage">←</a>
+    </div>
+
+    <form th:action="@{/mypage/updateNickname}" th:object="${user}" method="post">
+        <label for="nickname">새 닉네임:</label>
+        <input type="text" id="nickname" name="nickname" th:value="${user.nickname}" required class="form-floating">
+        <button class="btn btn-primary" type="submit">닉네임 변경</button>
+
+    </form>
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</div>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

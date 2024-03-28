@@ -2,6 +2,7 @@ package com.solbangul.post.service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,6 +10,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.solbangul.post.comment.domain.Comment;
+import com.solbangul.post.comment.repository.CommentRepository;
 import com.solbangul.post.domain.Category;
 import com.solbangul.post.domain.Post;
 import com.solbangul.post.domain.dto.PostEditRequestDto;
@@ -38,6 +41,7 @@ public class PostService {
 	private final PostRepository postRepository;
 	private final RoomRepository roomRepository;
 	private final UserRepository userRepository;
+	private final CommentRepository commentRepository;
 
 	@Transactional
 	public Long save(PostsSaveRequestDto requestDto) {
@@ -84,8 +88,11 @@ public class PostService {
 	public PostViewResponseDto findById(Long id) {
 		Post post = postRepository.findById(id).orElseThrow(()
 			-> new IllegalArgumentException("해당 room이 없습니다. id=" + id));
+		User findUser = userRepository.findByNickname(post.getWriter());
 
-		return new PostViewResponseDto(post);
+		PostViewResponseDto postViewResponseDto = new PostViewResponseDto(post);
+		postViewResponseDto.setPostUserRoomId(findUser.getRoom().getId());
+		return postViewResponseDto;
 	}
 
 	public Page<PostFindByRoomListResponseDto> findPostsByRoomId(Long id, Pageable pageable) {
@@ -124,7 +131,7 @@ public class PostService {
 	public void update(Long id, PostEditRequestDto requestDto) {
 		Post post = postRepository.findById(id).orElseThrow(()
 			-> new IllegalArgumentException("해당 room이 없습니다. id=" + id));
-		System.out.println("room id : " + post.getId());
+		System.out.println("room id : " + post.getAnnonyYn());
 		post.update(requestDto.getTitle(), requestDto.getPublicYn(), requestDto.getAnnonyYn(),
 			requestDto.getContent(),
 			requestDto.getCategory());
@@ -134,6 +141,8 @@ public class PostService {
 	public void delete(Long id) {
 		Post post = postRepository.findById(id)
 			.orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id " + id));
+		List<Comment> comments = commentRepository.findByPostId(post.getId());
+		commentRepository.deleteAll(comments);
 		postRepository.delete(post);
 	}
 
