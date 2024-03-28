@@ -42,12 +42,12 @@
     </div>
     <hr>
     <div class="post-details">
-        <a th:href="'/room/' + ${postInfo.postUserRoomId} + '/view'"><img th:src="|/images/${userInfo.getProfileImage}|"
+        <a th:href="'/room/' + ${postInfo.postUserRoomId} + '/view'"><img th:src="|/images/${userInfo.profileImage}|"
                                                                           width="50" height="50"
                                                                           class="rounded-circle"/></a>
-        <p><strong>작성자: </strong><span th:if="${postInfo.getAnnonyYn()==false}"
-                                       th:text="${postInfo.getWriter()}">작성자 이름</span></p>
-        <p><strong>공개 여부: </strong><span th:text="${postInfo.publicYn}">모든 사용자에게 표시</span></p>
+        <p><strong>작성자: </strong><span
+                th:text="${postInfo.getAnnonyYn()==false} ? ${postInfo.getWriter()} : '익명'">작성자 이름</span></p>
+        <!--        <p><strong>공개 여부: </strong><span th:text="${postInfo.publicYn}">모든 사용자에게 표시</span></p>-->
         <p><strong>카테고리: </strong><span th:text="${postInfo.category}">칭찬</span></p>
         <p><strong>조회수: </strong><span th:text="${postInfo.viewCount}">100</span></p>
         <p><strong>작성일: </strong><span th:text="${#temporals.format(postInfo.createDate, 'yyyy-MM-dd HH:mm:ss')}">2024년 3월 31일</span>

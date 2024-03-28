@@ -27,6 +27,7 @@ public class PostViewResponseDto {
 	private LocalDateTime createDate;
 	private LocalDateTime modifiedDate;
 	private Long postUserRoomId;
+	private String profileImage;
 
 	public PostViewResponseDto(Post p) {
 		this.title = p.getTitle();
@@ -39,6 +40,7 @@ public class PostViewResponseDto {
 		this.viewCount = p.getViewCount();
 		this.createDate = p.getCreatedDate();
 		this.modifiedDate = p.getModifiedDate();
+		this.profileImage = p.getRoom().getUser().getProfileImage();
 	}
 
 }

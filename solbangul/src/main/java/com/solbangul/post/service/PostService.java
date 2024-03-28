@@ -101,11 +101,12 @@ public class PostService {
 	}
 
 	@Transactional
-	public Page<PostSearchListResponseDto> search(String keyword, String category, Pageable pageable) {
+	public Page<PostSearchListResponseDto> search(String keyword, String category, Long roomId, Pageable pageable) {
 
 		Specification<Post> spec = Specification.where(PostSpecification.likeContents(keyword));
 		spec = spec.or(PostSpecification.likeTitle(keyword));
 		spec = spec.or(PostSpecification.likeWriter(keyword));
+		spec = spec.and(PostSpecification.findByRoomId(roomId));
 
 		if (category.equals("compliment")) {
 			spec = spec.and(PostSpecification.findByCategory(Category.COMPLIMENT));
@@ -117,7 +118,7 @@ public class PostService {
 
 		Page<Post> posts = postRepository.findAll(spec, pageable);
 
-		return posts.map(p -> new PostSearchListResponseDto(p));
+		return posts.map(PostSearchListResponseDto::new);
 	}
 
 	public PostEditRequestDto editFindById(Long id) {
