@@ -56,10 +56,10 @@ public class PostController {
 		requestDto.setWriter(authenticatedUser.getNickname());
 		requestDto.setReadYn(false);
 		requestDto.setRoomId(roomId);
+		requestDto.setUserId(authenticatedUser.getId());
 
 		// 게시물 저장
-		Long post_id = postService.save(requestDto);
-		System.out.println("debug >>>> postsSave() post_id : " + post_id);
+		postService.save(requestDto);
 		return "redirect:/room/" + roomId + "/view";
 	}
 
@@ -74,7 +74,6 @@ public class PostController {
 
 		List<Comment> comments = commentRepository.findByPostId(post_id);
 
-		System.out.println("postInfo = " + postDto);
 		model.addAttribute("room_id", room_id);
 		model.addAttribute("post_id", post_id);
 		model.addAttribute("postInfo", postDto);

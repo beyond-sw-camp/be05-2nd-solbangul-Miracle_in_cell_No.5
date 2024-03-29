@@ -68,7 +68,7 @@ public class MypageService {
 		user.setPassword(passwordEncoder.encode(password));
 	}
 
-	public List<Post> getMyPosts(String writer) {
-		return postRepository.findAllByWriter(writer);
+	public List<Post> getMyPosts(Long roomId) {
+		return postRepository.findPostsByRoomId(roomId);
 	}
 }

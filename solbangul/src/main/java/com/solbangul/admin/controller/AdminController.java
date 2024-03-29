@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.solbangul.post.domain.Post;
 import com.solbangul.post.repository.PostRepository;
+import com.solbangul.post.service.PostService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 public class AdminController {
 
 	private final PostRepository postRepository;
+	private final PostService postService;
 
 	@GetMapping
 	public String viewAllPosts(Model model) {
@@ -31,7 +33,7 @@ public class AdminController {
 
 	@PostMapping("/delete")
 	public String deleteByAdmin(@RequestParam("postId") Long postId) {
-		postRepository.deleteById(postId);
+		postService.delete(postId);
 		return "redirect:/admin";
 	}
 

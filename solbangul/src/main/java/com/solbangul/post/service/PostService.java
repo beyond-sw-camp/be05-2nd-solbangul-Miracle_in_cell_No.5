@@ -48,13 +48,13 @@ public class PostService {
 		Room receiverRoom = roomRepository.findById(requestDto.getRoomId()).orElseThrow();
 
 		User receiverUser = receiverRoom.getUser();
-		User senderUser = userRepository.findByNickname(requestDto.getWriter());
+		User senderUser = userRepository.findById(requestDto.getUserId()).orElseThrow();
 
 		Post post = requestDto.toEntity(receiverRoom);
 
-		String writer = senderUser.getNickname();
+		Long sederUserId = senderUser.getId();
 		Category category = post.getCategory();
-		Post lastPost = postRepository.findLastPost(writer, receiverRoom, category);
+		Post lastPost = postRepository.findLastPost(sederUserId, receiverRoom, category);
 
 		if (postEmpty(lastPost)) {
 			addSolbangulSenderAndReceiver(post, receiverUser, senderUser);
@@ -88,16 +88,15 @@ public class PostService {
 	public PostViewResponseDto findById(Long id) {
 		Post post = postRepository.findById(id).orElseThrow(()
 			-> new IllegalArgumentException("해당 room이 없습니다. id=" + id));
-		User findUser = userRepository.findByNickname(post.getWriter());
 
 		PostViewResponseDto postViewResponseDto = new PostViewResponseDto(post);
-		postViewResponseDto.setPostUserRoomId(findUser.getRoom().getId());
+		postViewResponseDto.setPostUserRoomId(post.getRoom().getId());
 		return postViewResponseDto;
 	}
 
 	public Page<PostFindByRoomListResponseDto> findPostsByRoomId(Long id, Pageable pageable) {
 		Page<Post> posts = postRepository.findPostsByRoomIdPaging(id, pageable);
-		return posts.map(p -> new PostFindByRoomListResponseDto(p));
+		return posts.map(PostFindByRoomListResponseDto::new);
 	}
 
 	@Transactional
@@ -132,7 +131,6 @@ public class PostService {
 	public void update(Long id, PostEditRequestDto requestDto) {
 		Post post = postRepository.findById(id).orElseThrow(()
 			-> new IllegalArgumentException("해당 room이 없습니다. id=" + id));
-		System.out.println("room id : " + post.getAnnonyYn());
 		post.update(requestDto.getTitle(), requestDto.getPublicYn(), requestDto.getAnnonyYn(),
 			requestDto.getContent(),
 			requestDto.getCategory());

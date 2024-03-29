@@ -20,8 +20,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	@Query("UPDATE User u SET u.solbangul = u.solbangul + 1 WHERE u.id = :userId")
 	void updateBySolbangul(@Param("userId") Long userId);
 
-	User findByNickname(String nickname);
-
 	User findByGitEmail(String gitEmail);
 
 	@Modifying

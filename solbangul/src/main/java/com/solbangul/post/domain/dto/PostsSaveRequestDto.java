@@ -14,6 +14,7 @@ import lombok.Setter;
 public class PostsSaveRequestDto {
 	private Long id;
 	private Long roomId;
+	private Long userId;
 	private String title;
 	private Boolean publicYn;
 	private Boolean annonyYn;

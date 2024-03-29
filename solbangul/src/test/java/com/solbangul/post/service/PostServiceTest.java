@@ -39,6 +39,8 @@ class PostServiceTest {
 
 		PostsSaveRequestDto postDto = createPostDto(receiverRoomId, Category.COMPLIMENT, "내용3",
 			senderUser.getNickname());
+		postDto.setRoomId(receiverRoomId);
+		postDto.setUserId(senderUserId);
 
 		postService.save(postDto);
 
@@ -61,6 +63,8 @@ class PostServiceTest {
 		User senderUser = userService.findOne(senderUserId);
 
 		PostsSaveRequestDto postDto = createPostDto(receiverRoomId, Category.CLAIMS, "내용3", senderUser.getNickname());
+		postDto.setRoomId(receiverRoomId);
+		postDto.setUserId(senderUserId);
 
 		postService.save(postDto);
 

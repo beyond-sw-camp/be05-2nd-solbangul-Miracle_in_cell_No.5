@@ -82,7 +82,7 @@ public class MypageController {
 
 	@GetMapping("/myposts")
 	public String getMyPosts(Model model, @AuthenticationPrincipal CustomUserDetails currentUser) {
-		List<Post> myPosts = mypageService.getMyPosts(currentUser.getAuthenticatedUser().getNickname());
+		List<Post> myPosts = mypageService.getMyPosts(currentUser.getAuthenticatedUser().getRoom().getId());
 		model.addAttribute("myPosts", myPosts);
 		return "myposts";
 	}
