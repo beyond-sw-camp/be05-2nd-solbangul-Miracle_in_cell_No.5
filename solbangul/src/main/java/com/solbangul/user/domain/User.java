@@ -98,7 +98,7 @@ public class User extends BaseTimeEntity {
 			return false;
 		}
 		if ((solbangul - amount) < 0) {
-			this.solbangul = 0;
+			log.info("{}님 의 솔방울이 부족합니다. 현재 솔방울: {}, 사용할 솔방울: {}", loginId, solbangul, amount);
 			return false;
 		}
 		this.solbangul -= amount;
