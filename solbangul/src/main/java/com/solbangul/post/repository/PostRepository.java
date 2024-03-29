@@ -29,8 +29,10 @@ public interface PostRepository extends JpaRepository<Post, Long>, JpaSpecificat
 
 	Page<Post> findAll(Specification<Post> spec, Pageable pagaable);
 
-	@Query("select p from Post p where p.writer = :writer and p.room = :room and p.category = :category order by p.createdDate desc limit 1")
-	Post findLastPost(@Param("writer") String writer, @Param("room") Room room, @Param("category") Category category);
+	@Query("select p from Post p where p.room.user.id = :sederUserId and p.room = :room and "
+		+ "p.category = :category order by p.createdDate desc limit 1")
+	Post findLastPost(@Param("sederUserId") Long sederUserId, @Param("room") Room room,
+		@Param("category") Category category);
 
 	@Query("select p from Post p where p.writer = :writer")
 	List<Post> findAllByWriter(@Param("writer") String writer);

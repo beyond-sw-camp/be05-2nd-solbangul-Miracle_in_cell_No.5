@@ -11,6 +11,14 @@
             margin: auto;
             padding: 20px;
         }
+
+        .line_limit {
+            width: 120px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
@@ -34,7 +42,7 @@
         </thead>
         <tbody>
         <tr th:each="post : ${posts}">
-            <td th:text="${post.getTitle()}">Post Title</td>
+            <td th:text="${post.getTitle()}" class="line_limit">Post Title</td>
             <td th:if="${post.getAnnonyYn() == false}" th:text="${post.getWriter}">Anonymous</td>
             <td th:if="${post.getAnnonyYn()}"><em>익명</em></td>
             <td th:text="${post.room.user.name}">User Name</td>

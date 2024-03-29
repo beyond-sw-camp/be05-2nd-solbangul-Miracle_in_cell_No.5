@@ -49,7 +49,6 @@ public class RoomService {
 	public void update(Long id, RoomEditResponseDto requestDto) {
 		Room room = roomRepository.findById(id).orElseThrow(()
 			-> new IllegalArgumentException("해당 room이 없습니다. id=" + id));
-		System.out.println("room id : " + room.getId());
 		room.update(requestDto.getIntroduction(), requestDto.getRoomName());
 	}
 

@@ -89,8 +89,4 @@ public class UserService {
 		return new Room(user, "안녕하세요, " + joinRequestUserDto.getName() + "의 방 입니다!",
 			joinRequestUserDto.getName() + "의 방");
 	}
-
-	public User findByNickname(String nickname) {
-		return userRepository.findByNickname(nickname);
-	}
 }
