@@ -2,7 +2,7 @@
 # 🎁 Miracle in cell No.5 - 5번방의 선물 🎁
 <br>
 
-<-----------------------여기에 프로젝트 로고 들어가는 자리-------------------->
+
 
 ## ⭐️ 프로젝트 소개
 
@@ -52,7 +52,8 @@
 [요구사항 명세서 자세히 보기](https://docs.google.com/spreadsheets/d/1oJCQNrGEcSfQYZO3yrYXUgcFjBjdiC4cJFz4fUfg2Ww/edit#gid=0)
 <br>
 
-![alt text](image.png)
+<img width="997" alt="image-1" src="https://github.com/beyond-sw-camp/be05-2nd-solbangul-Miracle_in_cell_No.5/assets/134581020/ce8e784e-f1bf-4daf-a57d-d0e8e46e2173">
+
 
 
 
@@ -60,9 +61,9 @@
 
 ## 📐 설계
 
-<------------erd, 소프트웨어 아키텍쳐, rest-api 설계------------>
 ### 💡ERD
-![alt text](image-2.png)
+<img width="563" alt="image-2" src="https://github.com/beyond-sw-camp/be05-2nd-solbangul-Miracle_in_cell_No.5/assets/134581020/6fde9ba0-a34f-42c4-b158-ab38bfbd368c">
+
 
 ### 💡소프트웨어 아키텍쳐
 
@@ -73,31 +74,43 @@
 
 ## 🎥 구현 화면 및 테스트 케이스
 > 로그인
-![alt text](image-3.png)
-![alt text](image-4.png)
+![image-3](https://github.com/beyond-sw-camp/be05-2nd-solbangul-Miracle_in_cell_No.5/assets/134581020/4040597a-9741-4a97-b375-a1e55677dc7a)
+
+![image-4](https://github.com/beyond-sw-camp/be05-2nd-solbangul-Miracle_in_cell_No.5/assets/134581020/27916d5a-ce36-44d6-ba18-ad791fd8ca6e)
+
 
 > 회원가입
-![alt text](image-5.png)
+![image-5](https://github.com/beyond-sw-camp/be05-2nd-solbangul-Miracle_in_cell_No.5/assets/134581020/53e28e55-c446-474c-ab35-590e7e8ea8f1)
+
 
 > 메인화면
-![alt text](image-6.png)
+![image-6](https://github.com/beyond-sw-camp/be05-2nd-solbangul-Miracle_in_cell_No.5/assets/134581020/140fb299-c9c9-4477-8797-e19adc2665c6)
+
 
 > 로그인 사용자의 방
-![alt text](image-10.png)
+![image-10](https://github.com/beyond-sw-camp/be05-2nd-solbangul-Miracle_in_cell_No.5/assets/134581020/16a6674f-fe1b-4f71-b8bd-da5698de9356)
+
 
 > 다른 사용자의 방
-![alt text](image-7.png)
-![alt text](image-8.png)
-![alt text](image-9.png)
+![image-7](https://github.com/beyond-sw-camp/be05-2nd-solbangul-Miracle_in_cell_No.5/assets/134581020/1959966e-887e-46b1-b0ba-69801d576442)
+![image-8](https://github.com/beyond-sw-camp/be05-2nd-solbangul-Miracle_in_cell_No.5/assets/134581020/20085536-526e-4b26-b01f-e74c112c57e2)
+
+![image-9](https://github.com/beyond-sw-camp/be05-2nd-solbangul-Miracle_in_cell_No.5/assets/134581020/14cf1ed2-2868-486b-a672-f3db9a8c93b8)
+
 
 > 마이페이지
-![alt text](image-11.png)
-![alt text](image-12.png)
+![image-11](https://github.com/beyond-sw-camp/be05-2nd-solbangul-Miracle_in_cell_No.5/assets/134581020/585f12b8-673c-48eb-a02a-9aff49a66d7f)
+
+![image-12](https://github.com/beyond-sw-camp/be05-2nd-solbangul-Miracle_in_cell_No.5/assets/134581020/c2509e6a-6720-47b8-aa52-4e02da24148b)
+
 
 > 확성기
-![alt text](image-13.png)
-![alt text](image-14.png)
-![alt text](image-15.png)
+![image-13](https://github.com/beyond-sw-camp/be05-2nd-solbangul-Miracle_in_cell_No.5/assets/134581020/465f437a-a784-4dde-9be5-8736956d446c)
+
+![image-14](https://github.com/beyond-sw-camp/be05-2nd-solbangul-Miracle_in_cell_No.5/assets/134581020/82235943-d4e3-474f-b7c7-a393c6a02e68)
+
+![image-15](https://github.com/beyond-sw-camp/be05-2nd-solbangul-Miracle_in_cell_No.5/assets/134581020/99ced58b-9f73-467d-ae06-cab04a77a2f2)
+
 
 
 
