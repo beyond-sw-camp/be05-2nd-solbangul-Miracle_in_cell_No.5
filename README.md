@@ -38,10 +38,12 @@
 
 ## 📆 개발기간 및 작업관리
 
+
 [WBS 자세히 보기](https://docs.google.com/spreadsheets/d/1oJCQNrGEcSfQYZO3yrYXUgcFjBjdiC4cJFz4fUfg2Ww/edit#gid=1267100822)
 <br>
 
-![alt text](image-1.png)
+<img width="903" alt="image" src="https://github.com/beyond-sw-camp/be05-2nd-solbangul-Miracle_in_cell_No.5/assets/134581020/d1a050c3-cf93-47c6-b26d-391ba303891a">
+
 
 <br>
 
