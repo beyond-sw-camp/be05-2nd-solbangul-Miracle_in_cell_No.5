@@ -41,8 +41,8 @@
 
 [WBS 자세히 보기](https://docs.google.com/spreadsheets/d/1oJCQNrGEcSfQYZO3yrYXUgcFjBjdiC4cJFz4fUfg2Ww/edit#gid=1267100822)
 <br>
+<img width="997" alt="image-1" src="https://github.com/beyond-sw-camp/be05-2nd-solbangul-Miracle_in_cell_No.5/assets/134581020/ce8e784e-f1bf-4daf-a57d-d0e8e46e2173">
 
-<img width="903" alt="image" src="https://github.com/beyond-sw-camp/be05-2nd-solbangul-Miracle_in_cell_No.5/assets/134581020/d1a050c3-cf93-47c6-b26d-391ba303891a">
 
 
 <br>
@@ -51,8 +51,8 @@
 
 [요구사항 명세서 자세히 보기](https://docs.google.com/spreadsheets/d/1oJCQNrGEcSfQYZO3yrYXUgcFjBjdiC4cJFz4fUfg2Ww/edit#gid=0)
 <br>
+<img width="903" alt="image" src="https://github.com/beyond-sw-camp/be05-2nd-solbangul-Miracle_in_cell_No.5/assets/134581020/d1a050c3-cf93-47c6-b26d-391ba303891a">
 
-<img width="997" alt="image-1" src="https://github.com/beyond-sw-camp/be05-2nd-solbangul-Miracle_in_cell_No.5/assets/134581020/ce8e784e-f1bf-4daf-a57d-d0e8e46e2173">
 
 
 
@@ -75,7 +75,6 @@
 ## 🎥 구현 화면 및 테스트 케이스
 > 로그인
 ![image-3](https://github.com/beyond-sw-camp/be05-2nd-solbangul-Miracle_in_cell_No.5/assets/134581020/4040597a-9741-4a97-b375-a1e55677dc7a)
-
 ![image-4](https://github.com/beyond-sw-camp/be05-2nd-solbangul-Miracle_in_cell_No.5/assets/134581020/27916d5a-ce36-44d6-ba18-ad791fd8ca6e)
 
 
@@ -94,21 +93,17 @@
 > 다른 사용자의 방
 ![image-7](https://github.com/beyond-sw-camp/be05-2nd-solbangul-Miracle_in_cell_No.5/assets/134581020/1959966e-887e-46b1-b0ba-69801d576442)
 ![image-8](https://github.com/beyond-sw-camp/be05-2nd-solbangul-Miracle_in_cell_No.5/assets/134581020/20085536-526e-4b26-b01f-e74c112c57e2)
-
 ![image-9](https://github.com/beyond-sw-camp/be05-2nd-solbangul-Miracle_in_cell_No.5/assets/134581020/14cf1ed2-2868-486b-a672-f3db9a8c93b8)
 
 
 > 마이페이지
 ![image-11](https://github.com/beyond-sw-camp/be05-2nd-solbangul-Miracle_in_cell_No.5/assets/134581020/585f12b8-673c-48eb-a02a-9aff49a66d7f)
-
 ![image-12](https://github.com/beyond-sw-camp/be05-2nd-solbangul-Miracle_in_cell_No.5/assets/134581020/c2509e6a-6720-47b8-aa52-4e02da24148b)
 
 
 > 확성기
 ![image-13](https://github.com/beyond-sw-camp/be05-2nd-solbangul-Miracle_in_cell_No.5/assets/134581020/465f437a-a784-4dde-9be5-8736956d446c)
-
 ![image-14](https://github.com/beyond-sw-camp/be05-2nd-solbangul-Miracle_in_cell_No.5/assets/134581020/82235943-d4e3-474f-b7c7-a393c6a02e68)
-
 ![image-15](https://github.com/beyond-sw-camp/be05-2nd-solbangul-Miracle_in_cell_No.5/assets/134581020/99ced58b-9f73-467d-ae06-cab04a77a2f2)
 
 
